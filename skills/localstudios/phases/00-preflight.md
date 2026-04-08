@@ -45,12 +45,23 @@ Write `.mcp.json` in the project directory:
 ```
 If `.mcp.json` already exists → overwrite it with this exact config.
 
-### 1d. frontend-design skill
+### 1d. shadcnblocks API Key
+Ask the user:
+```
+shadcnblocks provides pre-built section blocks for the homepage.
+→ Get your API key at https://shadcnblocks.com
+→ Paste your API key here (or type "skip" to build without blocks):
+```
+
+If user provides key → save for Phase 9 (store in environment, NEVER commit to code).
+If user says "skip" → note it, components will be built manually.
+
+### 1e. frontend-design skill
 ```bash
 npx claude-code-templates@latest --skill creative-design/frontend-design
 ```
 
-### 1e. Create CLAUDE.md
+### 1f. Create CLAUDE.md
 
 ```markdown
 # [Project Name]
@@ -110,8 +121,10 @@ INSTALLED
   shadcn MCP ......... ✅ Ready / 🔧 Restart needed
   frontend-design .... ✅ Ready / 🔧 Restart needed
 
+BLOCKS
+  shadcnblocks ....... ✅ Key provided / ❌ Skipped (manual build)
+
 OPTIONAL
-  shadcnblocks ....... API key asked in Phase 9
   claude-seo ......... ✅ / ❌ → fallback: best practices
 
 === READY ===
