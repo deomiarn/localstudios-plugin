@@ -16,7 +16,7 @@ The user typically starts in an **empty directory**. Set it up:
   "mcpServers": {
     "shadcn": {
       "command": "npx",
-      "args": ["-y", "@anthropic-ai/claude-code-mcp@latest", "https://shadcn-mcp.vercel.app/sse"]
+      "args": ["shadcn@latest", "mcp"]
     }
   }
 }
@@ -53,8 +53,15 @@ Project directory initialized:
   CLAUDE.md .... created (styling rules)
 ```
 
-**Note:** The shadcn MCP will only be available after Claude Code picks up the new `.mcp.json`. If shadcn MCP tools are not detected after creation, inform the user:
-"shadcn MCP was just configured. It will be available on next restart or in the next message. Continuing — components will be installed via CLI if needed."
+**If .mcp.json was just created OR any MCP is not connecting:**
+Tell the user clearly:
+```
+⚠ .mcp.json was just created/updated. MCPs are loaded at startup.
+→ Please restart Claude Code (/exit, then run 'claude' again).
+→ No new terminal needed — just restart Claude.
+→ Then re-run: /localstudios generate <url>
+```
+**Stop the workflow here.** Do not continue with fallbacks — let the user restart so all MCPs are available.
 
 ---
 

@@ -2,7 +2,7 @@
   "mcpServers": {
     "shadcn": {
       "command": "npx",
-      "args": ["-y", "@anthropic-ai/claude-code-mcp@latest", "https://shadcn-mcp.vercel.app/sse"]
+      "args": ["shadcn@latest", "mcp"]
     }
   }
 }
