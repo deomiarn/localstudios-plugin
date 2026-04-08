@@ -2,11 +2,56 @@
 
 **This phase runs BEFORE everything else. No exceptions.**
 
-## Process
+---
 
-Check every MCP and dependency. Show the user a clear status dashboard.
+## Step 1 — Project Directory Setup
 
-### Step 1 — Check All Dependencies
+The user typically starts in an **empty directory**. Set it up:
+
+1. **Check if `.mcp.json` exists** in the current working directory
+2. **If not → create it** with the shadcn MCP config:
+
+```json
+{
+  "mcpServers": {
+    "shadcn": {
+      "command": "npx",
+      "args": ["-y", "@anthropic-ai/claude-code-mcp@latest", "https://shadcn-mcp.vercel.app/sse"]
+    }
+  }
+}
+```
+
+3. **Check if `CLAUDE.md` exists** in the current working directory
+4. **If not → create it** with the core styling rules:
+
+```markdown
+# [Project Name]
+
+## Styling Rules — CRITICAL
+- **ALL styles in `app/globals.css`** — read it before any style change
+- Never use inline `style={}` props
+- Never create separate CSS files
+- Override shadcn defaults in globals.css, not in component files
+- Tailwind utility classes in JSX are OK
+
+## NAP Data
+All business data lives in `lib/site-config.ts`. Never hardcode in multiple places.
+```
+
+5. **Inform the user**:
+```
+Project directory initialized:
+  .mcp.json .... created (shadcn MCP)
+  CLAUDE.md .... created (styling rules)
+```
+
+**Note:** The shadcn MCP will only be available after Claude Code picks up the new `.mcp.json`. If shadcn MCP tools are not detected after creation, inform the user:
+"shadcn MCP was just configured. It will be available on next restart or in the next message. Continuing — components will be installed via CLI if needed."
+
+---
+
+## Step 2 — Check All Dependencies
 
 Test each tool by checking if its functions are available:
 
@@ -19,13 +64,21 @@ Test each tool by checking if its functions are available:
 | shadcn MCP | Check for `mcp__shadcn__*` tools | Optional |
 | Stitch MCP | Check for `mcp__stitch__*` tools | Optional |
 
-### Step 2 — Show Status Dashboard
+---
+
+## Step 3 — Show Status Dashboard
 
 ```
 === LOCALSTUDIOS PREFLIGHT CHECK ===
 
+PROJECT
+  Directory .......... [current working directory]
+  .mcp.json .......... ✅ Created / ✅ Already exists
+  CLAUDE.md .......... ✅ Created / ✅ Already exists
+
 CORE
   WebFetch ........... ✅ Ready / ❌ Not available
+                       → Without: all info must come from interview
 
 KEYWORD RESEARCH
   Semrush MCP ........ ✅ Ready / ❌ Not configured
@@ -33,49 +86,50 @@ KEYWORD RESEARCH
 
 SEO ANALYSIS
   claude-seo ......... ✅ Ready / ❌ Not installed
-                       → Without: no audit of existing site, build from best practices
+                       → Without: no audit, build from best practices
 
 DESIGN
   ui-ux-pro-max ...... ✅ Ready / ❌ Not installed
                        → Without: generic design system
 
 BUILD
-  shadcn MCP ......... ✅ Ready / ❌ Not configured
-                       → Without: components installed via CLI instead
+  shadcn MCP ......... ✅ Ready / ⏳ Just configured (available next restart)
+                       → Without: components via CLI
   Stitch MCP ......... ✅ Ready / ❌ Not configured
                        → Without: Next.js project generated locally
 
 === [x]/6 TOOLS READY ===
 ```
 
-### Step 3 — Handle Issues
+---
 
-**If a REQUIRED tool is missing (WebFetch):**
-- Inform user: "WebFetch is required for scraping. Without it, you'll need to provide all business information manually in the interview."
-- Ask: "Continue without scraping? [Yes / No]"
+## Step 4 — Handle Issues
 
 **If OPTIONAL tools are missing:**
-- Show what will be skipped and what the fallback is
-- Ask: "Continue with available tools? Or set up missing tools first?"
-- If user wants to set up:
-  - **Semrush**: "Configure Semrush MCP in your Claude Code settings. See: [semrush docs]"
-  - **claude-seo**: "Install with: `curl -fsSL https://raw.githubusercontent.com/AgriciDaniel/claude-seo/main/install.sh | bash`"
-  - **ui-ux-pro-max**: "Install with: `npm install -g uipro-cli && uipro init --ai claude --global`"
-  - **shadcn MCP**: "Add to .mcp.json or Claude Code MCP settings"
-  - **Stitch**: "Configure Google Stitch MCP in your Claude Code settings"
+- Show the fallback for each
+- Ask: "Continue with available tools, or set up missing ones first?"
+- If user wants to set up, provide instructions:
+  - **Semrush**: "Add Semrush MCP to your global Claude Code settings (~/.claude/settings.json)"
+  - **claude-seo**: `curl -fsSL https://raw.githubusercontent.com/AgriciDaniel/claude-seo/main/install.sh | bash`
+  - **ui-ux-pro-max**: `npm install -g uipro-cli && uipro init --ai claude --global`
+  - **shadcn MCP**: Already configured in .mcp.json — restart Claude Code
+  - **Stitch**: "Add Google Stitch MCP to your global Claude Code settings"
 
 **If user wants to skip:**
-- Record which tools are available in a status object
-- Pass this to all subsequent phases so they know what to skip
+- Record which tools are available
+- All subsequent phases will check this and use fallbacks automatically
 
-### Step 4 — Confirm and Proceed
+---
+
+## Step 5 — Confirm and Proceed
 
 ```
 Ready to generate website for: [URL]
+
 Tools active: [list of ✅ tools]
 Skipping: [list of ❌ tools with fallbacks]
 
-Proceeding to Phase 1 (Scrape)...
+Starting Phase 1 (Scrape)...
 ```
 
-Only proceed to Phase 1 after user confirms or acknowledges the dashboard.
+Proceed to Phase 1 after user confirms or acknowledges.
