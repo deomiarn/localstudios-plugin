@@ -13,205 +13,55 @@ metadata:
   category: website-generation
 ---
 
-# LocalStudios — Website Generation Plugin
+# LocalStudios Plugin
 
-## Available Commands
+## Commands
 
 | Command | Description |
 |---------|-------------|
 | `generate <url>` | Generate a complete SEO-optimized website from an existing URL |
 
-## Command Routing
+## Routing
 
-Parse the first argument to determine the command:
+Parse the first argument:
 
-- **`generate`**: Execute the website generation workflow below. Second argument = target URL.
-- **No argument**: Show the commands table above.
-- **Unknown command**: Show "Unknown command. Available commands:" + table.
-
----
-
-## Workflow: generate
-
-### Execution Rules
-1. Execute phases **sequentially** — never skip ahead
-2. **Lazy load** references — only read a reference file when its phase begins
-3. **Pause for user input** at Phase 2 (interview) and Phase 6 (outline approval)
-4. Check external dependencies at runtime — graceful skip if unavailable
-5. Use **subagents** for heavy work (content writing, schema generation)
-
-### Reference Files (load on demand, NOT at startup)
-- `./references/generate-workflow.md` — Complete phase-by-phase instructions
-- `./references/scraping-checklist.md` — Phase 1: what to extract
-- `./references/interview-template.md` — Phase 2: user interview format
-- `./references/seo-rules.md` — Phase 3-4: keyword strategy rules
-- `./references/content-guidelines.md` — Phase 7: writing rules
-- `./references/schema-templates.md` — Phase 8: JSON-LD templates
-- `./references/quality-checklist.md` — Phase 11: QA checklist
-
-### Subagents (spawn when needed)
-- `scraper` — Phase 1: scrape and analyze the URL
-- `keyword-researcher` — Phase 3: Semrush keyword research
-- `seo-auditor` — Phase 5: audit existing site with claude-seo
-- `content-writer` — Phase 7: write content per page (spawn one per page in parallel)
-- `schema-generator` — Phase 8: generate all JSON-LD markup
-- `quality-checker` — Phase 11: final quality check
+- **`generate`** → Execute generate workflow (second arg = URL)
+- **No argument** → Show commands table
+- **Unknown** → Show "Unknown command." + commands table
 
 ---
 
-### Phase 1 — Scrape & Analyze
+## Generate Workflow
 
-Load `./references/scraping-checklist.md`.
+Execute phases 1-12 sequentially. Load each phase file **only when that phase begins**.
 
-Use WebFetch on the provided URL. If URL is unreachable, mark everything as NOT FOUND and proceed to Phase 2.
+| Phase | File | Pause? |
+|-------|------|--------|
+| 1. Scrape | `./phases/01-scrape.md` | |
+| 2. Interview | `./phases/02-interview.md` | WAIT |
+| 3. Keywords | `./phases/03-keywords.md` | |
+| 4. Geo-Strategy | `./phases/04-geo-strategy.md` | |
+| 5. SEO Audit | `./phases/05-seo-audit.md` | |
+| 6. Outline | `./phases/06-outline.md` | WAIT |
+| 7. Content | `./phases/07-content.md` | |
+| 8. Schema | `./phases/08-schema.md` | |
+| 9. Design | `./phases/09-design.md` | |
+| 10. Build | `./phases/10-build.md` | |
+| 11. QA | `./phases/11-quality.md` | |
+| 12. Report | `./phases/12-report.md` | |
 
-Extract: company name, industry, services, NAP data, brand elements, existing SEO signals, page structure, tone.
+### Rules
+- Never skip phases — execute in order
+- WAIT = do not proceed until user responds
+- Load reference files on demand (see each phase)
+- Spawn subagents for heavy work (see each phase)
 
-Also fetch common subpages: /about, /contact, /services, /impressum (and localized variants).
+### Dependencies (all optional)
 
----
-
-### Phase 2 — User Interview [MANDATORY PAUSE]
-
-Load `./references/interview-template.md`.
-
-Show the structured checklist. Prefill values found in Phase 1 with `[FOUND — please confirm]`. Mark missing required items with `[MISSING — required]`.
-
-**DO NOT proceed until the user has responded.**
-
-After response, compile and display a **PROJECT BRIEF** summary. Ask user to confirm before continuing.
-
----
-
-### Phase 3 — Keyword Research (max 5 Semrush calls)
-
-**Check:** Are `mcp__semrush__*` tools available?
-
-- **Yes**: Load `./references/seo-rules.md`. Execute keyword research using Semrush MCP. Max 5 API calls total. Priority: Overview → Variations → Geo combos → Service KWs → Competitor KWs.
-- **No**: Use manual keywords from interview. Inform user.
-
-Output: Keyword table with volume, difficulty, and page assignment.
-
----
-
-### Phase 4 — Geo-Strategy per Page
-
-Using `./references/seo-rules.md` (already loaded from Phase 3).
-
-Map keyword clusters to pages. Each page targets a semantic cluster, not a single keyword. One strong page beats five thin pages.
-
-Output: Complete keyword-to-page assignment table. Show to user.
-
----
-
-### Phase 5 — SEO Audit (optional)
-
-**Check:** Is `/seo` skill available AND was a URL provided?
-
-- **Yes**: Run `/seo page`, `/seo technical`, `/seo schema` on the URL. Compile "What Was Wrong" list.
-- **No**: Skip. Build new site with best practices from scratch.
-
----
-
-### Phase 6 — Structure Outline [MANDATORY PAUSE]
-
-Create complete page outline with:
-- Per page: H1, section structure, keyword targets, meta title, meta description
-- Internal linking map with anchor texts
-- Show the complete outline to the user
-
-**DO NOT proceed until user approves the outline.**
-
----
-
-### Phase 7 — Content Writing
-
-Load `./references/content-guidelines.md`.
-
-Write SEO-optimized content for each page following:
-- H1 with primary keyword + location
-- H2s with secondary keywords and geo-terms
-- Geo-term in first paragraph
-- 1-2% keyword density
-- E-E-A-T signals throughout
-- FAQ sections on service pages (voice-search friendly)
-- CTAs: above the fold + after social proof + end of page
-- Internal links with keyword-rich anchor texts
-- Meta Title (max 60 chars), Meta Description (max 155 chars)
-- OG Title + OG Description for social sharing
-
-Content can be written per page in parallel using the content-writer agent.
-
----
-
-### Phase 8 — Schema Markup
-
-Load `./references/schema-templates.md`.
-
-Generate JSON-LD for all pages:
-- **Home + Contact**: LocalBusiness (with sameAs for Google Business Profile), BreadcrumbList
-- **Service pages**: Service schema, FAQPage schema, BreadcrumbList
-- **About**: Organization/Person schema, BreadcrumbList
-- Industry-specific @type (Dentist, Restaurant, etc.)
-
-All NAP data must match exactly across all schema blocks. Use consistent @id references.
-
----
-
-### Phase 9 — Design System
-
-**Check:** Is `/ui-ux-pro-max` skill available?
-
-- **Yes**: Use ui-ux-pro-max to generate industry-specific design system (colors, typography, layout pattern, anti-patterns).
-- **No**: Create generic professional design system based on user preferences from interview.
-
----
-
-### Phase 10 — Website Generation
-
-**Check:** Are `mcp__stitch__*` tools available?
-
-- **Yes**: Create project in Stitch. Generate each page with content from Phase 7, design from Phase 9, structure from Phase 6, and schema reference from Phase 8.
-- **No**: Export everything as structured markdown files with all content, meta tags, schema blocks, and design specifications.
-
----
-
-### Phase 11 — Quality Check
-
-Load `./references/quality-checklist.md`.
-
-Verify every item: SEO on-page, schema validation, content quality, internal linking, NAP consistency, conversion elements, technical requirements.
-
-Report score as percentage. Fix critical issues before proceeding.
-
----
-
-### Phase 12 — Final Report
-
-Present complete summary:
-- Keyword strategy (primary, secondary, geo-cluster count)
-- Pages created with keyword targets
-- SEO technical status (schema, meta, links, mobile)
-- Design system applied
-- Next steps for the client:
-  1. Google Business Profile setup/update (NAP must match)
-  2. Google Search Console + sitemap
-  3. Collect 5-10 Google Reviews in first 30 days
-  4. Expect rankings in 3-6 months
-  5. Monthly SEO monitoring recommended
-
----
-
-### Error Handling
-
-| Scenario | Action |
-|----------|--------|
-| URL unreachable | Skip scraping, gather everything in interview |
-| Semrush unavailable | Use manual keywords, inform user |
-| claude-seo unavailable | Skip audit, use best practices |
-| ui-ux-pro-max unavailable | Generic design system |
-| Stitch unavailable | Export as markdown files |
-| User skips optional interview items | Use sensible defaults |
-| User skips required interview items | Ask again specifically |
-| Semrush API call fails | Note error, continue with remaining calls |
-| Schema field unknown | Mark as `[PLACEHOLDER — add value]` |
+| Tool | Check | Fallback |
+|------|-------|----------|
+| Semrush MCP | `mcp__semrush__*` available? | Manual keywords from interview |
+| claude-seo | `/seo` skill available? | Skip audit |
+| ui-ux-pro-max | `/ui-ux-pro-max` available? | Generic design system |
+| Stitch MCP | `mcp__stitch__*` available? | Export as markdown |
+| WebFetch | Tool available? | User provides info manually |
