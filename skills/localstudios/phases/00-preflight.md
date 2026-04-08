@@ -2,22 +2,53 @@
 
 **This phase runs BEFORE everything else. No exceptions.**
 **The user should not have to do anything manually — Claude handles all setup.**
+**The plugin MUST work with zero pre-installed tools.**
 
 ---
 
-## Required MCP Configurations
+## Tool Architecture
 
-These are the exact configs. Use them verbatim — no alternatives.
+### Always Available (built into Claude Code)
+These tools are always present. The plugin works with ONLY these:
 
-### Semrush MCP
-```
-claude mcp add semrush https://mcp.semrush.com/v1/mcp -t http
-```
-- Requires one-time OAuth authentication via `/mcp` → select Semrush → Authenticate
-- Provides: keyword volume, difficulty, CPC, intent, variations
+| Tool | What it does |
+|------|-------------|
+| **WebFetch** | Scrape websites, fetch URLs |
+| **Read/Write/Edit** | Create project files |
+| **Bash** | Run CLI commands (npm, npx, git) |
+| **Agent** | Spawn subagents for parallel work |
 
-### shadcn MCP
-Write this exact `.mcp.json` in the project directory:
+### Auto-Configured by Plugin (no user action needed)
+These are set up automatically by Phase 0. User just needs to restart once:
+
+| Tool | How Plugin Sets It Up |
+|------|----------------------|
+| **Semrush MCP** | `claude mcp add semrush https://mcp.semrush.com/v1/mcp -t http` |
+| **shadcn MCP** | Write `.mcp.json` with `{"mcpServers":{"shadcn":{"command":"npx","args":["shadcn@latest","mcp"]}}}` |
+
+### Optional Enhancements (user must install separately)
+These make the output better but are NEVER required:
+
+| Tool | What it adds | Install | Fallback |
+|------|-------------|---------|----------|
+| claude-seo | SEO audit of existing site | `curl -fsSL https://raw.githubusercontent.com/AgriciDaniel/claude-seo/main/install.sh \| bash` | Build from best practices |
+| ui-ux-pro-max | Industry-specific design system | `npm install -g uipro-cli && uipro init --ai claude --global` | Generic design system |
+| Stitch MCP | Visual website generation | User configures in settings | Next.js project built locally |
+| MCP_DOCKER | Browser automation (JS rendering, screenshots) | User configures Docker MCP | WebFetch handles scraping |
+| banana-claude | AI image generation | Plugin install | Scraped images + placeholders |
+
+---
+
+## Step 1 — Project Directory Setup
+
+### 1a. Auto-configure MCP servers
+
+**Semrush**: Check if `mcp__semrush__*` tools are available.
+- If NOT → run: `claude mcp add semrush https://mcp.semrush.com/v1/mcp -t http`
+- Requires one-time OAuth via `/mcp` → Semrush → Authenticate
+
+**shadcn**: Check if `mcp__shadcn__*` tools are available.
+- If NOT → write `.mcp.json` in the project directory:
 ```json
 {
   "mcpServers": {
@@ -28,30 +59,11 @@ Write this exact `.mcp.json` in the project directory:
   }
 }
 ```
-- Provides: component discovery, search, installation via natural language
-
-### Stitch MCP
-- Pre-configured globally by user as `stitch` in `~/.claude.json`
-- Provides: visual website generation via Google Stitch
-
----
-
-## Step 1 — Project Directory Setup
-
-The user typically starts in an **empty directory**. Set it up automatically:
-
-### 1a. Set up MCP servers
-
-**Semrush**: Check if `mcp__semrush__*` tools are available.
-- If NOT → run: `claude mcp add semrush https://mcp.semrush.com/v1/mcp -t http`
-
-**shadcn**: Check if `mcp__shadcn__*` tools are available.
-- If NOT → write the `.mcp.json` file above into the project directory.
-- If `.mcp.json` already exists but shadcn is failing → overwrite it with the exact config above.
+- If `.mcp.json` exists but shadcn is failing → overwrite with this exact config.
 
 ### 1b. Create CLAUDE.md
 
-Check if `CLAUDE.md` exists in the current working directory. If not, create it:
+Check if `CLAUDE.md` exists. If not, create it:
 
 ```markdown
 # [Project Name]
@@ -76,32 +88,17 @@ Components read from site-config.ts — never hardcode in multiple places.
 
 ### 1c. Check if restart needed
 
-After running MCP setup commands, check if the MCPs are now available.
-
 If any MCP was just added and is still not connecting:
 ```
 MCP servers were just configured. They load at startup.
 → Type /exit, then run 'claude' again.
 → Then re-run: /localstudios generate <url>
 ```
-**Stop the workflow here.** The user only needs to restart and re-run — everything else is already set up.
+**Stop here.** User restarts once, re-runs the command, everything works.
 
 ---
 
-## Step 2 — Check All Dependencies
-
-| Dependency | Check | Auto-Setup | Fallback |
-|-----------|-------|------------|----------|
-| WebFetch | Built-in | — | User provides info manually |
-| Semrush MCP | `mcp__semrush__*` | `claude mcp add ...` | Manual keywords from interview |
-| shadcn MCP | `mcp__shadcn__*` | Write `.mcp.json` | Components via `npx shadcn@latest add` |
-| claude-seo | `/seo` skill loaded | Cannot auto-install | Skip audit, use best practices |
-| ui-ux-pro-max | `/ui-ux-pro-max` loaded | Cannot auto-install | Generic design system |
-| Stitch MCP | `mcp__stitch__*` | Cannot auto-install | Next.js project generated locally |
-
----
-
-## Step 3 — Show Status Dashboard
+## Step 2 — Show Status Dashboard
 
 ```
 === LOCALSTUDIOS PREFLIGHT CHECK ===
@@ -110,53 +107,48 @@ PROJECT
   Directory .......... [current working directory]
   CLAUDE.md .......... ✅ Ready
 
-MCP SERVERS (auto-configured)
-  Semrush ............ ✅ Ready / 🔧 Just installed (restart needed)
-  shadcn ............. ✅ Ready / 🔧 Just installed (restart needed)
-
-PLUGINS (require manual install)
-  claude-seo ......... ✅ Ready / ❌ Not installed
-                       → Without: no audit of existing site
-  ui-ux-pro-max ...... ✅ Ready / ❌ Not installed
-                       → Without: generic design system
-
-OTHER
+CORE (always available)
   WebFetch ........... ✅ Ready
-  Stitch MCP ......... ✅ Ready / ❌ Not configured
-                       → Without: Next.js project generated locally
+  Bash / Files ....... ✅ Ready
 
-=== [x]/6 TOOLS READY ===
+AUTO-CONFIGURED
+  Semrush MCP ........ ✅ Ready / 🔧 Just installed (restart needed)
+  shadcn MCP ......... ✅ Ready / 🔧 Just installed (restart needed)
+
+OPTIONAL ENHANCEMENTS (not required)
+  claude-seo ......... ✅ / ❌ → fallback: best practices
+  ui-ux-pro-max ...... ✅ / ❌ → fallback: generic design system
+  Stitch MCP ......... ✅ / ❌ → fallback: local Next.js build
+  Browser (Docker) ... ✅ / ❌ → fallback: WebFetch
+  banana-claude ...... ✅ / ❌ → fallback: scraped images + placeholders
+
+=== READY ===
 ```
 
 ---
 
-## Step 4 — Handle Results
+## Step 3 — Handle Results
 
-**If any MCP was just installed (🔧):**
+**If any auto-configured MCP was just installed (🔧):**
 → Tell user to restart and re-run. Stop here.
 
-**If plugins are missing (claude-seo, ui-ux-pro-max):**
-- These are Claude Code plugins that cannot be auto-installed
-- Show what will be skipped and the fallback
-- Offer setup instructions if user wants:
-  - **claude-seo**: `curl -fsSL https://raw.githubusercontent.com/AgriciDaniel/claude-seo/main/install.sh | bash`
-  - **ui-ux-pro-max**: `npm install -g uipro-cli && uipro init --ai claude --global`
-- Ask: "Continue without these, or install them first?"
+**If optional tools are missing:**
+→ Note which are available, proceed with fallbacks. No blocking.
 
 **If everything is ✅:**
-→ Proceed directly to Phase 1
+→ Proceed directly to Phase 1.
 
 ---
 
-## Step 5 — Confirm and Proceed
+## Step 4 — Confirm and Proceed
 
 ```
 Ready to generate website for: [URL]
 
-Tools active: [list]
-Skipping: [list with fallbacks]
+Tools: [list active]
+Enhancements: [list active optional tools]
 
 Starting Phase 1 (Scrape)...
 ```
 
-Proceed to Phase 1 after user confirms or acknowledges.
+Proceed to Phase 1. No confirmation needed — just go.

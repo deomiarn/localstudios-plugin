@@ -9,7 +9,18 @@ Spawn `scraper` agent with the provided URL.
 
 ## Process
 
-1. Use WebFetch on the provided URL
+**Scraping Tool Priority:**
+1. If `mcp__MCP_DOCKER__browser_navigate` is available → use Browser MCP (renders JS, better for SPAs)
+2. Otherwise → use WebFetch (always available, works for most sites)
+
+### Using Browser MCP (if available):
+1. `browser_navigate` to the URL
+2. `browser_snapshot` to get the full rendered DOM
+3. `browser_take_screenshot` for visual reference
+4. Navigate to subpages and repeat
+
+### Using WebFetch (default):
+1. WebFetch on the provided URL
 2. If URL unreachable → mark all fields as `[NOT FOUND]`, proceed to Phase 2
 3. If reachable → also fetch common subpages:
    - /about, /about-us, /ueber-uns, /chi-siamo, /a-propos
