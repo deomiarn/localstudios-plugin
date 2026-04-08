@@ -6,58 +6,33 @@
 
 ---
 
-## Tool Architecture
+## SETUP IS NOT OPTIONAL
 
-### Always Available (built into Claude Code)
-
-| Tool | What it does |
-|------|-------------|
-| **WebFetch** | Scrape websites, fetch URLs |
-| **Read/Write/Edit** | Create project files |
-| **Bash** | Run CLI commands (npm, npx, git) |
-| **Agent** | Spawn subagents for parallel work |
-
-### Auto-Configured by Plugin (no user action needed)
-
-| Tool | How Plugin Sets It Up |
-|------|----------------------|
-| **Playwright MCP** | `claude mcp add playwright npx @playwright/mcp@latest` |
-| **Semrush MCP** | `claude mcp add semrush https://mcp.semrush.com/v1/mcp -t http` |
-| **shadcn MCP** | Write `.mcp.json` with `{"mcpServers":{"shadcn":{"command":"npx","args":["shadcn@latest","mcp"]}}}` |
-| **frontend-design skill** | `npx claude-code-templates@latest --skill creative-design/frontend-design` |
-
-### Requires User API Key (guided setup in Phase 9)
-
-| Tool | Setup |
-|------|-------|
-| **shadcnblocks** | User provides API key from https://shadcnblocks.com → stored as ENV variable, added to components.json registry |
-
-### Optional Enhancements (user must install separately)
-
-| Tool | What it adds | Install | Fallback |
-|------|-------------|---------|----------|
-| claude-seo | SEO audit + validation | `curl -fsSL https://raw.githubusercontent.com/AgriciDaniel/claude-seo/main/install.sh \| bash` | Best practices |
-| banana-claude | AI image generation | Plugin install | Scraped images + placeholders |
+**Run EVERY install command below. Do NOT skip because "something similar is already available".**
+If MCP Docker browser is available — install Playwright anyway.
+If some other keyword tool exists — install Semrush anyway.
+These are the EXACT tools this plugin uses. No substitutes.
 
 ---
 
-## Step 1 — Project Directory Setup
+## Step 1 — Install ALL required tools
 
-### 1a. Auto-configure MCP servers
+Run these commands. Check AFTER running if they are available. Do NOT check first and skip.
 
-**Playwright**: Check if `mcp__playwright__*` tools are available.
-- If NOT → run: `claude mcp add playwright npx @playwright/mcp@latest`
+### 1a. Playwright MCP
+```bash
+claude mcp add playwright npx @playwright/mcp@latest
+```
+Do NOT use MCP Docker or any other browser tool as substitute.
 
-**Semrush**: Check if `mcp__semrush__*` tools are available.
-- If NOT → run: `claude mcp add semrush https://mcp.semrush.com/v1/mcp -t http`
-- Requires one-time OAuth via `/mcp` → Semrush → Authenticate
+### 1b. Semrush MCP
+```bash
+claude mcp add semrush https://mcp.semrush.com/v1/mcp -t http
+```
+Requires one-time OAuth: `/mcp` → Semrush → Authenticate
 
-**frontend-design skill**: Check if `/frontend-design` skill is loaded.
-- If NOT → run: `npx claude-code-templates@latest --skill creative-design/frontend-design`
-- This installs the creative design skill for high-quality frontend output
-
-**shadcn**: Check if `mcp__shadcn__*` tools are available.
-- If NOT → write `.mcp.json` in the project directory:
+### 1c. shadcn MCP
+Write `.mcp.json` in the project directory:
 ```json
 {
   "mcpServers": {
@@ -68,11 +43,14 @@
   }
 }
 ```
-- If `.mcp.json` exists but shadcn is failing → overwrite with this exact config.
+If `.mcp.json` already exists → overwrite it with this exact config.
 
-### 1b. Create CLAUDE.md
+### 1d. frontend-design skill
+```bash
+npx claude-code-templates@latest --skill creative-design/frontend-design
+```
 
-Check if `CLAUDE.md` exists. If not, create it:
+### 1e. Create CLAUDE.md
 
 ```markdown
 # [Project Name]
@@ -83,59 +61,68 @@ Check if `CLAUDE.md` exists. If not, create it:
 - **`docs/pages/[page].md`** — per-page: purpose, keywords, SEO, GEO signals
 - **Update docs/** when making changes — keep in sync with code
 
+## Skills — ALWAYS USE
+- /frontend-design for every component (distinctive, not generic)
+- references/ui-rules.md for strict CSS rules (no hardcoded colors)
+
 ## Styling Rules — CRITICAL
 - **ALL styles in `app/globals.css`** — read it before any style change
 - Never use inline `style={}` props
 - Never create separate CSS files
+- All colors via shadcn CSS variables (--primary, --accent etc.)
 - Override shadcn defaults in globals.css, not in component files
-- Tailwind utility classes in JSX are OK
 
 ## NAP Data
 All business data lives in `lib/site-config.ts` AND `docs/BUSINESS.md`.
 Components read from site-config.ts — never hardcode in multiple places.
 ```
 
-### 1c. Check if restart needed
+---
 
-If any MCP was just added and is still not connecting:
+## Step 2 — Check if restart needed
+
+After running all install commands, check if the MCPs are connecting.
+
+**If ANY tool was just installed and is not yet available:**
 ```
-MCP servers were just configured. They load at startup.
+Tools were just configured. They load at startup.
 → Type /exit, then run 'claude' again.
 → Then re-run: /localstudios generate <url>
 ```
-**Stop here.** User restarts once, re-runs, everything works.
+**Stop here.** User restarts once, re-runs, everything is ready.
 
 ---
 
-## Step 2 — Show Status Dashboard
+## Step 3 — Show Status Dashboard
+
+Only show this AFTER all install commands have been run.
 
 ```
 === LOCALSTUDIOS PREFLIGHT CHECK ===
 
 PROJECT
   Directory .......... [current working directory]
-  CLAUDE.md .......... ✅ Ready
+  CLAUDE.md .......... ✅ Created
 
-AUTO-CONFIGURED
-  Playwright MCP ..... ✅ Ready / 🔧 Just installed
-  Semrush MCP ........ ✅ Ready / 🔧 Just installed
-  shadcn MCP ......... ✅ Ready / 🔧 Just installed
-  frontend-design .... ✅ Ready / 🔧 Just installed
+INSTALLED
+  Playwright MCP ..... ✅ Ready / 🔧 Restart needed
+  Semrush MCP ........ ✅ Ready / 🔧 Restart needed
+  shadcn MCP ......... ✅ Ready / 🔧 Restart needed
+  frontend-design .... ✅ Ready / 🔧 Restart needed
 
 OPTIONAL
-  shadcnblocks ....... API key needed in Phase 9 (from shadcnblocks.com)
+  shadcnblocks ....... API key asked in Phase 9
   claude-seo ......... ✅ / ❌ → fallback: best practices
-  banana-claude ...... ✅ / ❌ → fallback: scraped images + placeholders
 
 === READY ===
 ```
 
 ---
 
-## Step 3 — Handle Results
+## Step 4 — Proceed
 
-**If any MCP was just installed (🔧):**
-→ Tell user to restart and re-run. Stop here.
+**If any tool shows 🔧 Restart needed:**
+→ Tell user to restart. Stop.
 
-**If everything is ✅:**
-→ Proceed directly to Phase 1. No confirmation needed — just go.
+**If all show ✅:**
+→ Start Phase 1 immediately. No confirmation needed.
