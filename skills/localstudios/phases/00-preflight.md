@@ -45,16 +45,16 @@ Write `.mcp.json` in the project directory:
 ```
 If `.mcp.json` already exists → overwrite it with this exact config.
 
-### 1d. shadcnblocks API Key
+### 1d. shadcnblocks API Key (REQUIRED)
 Ask the user:
 ```
-shadcnblocks provides pre-built section blocks for the homepage.
-→ Get your API key at https://shadcnblocks.com
-→ Paste your API key here (or type "skip" to build without blocks):
+shadcnblocks API key is required for building the homepage.
+→ Get your key at https://shadcnblocks.com
+→ Paste your API key here:
 ```
 
-If user provides key → save for Phase 9 (store in environment, NEVER commit to code).
-If user says "skip" → note it, components will be built manually.
+**Do NOT proceed without the key.** Wait until the user provides it.
+Store for Phase 9 (environment variable, NEVER commit to code).
 
 ### 1e. frontend-design skill
 ```bash
@@ -122,7 +122,7 @@ INSTALLED
   frontend-design .... ✅ Ready / 🔧 Restart needed
 
 BLOCKS
-  shadcnblocks ....... ✅ Key provided / ❌ Skipped (manual build)
+  shadcnblocks ....... ✅ Key provided
 
 OPTIONAL
   claude-seo ......... ✅ / ❌ → fallback: best practices
