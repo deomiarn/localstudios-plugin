@@ -3,6 +3,30 @@
 ## Reference
 Load `./references/code-standards.md` for Next.js + shadcn/ui standards.
 
+## CRITICAL: Apply the Design System from Phase 9
+
+**Before writing ANY code, read the Phase 9 output and extract these values:**
+- Primary color hex
+- Secondary color hex
+- Accent/CTA color hex
+- Background color hex
+- Text color hex
+- Heading font name
+- Body font name
+- Recommended style name
+
+**Every component, every color, every font in the code MUST match Phase 9.**
+If Phase 9 said "Amber CTA #FBBF24" then every CTA button uses #FBBF24. Not blue. Not your default. The exact color.
+
+**DO NOT:**
+- Use colors that weren't in the Phase 9 output
+- Use fonts that weren't in the Phase 9 output
+- Fall back to generic blue/white because "it looks fine"
+- Copy styles from the old scraped website
+- Ignore the recommended style and do your own thing
+
+---
+
 ## Build Process
 
 ### Step 1 — Init Next.js + shadcn
@@ -16,9 +40,23 @@ Use shadcn MCP if available, otherwise CLI:
 npx shadcn@latest add button card accordion
 ```
 
-### Step 3 — globals.css
-Write ALL design tokens from Phase 9 (ui-ux-pro-max output) into `app/globals.css`.
-No inline styles. No separate CSS files.
+### Step 3 — globals.css (MUST match Phase 9)
+
+Write the EXACT colors and fonts from Phase 9 into `app/globals.css`:
+
+```css
+:root {
+  --primary: [EXACT hex from Phase 9];
+  --secondary: [EXACT hex from Phase 9];
+  --accent: [EXACT hex from Phase 9];
+  --background: [EXACT hex from Phase 9];
+  --foreground: [EXACT hex from Phase 9];
+  --font-heading: '[EXACT font from Phase 9]', sans-serif;
+  --font-body: '[EXACT font from Phase 9]', sans-serif;
+}
+```
+
+**Verify: Do the CSS variables match Phase 9? If not, fix before proceeding.**
 
 ### Step 4 — Site Config
 `lib/site-config.ts` — NAP from Project Brief. Single source of truth.
@@ -29,25 +67,24 @@ Check if `mcp__magic__*` tools are available.
 
 **If available — USE IT for every section component:**
 
-For each of the 8 homepage sections, use 21st.dev to find and build polished components:
+For each of the 8 homepage sections:
 
-**Step 5a — Find inspiration for each section:**
+**5a — Find component inspiration:**
 ```
 mcp__magic__21st_magic_component_inspiration
 ```
 Search for: "hero section", "trust bar", "services grid", "testimonials", "CTA section", etc.
-Pick the best matching component for each section.
 
-**Step 5b — Build/customize each component:**
+**5b — Build each component:**
 ```
 mcp__magic__21st_magic_component_builder
 ```
-For each section, build the component with:
+Pass to builder:
 - Content from Phase 7
-- Design system from Phase 9 (colors, fonts, style)
-- Industry context (e.g. "dental practice", "local business")
+- **EXACT colors and fonts from Phase 9** (not defaults)
+- Industry context
 
-**Build these section components via 21st.dev:**
+**Components to build via 21st.dev:**
 1. `hero.tsx` — Hero with H1, CTA, hero image
 2. `trust-bar.tsx` — Numbers/badges strip
 3. `services-grid.tsx` — Service cards
@@ -56,16 +93,18 @@ For each section, build the component with:
 6. `local-trust.tsx` — Map + local signals
 7. `cta-section.tsx` — Final CTA block
 
-**DO NOT build these from scratch if 21st.dev is available.**
-21st.dev components look significantly better than hand-coded ones.
+**After receiving each component from 21st.dev:**
+- Check if colors match globals.css variables → if not, replace hardcoded colors with CSS variables
+- Check if fonts match → if not, replace
+- All styling through globals.css or Tailwind classes using the CSS variables
 
-**If NOT available:**
-Build components manually with shadcn primitives (Button, Card, etc.).
+**If 21st.dev NOT available:**
+Build manually with shadcn primitives. Still use Phase 9 colors/fonts.
 
-### Step 6 — Layout Components
+### Step 6 — Layout
 ```
-components/layout/header.tsx    — Navigation, logo
-components/layout/footer.tsx    — NAP, links, hours, copyright
+components/layout/header.tsx    — Navigation, logo (uses Phase 9 colors)
+components/layout/footer.tsx    — NAP, links, hours (uses Phase 9 colors)
 ```
 
 ### Step 7 — Assemble Homepage
@@ -79,8 +118,12 @@ app/page.tsx        — Homepage composing all sections + metadata export
 components/seo/schema-script.tsx  — JSON-LD injection
 ```
 
-### After Build
-- Run `npm run build` to verify no errors
-- Do NOT start dev server
-- Do NOT take screenshots
-- Proceed to Phase 11
+### Step 9 — Final Verification Before QA
+
+**Checklist before proceeding to Phase 11:**
+- [ ] globals.css colors match Phase 9 output exactly
+- [ ] globals.css fonts match Phase 9 output exactly
+- [ ] No hardcoded colors in components (all use CSS variables or Tailwind)
+- [ ] No inline `style={}` anywhere
+- [ ] CTA buttons use the accent/CTA color from Phase 9
+- [ ] `npm run build` passes
