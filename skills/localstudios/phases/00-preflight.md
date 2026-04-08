@@ -15,8 +15,18 @@ The user typically starts in an **empty directory**. Set it up automatically:
 - If NOT → run: `claude mcp add semrush https://mcp.semrush.com/v1/mcp -t http`
 
 **Check if shadcn MCP is available** (`mcp__shadcn__*` tools):
-- If NOT → run: `npx shadcn@latest mcp init --client claude` in the project directory
-- This creates/updates the `.mcp.json` with the correct shadcn config
+- If NOT → create or overwrite `.mcp.json` in the project directory with:
+```json
+{
+  "mcpServers": {
+    "shadcn": {
+      "command": "npx",
+      "args": ["shadcn@latest", "mcp"]
+    }
+  }
+}
+```
+- **IMPORTANT**: Do NOT use the old URL-based config (`@anthropic-ai/claude-code-mcp` + `shadcn-mcp.vercel.app`). That is broken. Use exactly the config above.
 
 ### 1b. Create CLAUDE.md
 
