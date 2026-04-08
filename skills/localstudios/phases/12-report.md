@@ -3,44 +3,43 @@
 ## Output Format
 
 ```
-=== WEBSITE COMPLETE: [Company Name] ===
+=== HOMEPAGE READY: [Company Name] ===
 
 KEYWORD STRATEGY
-Primary Keyword: [KW] — Volume: [x]/month — Difficulty: [x]
-Secondary Keywords: [list]
-Total geo-cluster: [count] keywords across all pages
+Primary: [KW] — Volume: [x]/mo — Difficulty: [x]
+Secondary: [list]
+Geo: [city, district, region]
 
-PAGES CREATED
-- Home — targets: [keywords]
-- About — targets: [keywords]
-- [Service] — targets: [keywords]
-- Contact — targets: [keywords]
+HOMEPAGE SECTIONS
+1. Hero ✅
+2. Trust Bar ✅
+3. Services Overview ✅
+4. About Teaser ✅
+5. Social Proof ✅
+6. Local Area ✅
+7. CTA ✅
+8. Footer ✅
 
-SEO TECHNICAL
-Schema: LocalBusiness, Service, Breadcrumb, FAQ — all set
-Meta Tags: All pages complete
-OG Tags: All pages complete
-Internal Linking: Complete ([x] links documented)
-Mobile: Responsive specified
+SEO
+Schema: LocalBusiness ✅
+Meta Tags: Complete ✅
+OG Tags: Complete ✅
+Images: [x] images, all WebP with alt text ✅
 
-DESIGN
-Style: [applied style]
-Colors: [palette summary]
-Typography: [font pairing]
+QUALITY SCORE: [x]%
 
-QUALITY SCORE: [x]% ([passed]/[total] checks)
+WHAT THIS HOMEPAGE DOES
+- Showcases [company] as a professional [industry] in [city]
+- Optimized for "[primary keyword]"
+- Ready to present to the client as a pitch
 
-NEXT STEPS
-1. Create/update Google Business Profile
-   — NAP must match website exactly
-   — Add sameAs URL to schema
-2. Register in Google Search Console + submit sitemap
-3. Collect 5-10 Google Reviews in first 30 days
-4. Share on social media (OG tags set for previews)
-5. Expect first rankings in 3-6 months
-6. Monthly SEO monitoring recommended
+NEXT STEPS (after client signs)
+1. Add service pages (one per main service)
+2. Add about page with full team + credentials
+3. Add contact page with form + map
+4. Set up Google Business Profile (NAP must match)
+5. Register in Google Search Console
+6. Collect Google Reviews
 
-NOTE: This website is correctly structured from day 1.
-The foundation for organic growth is in place.
 === END REPORT ===
 ```

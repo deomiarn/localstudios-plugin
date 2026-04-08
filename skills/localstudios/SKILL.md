@@ -1,9 +1,8 @@
 ---
 name: localstudios
 description: >
-  Website generation and SEO toolkit by LocalStudios. Use /localstudios generate <url>
-  to scrape an existing website, conduct keyword research, create SEO-optimized content,
-  generate schema markup, design the UI, and build a Next.js + shadcn/ui website.
+  Website generation toolkit by LocalStudios. Use /localstudios generate <url>
+  to create a single-page homepage as a client pitch. SEO-optimized, ready to show.
 user-invokable: true
 argument-hint: "[generate] [url]"
 license: MIT
@@ -19,7 +18,7 @@ metadata:
 
 | Command | Description |
 |---------|-------------|
-| `generate <url>` | Generate a complete SEO-optimized website from an existing URL |
+| `generate <url>` | Generate a single-page homepage as client pitch |
 
 ## Routing
 
@@ -32,6 +31,8 @@ Parse the first argument:
 ---
 
 ## Generate Workflow
+
+Creates a **single homepage** to pitch the client. Not a full website — just one strong page that shows what's possible.
 
 Execute phases 0-12 sequentially. Load each phase file **only when that phase begins**.
 
@@ -55,18 +56,18 @@ Execute phases 0-12 sequentially. Load each phase file **only when that phase be
 - Never skip phases — execute in order
 - WAIT = do not proceed until user responds
 - Load reference files on demand (see each phase)
-- Spawn subagents for heavy work (see each phase)
+- This generates ONE page only — the homepage
 
 ### Dependencies (all optional)
 
 | Tool | Check | Fallback |
 |------|-------|----------|
+| Playwright MCP | `mcp__playwright__*` available? | WebFetch |
 | Semrush MCP | `mcp__semrush__*` available? | Manual keywords from interview |
+| shadcn MCP | `mcp__shadcn__*` available? | Install components via CLI |
 | claude-seo | `/seo` skill available? | Skip audit |
 | ui-ux-pro-max | `/ui-ux-pro-max` available? | Generic design system |
-| shadcn MCP | `mcp__shadcn__*` available? | Install components via CLI |
 | Stitch MCP | `mcp__stitch__*` available? | Generate Next.js project directly |
-| WebFetch | Tool available? | User provides info manually |
 
 ### Tech Stack
 - **Next.js** App Router (initialized via `npx shadcn@latest init --preset b0 --template next`)

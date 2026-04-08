@@ -1,47 +1,40 @@
-# Phase 4 — Multi-Keyword Geo-Strategy
+# Phase 4 — Keyword Geo-Strategy for Homepage
 
 ## Reference
 Load `./references/seo-rules.md` for cluster logic and embedding rules.
 
 ## Principle
-One strong page beats five thin pages. Each page targets a semantic cluster, not a single keyword.
+The homepage targets a semantic keyword cluster — not a single keyword.
 
-## Cluster Assignment
-
-**Home**: Brand + Primary KW + City + Region
-**Service Pages**: [Service] + City + District + Region variations
-**Contact**: [Service] + contact/appointment/directions + City
-**About**: Brand + trust/experience keywords + location
+## Homepage Cluster
+All keywords land on this one page:
+- Brand + Primary KW + City + Region
+- Main services mentioned (not separate pages — just listed)
+- "Near me" variations
+- Trust keywords: "experienced", "certified", "since [year]"
 
 ## Geo-Term Embedding Rules
-
-- Geo-term in first paragraph of every page
-- Geo-term in at least one H2 per page
-- District/neighborhood names in "serving" or "how to find us" sections
-- Region name in business description
-- Max 3 repetitions of the same geo-term per page
+- City name in H1 + first paragraph
+- District/neighborhood in one H2 or service mention
+- Region/state in the "about" or "local trust" section
+- Max 3 repetitions of the same geo-term
 
 ## Output
 
-Keyword-to-page assignment table:
+Homepage keyword list:
 
 ```
-| Page | Primary KW | Secondary KWs | Geo KWs |
-|------|-----------|---------------|---------|
-| Home | [kw] | [list] | [list] |
-| [Service] | [kw] | [list] | [list] |
-| Contact | [kw] | [list] | [list] |
-| About | [kw] | [list] | [list] |
+PRIMARY: [keyword] — for H1 + first paragraph
+SECONDARY: [kw1], [kw2], [kw3] — for H2s and body
+GEO: [city], [district], [region] — distributed across sections
 ```
 
-Show table to user before proceeding.
+Show to user before proceeding.
 
 ## Create docs/SEO-STRATEGY.md
 
-After completing the keyword-to-page map, create `docs/SEO-STRATEGY.md` using the template from `./references/docs-structure.md`. Include:
+Create `docs/SEO-STRATEGY.md` using the template from `./references/docs-structure.md`. Include:
 - Primary keyword with volume/difficulty
-- Full keyword map table with page assignments, types, and intent
-- Geo targeting summary (primary city, districts, region)
-- Internal linking map with anchor texts
-- Competitor info if available
-- Data source (Semrush / Manual / Interview) and date
+- All keywords mapped to homepage sections
+- Geo targeting summary
+- Data source and date

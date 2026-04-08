@@ -1,70 +1,74 @@
-# Phase 7 — Content Writing
+# Phase 7 — Homepage Content
 
 ## References
 - Load `./references/content-guidelines.md` for writing rules
-- Load `./references/page-sections.md` for mandatory sections per page
+- Load `./references/page-sections.md` for mandatory sections
 - Load `./references/image-strategy.md` for image alt text + title rules
 
-## Agent
-Spawn `content-writer` agent per page. Pages can be written in parallel.
+## Task
+Write SEO-optimized content for the **homepage only** — all 8 sections.
 
-## Per-Page Requirements
+## Section-by-Section Content
 
-### Structure
-- ONE H1 with primary keyword + location, at the top
-- 3-6 H2s with secondary keywords and geo-terms
-- Short paragraphs (2-4 sentences)
+### 1. Hero
+- H1 with primary keyword + city
+- Subheadline with secondary keyword (1 sentence)
+- Primary CTA button text
+- Image: hero image with alt text + title
 
-### First Paragraph
-Must contain: primary keyword + city + what the business does. 2-3 sentences.
+### 2. Trust Bar
+- 3-4 trust signals with numbers (years, clients, rating, certifications)
+- No images needed
 
-### SEO
-- Keyword density: 1-2% primary, 0.5-1% secondary
+### 3. Services Overview
+- One card per main service (3-6 services)
+- Each card: service name + 1-2 sentence description
+- Image per card with alt text
+
+### 4. About Teaser
+- 2-3 sentences from experience perspective
+- Mention founding year + city
+- Team/owner photo with alt text
+
+### 5. Social Proof
+- 2-3 testimonials or Google reviews
+- Real names, star ratings if available
+- Mention city in at least one
+
+### 6. Local Area
+- Mention city, district, neighborhoods served
+- "Serving [area] since [year]"
+- Map reference or local image
+
+### 7. CTA Section
+- Repeat primary CTA
+- Phone number (clickable)
+- Clear action text
+
+### 8. Footer
+- Full NAP (identical to schema)
+- Opening hours
+- Social links
+- Copyright
+
+## SEO Rules
+- H1: primary keyword + city, exactly once
 - Geo-term in first paragraph + at least one H2
-- No keyword stuffing — every mention reads naturally
+- Keyword density 1-2%
+- No keyword stuffing
 
-### E-E-A-T
-- Experience perspective ("We have been serving...")
-- Expertise (qualifications, methods, terminology)
-- Authority (years, client count, certifications)
-- Trust (NAP, reviews, local references)
-
-### CTAs
-- Above the fold (hero section)
-- After social proof section
-- End of page (before footer)
-- Action verbs: "Book", "Call", "Get", "Schedule"
-
-### Internal Links
-- Follow linking map from Phase 6
-- Keyword-rich anchor texts, varied
-- Never "click here"
-
-### Meta Tags (every page)
+## Meta Tags
 - Meta Title: Primary KW — Company — City (max 60 chars)
 - Meta Description: Benefit + CTA + Location (max 155 chars)
-- OG Title + OG Description for social sharing
-
-### FAQ (service pages only)
-- 5-7 questions, voice-search phrasing
-- 2-4 sentence answers
-- Service name + location in 2+ answers
+- OG Title + OG Description
 
 ## Content Length
-- Home: 600-1000 words
-- About: 400-700 words
-- Service: 800-1200 words
-- Contact: 200-400 words
+Homepage total: 600-1000 words across all sections.
 
-### Images per Section
-- Follow `page-sections.md` for which sections need images
-- For each image, write:
-  - **alt text**: descriptive + keyword + location (see templates in `image-strategy.md`)
-  - **title attribute**: slightly more detailed, include benefit or CTA
-  - **filename**: `[page]-[section]-[descriptor].webp`
-- Source: use scraped images from Phase 1 first, GBP second, Banana last
-- All images must be WebP (Next.js handles conversion via next/image)
-- Minimum 1024px resolution
+## Images
+- Follow alt text templates from image-strategy.md
+- Every image: alt text + title attribute
+- Filename: `home-[section]-[descriptor].webp`
 
-## Output per Page
-Complete content + meta tags + internal links list + keyword density report + image assignments with alt/title texts.
+## Output
+Complete homepage content with all sections, meta tags, and image assignments.

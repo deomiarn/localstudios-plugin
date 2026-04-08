@@ -1,36 +1,30 @@
-# Phase 8 — Schema Markup
+# Phase 8 — Schema Markup (Homepage only)
 
 ## Reference
 Load `./references/schema-templates.md` for JSON-LD templates.
 
-## Agent
-Spawn `schema-generator` agent.
+## Generate for Homepage
 
-## Schema per Page
-
-| Page | Schema Types |
-|------|-------------|
-| Home | LocalBusiness, WebSite, BreadcrumbList |
-| About | Organization/Person, BreadcrumbList |
-| Service (each) | Service, FAQPage, BreadcrumbList |
-| Contact | LocalBusiness (duplicate), BreadcrumbList |
-
-## LocalBusiness Requirements
+### 1. LocalBusiness Schema
 - Industry-specific @type (Dentist, Restaurant, Plumber, etc.)
 - Complete NAP — no empty fields
-- Opening hours in DayOfWeek format
+- Opening hours
 - `sameAs` array: Google Business Profile, social media URLs
-- `areaServed` with geo coordinates if known
-- Consistent `@id`: `[domain]/#localbusiness`
+- `areaServed` with city
+- `@id`: `[domain]/#localbusiness`
 
-## Validation Rules
+### 2. WebSite Schema
+- Company name + URL
+- SearchAction only if site has search
+
+### 3. FAQPage Schema (if FAQ section is included)
+- Questions and answers matching visible content exactly
+
+## Validation
 - No empty required fields (mark unknowns as `[PLACEHOLDER]`)
-- @id consistent across all pages
-- FAQ text matches visible content exactly
-- ISO country codes (3166-1 alpha-2)
-- ISO currency codes (4217)
-- ISO 8601 dates and times
-- Valid JSON (no trailing commas)
+- Valid JSON
+- ISO country/currency codes
+- ISO 8601 dates
 
 ## Output
-Complete `<script type="application/ld+json">` blocks per page, ready to embed.
+Complete `<script type="application/ld+json">` blocks for the homepage `<head>`.
