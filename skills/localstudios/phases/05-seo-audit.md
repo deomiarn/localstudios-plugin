@@ -1,36 +1,27 @@
-# Phase 5 — SEO Audit
+# Phase 5 — SEO Audit of Existing Website
 
-## Dependency Check
-Is `/seo` skill available AND was a URL provided in Phase 1?
-- **No** → Skip. Output: "Building new site with SEO best practices from scratch."
+## MANDATORY: Use /seo if available AND URL was provided
 
-## Agent
-Spawn `seo-auditor` agent.
+Check if `/seo` skill is loaded AND Phase 1 had a reachable URL.
 
-## Audits to Run
+### If both true — RUN THESE:
 
-1. `/seo page <url>` — on-page: H1, meta, headings, keywords, content quality
-2. `/seo technical <url>` — technical: speed, mobile, crawlability, HTTPS
-3. `/seo schema <url>` — structured data: existing markup, validation
+```
+/seo page [url]
+```
+
+Compile into a brief "fix in new site" list. Max 10 bullet points.
+
+### If /seo not available OR URL was unreachable:
+Skip. Output: "No audit — building with best practices."
 
 ## Output
 
 ```
-=== ISSUES ON EXISTING SITE ===
-
-CRITICAL (must fix in new site)
-- [ ] [issue]
-
-MAJOR (should fix)
-- [ ] [issue]
-
-MINOR (nice to fix)
-- [ ] [issue]
-
-KEEP (done right on old site)
-- [x] [positive finding]
-
-=== THESE WILL BE FIXED IN THE NEW SITE ===
+ISSUES TO AVOID IN NEW HOMEPAGE:
+- [issue 1]
+- [issue 2]
+...
 ```
 
-Feed this list as negative constraints into Phase 7 (content writing).
+Feed into Phase 7 (content writing) as constraints.

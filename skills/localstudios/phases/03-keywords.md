@@ -1,32 +1,32 @@
 # Phase 3 — Keyword Research
 
-## Dependency Check
-Are `mcp__semrush__*` tools available?
-- **No** → Use manual keywords from interview. Inform user. Skip to output.
+## MANDATORY: Use Semrush if available
 
-## Agent
-Spawn `keyword-researcher` agent.
+Check if `mcp__semrush__*` tools are available.
 
-## API Call Budget: 5 max
+### If Semrush available — USE IT (max 5 calls):
 
-| Priority | Call | When |
-|----------|------|------|
-| 1 | Keyword Overview (primary KW, user's region) | Always |
-| 2 | Keyword Variations (semantically related) | Always |
-| 3 | Geo Combinations ([service]+[city/region/district]) | Always if local |
-| 4 | Service Keywords (secondary services) | If 2+ distinct services |
-| 5 | Competitor Keywords | If competitor URL provided |
+| # | Call | Purpose |
+|---|------|---------|
+| 1 | Keyword Overview (primary KW, user's region) | Volume, difficulty, CPC |
+| 2 | Keyword Variations | 5-10 related keywords |
+| 3 | Geo Combinations ([service]+[city/region]) | Local volume |
+| 4 | Optional: secondary service keyword | If distinct service |
+| 5 | Optional: competitor keywords | If competitor URL given |
 
-Stop when budget exhausted.
+**DO NOT guess keyword volumes. Use the data from Semrush.**
+
+### If Semrush NOT available:
+Use manual keywords from interview. Inform user: "No Semrush — using your keywords without volume data."
 
 ## Output
 
 ```
-| Keyword | Volume/month | Difficulty | Target Page | Type |
-|---------|-------------|------------|-------------|------|
-| [kw]    | [vol]       | [diff]     | Home        | Primary |
-| [kw]    | [vol]       | [diff]     | Service     | Secondary |
-| [kw]    | [vol]       | [diff]     | Home+Contact| Geo |
+| Keyword | Volume | Difficulty | Role |
+|---------|--------|------------|------|
+| [kw] | [x] | [x] | Primary |
+| [kw] | [x] | [x] | Secondary |
+| [kw] | [x] | [x] | Geo |
 ```
 
-Pass keyword table to Phase 4.
+Pass to Phase 4.

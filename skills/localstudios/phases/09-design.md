@@ -1,53 +1,43 @@
 # Phase 9 — Design System
 
-## Dependency Check
-Is `/ui-ux-pro-max` skill available?
+## MANDATORY: Use /ui-ux-pro-max if available
 
-### If available — USE IT:
+Check if `/ui-ux-pro-max` skill is loaded.
 
-Invoke the ui-ux-pro-max skill directly:
+### If available — YOU MUST USE IT. No exceptions.
 
+**Step 1 — Generate design system:**
 ```
 /ui-ux-pro-max plan [industry] website for [company name] in [city]
 ```
 
-This returns:
-- Recommended UI style from 50+ options
-- Industry-specific color palette
-- Typography pairing (Google Fonts)
-- Layout pattern (e.g. "Hero-Centric + Social Proof")
-- Key effects and hover states
-- Anti-patterns to avoid for this industry
-
-Then apply the design system to the homepage by using:
-
+**Step 2 — Apply to homepage:**
 ```
 /ui-ux-pro-max build homepage with [style] for [industry]
 ```
 
-Take the output and write all design tokens into `globals.css` in Phase 10.
+Take the complete output (colors, typography, layout, effects, anti-patterns) and use it as the design foundation. Write all design tokens into `globals.css` in Phase 10.
 
-### If NOT available:
+**DO NOT:**
+- Invent your own colors
+- Pick fonts yourself
+- Skip this skill because "you can do it faster"
+- Use generic blue/white defaults
 
-Create a generic professional design system based on the interview:
+### If NOT available (skill not loaded):
+
+Only then create a generic design system:
 
 ```
-DESIGN SYSTEM
+DESIGN SYSTEM (generic — ui-ux-pro-max not available)
 Layout: Clean, card-based with clear hierarchy
-Colors: User preference from interview, or neutral professional palette
-Typography: System fonts or popular Google Fonts pairing
-CTA: High-contrast button, consistent across sections
-Mobile: Responsive, touch-friendly targets (min 44px)
+Colors: From user interview preference
+Typography: System fonts or Google Fonts pairing
+CTA: High-contrast button
+Mobile: Responsive, min 44px touch targets
 ```
 
 ## Output
 
-Design system brief with:
-- **Style**: which of the 50+ ui-ux-pro-max styles was chosen (or "generic")
-- **Colors**: primary, secondary, accent, background, text (hex codes)
-- **Typography**: heading font, body font, sizes
-- **Component styles**: buttons, cards, navigation
-- **Anti-patterns**: what to avoid for this industry
-- **Breakpoints**: 375px, 768px, 1024px, 1440px
-
-Pass to Phase 10 to write into globals.css.
+Design system brief with hex codes, font names, component styles.
+Pass to Phase 10 for globals.css.

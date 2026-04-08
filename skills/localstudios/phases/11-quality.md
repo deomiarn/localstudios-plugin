@@ -1,9 +1,33 @@
 # Phase 11 — Quality Check (Homepage)
 
-## Reference
-Load `./references/quality-checklist.md` for complete criteria.
+## MANDATORY: Use /seo skills if available
 
-## Check Categories
+Check if `/seo` skill is loaded.
+
+### If available — YOU MUST RUN THESE:
+
+**Step 1 — Validate the built homepage content:**
+```
+/seo content [homepage URL or file path]
+```
+
+**Step 2 — Validate schema markup:**
+```
+/seo schema [homepage URL or file path]
+```
+
+**Step 3 — Technical check:**
+```
+/seo technical [homepage URL or file path]
+```
+
+Incorporate all findings. Fix issues before proceeding to Phase 12.
+
+**DO NOT skip these just because you "already checked manually".**
+
+---
+
+## Manual Checklist (always run, in addition to /seo)
 
 ### SEO On-Page
 - [ ] H1 present, contains primary keyword + city
@@ -21,18 +45,14 @@ Load `./references/quality-checklist.md` for complete criteria.
 
 ### Content
 - [ ] All 8 homepage sections present in correct order
-- [ ] E-E-A-T signals (experience, credentials, local refs)
+- [ ] E-E-A-T signals present
 - [ ] No filler text, no placeholders
-- [ ] Tone consistent across sections
 - [ ] 600-1000 words total
 
 ### Images
-- [ ] All images WebP (or served as WebP via next/image)
-- [ ] All images have descriptive alt text with keywords
-- [ ] All images have title attribute
+- [ ] All images WebP with alt text + title
 - [ ] Above-fold images have `priority` prop
 - [ ] `width` and `height` set (CLS prevention)
-- [ ] No placeholder images remaining
 
 ### Conversion
 - [ ] CTA above fold (hero section)
@@ -40,11 +60,12 @@ Load `./references/quality-checklist.md` for complete criteria.
 - [ ] Phone number clickable (tel:)
 - [ ] NAP visible in footer
 
-### Technical
+### Code Quality
 - [ ] No inline `style={}` anywhere
 - [ ] All styles in globals.css
 - [ ] NAP from siteConfig only
 - [ ] `npm run build` passes
+- [ ] Design from ui-ux-pro-max was applied (not generic defaults)
 
 ## Scoring
 `[passed] / [total] — [percentage]%`
@@ -52,5 +73,3 @@ Load `./references/quality-checklist.md` for complete criteria.
 - ≥ 95%: EXCELLENT
 - 90-94%: GOOD
 - < 90%: FIX before proceeding
-
-Fix issues before Phase 12.
