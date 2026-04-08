@@ -1,99 +1,52 @@
 ---
 name: schema-generator
 description: >
-  Generates complete JSON-LD schema markup for all website pages.
-  LocalBusiness, Service, FAQ, Breadcrumb, Organization schemas.
+  Generates JSON-LD schema markup for the homepage.
+  LocalBusiness + WebSite. Industry-specific @type.
 ---
 
 # Schema Generator Agent
 
 ## Task
-Generate complete, valid JSON-LD schema markup for all pages of the website.
+Generate complete, valid JSON-LD schema for the homepage only.
 
-## Input
-- Complete NAP data from Project Brief
-- Industry / business type
-- Services list with descriptions
-- FAQ content from written pages
-- Opening hours
-- Social media and Google Business Profile URLs
-- Page structure (for breadcrumbs)
+## Schemas to Generate
 
-## Process
+### 1. LocalBusiness
+- Industry-specific @type:
+  - Dental → `["LocalBusiness", "Dentist"]`
+  - Restaurant → `["LocalBusiness", "Restaurant"]`
+  - Law → `["LocalBusiness", "LegalService"]`
+  - If unsure → `"LocalBusiness"` only
+- Complete NAP from site-config (no empty fields)
+- Opening hours in DayOfWeek format
+- `sameAs` array: GBP, social media URLs
+- `areaServed` with city
+- `@id`: `[domain]/#localbusiness`
+- `priceRange` if known
 
-### Step 1: Determine Business @type
-Map the industry to the most specific Schema.org type:
-- Dental → `["LocalBusiness", "Dentist"]`
-- Restaurant → `["LocalBusiness", "Restaurant"]`
-- Law → `["LocalBusiness", "LegalService"]`
-- Hair/Beauty → `["LocalBusiness", "HairSalon"]` or `["LocalBusiness", "BeautySalon"]`
-- Auto → `["LocalBusiness", "AutoRepair"]`
-- Medical → `["LocalBusiness", "MedicalBusiness"]`
-- Plumbing → `["LocalBusiness", "Plumber"]`
-- Electric → `["LocalBusiness", "Electrician"]`
-- Real Estate → `["LocalBusiness", "RealEstateAgent"]`
-- Accounting → `["LocalBusiness", "AccountingService"]`
-- If no specific match → `"LocalBusiness"`
+### 2. WebSite
+- Company name + URL
+- No SearchAction (single-page, no search)
 
-### Step 2: Generate Schema per Page
+### 3. Organization (if about/team info available)
+- Founding date
+- Founder name + role
+- Credentials
 
-**Home Page:**
-1. LocalBusiness (complete with all NAP, hours, sameAs, geo)
-2. WebSite (with search action only if site has search)
-3. BreadcrumbList (just Home)
+## Validation
+- No empty required fields — mark unknowns as `[PLACEHOLDER]`
+- Valid JSON (no trailing commas)
+- ISO 3166-1 alpha-2 country codes
+- ISO 4217 currency codes
+- ISO 8601 dates and times
 
-**About Page:**
-1. Organization or Person (with founder, employees, credentials)
-2. BreadcrumbList (Home > About)
+## Output
+Complete `<script type="application/ld+json">` blocks ready for `<head>`.
 
-**Each Service Page:**
-1. Service (linked to LocalBusiness via @id)
-2. FAQPage (matching visible FAQ content exactly)
-3. BreadcrumbList (Home > Services > [Service])
-
-**Contact Page:**
-1. LocalBusiness (duplicate of Home — Google recommends this)
-2. BreadcrumbList (Home > Contact)
-
-### Step 3: Validate
-
-- All required fields filled (no empty strings)
-- @id references consistent (same ID used everywhere for the business)
-- FAQ text matches visible content word-for-word
-- Country code is ISO 3166-1 alpha-2
-- Currency code is ISO 4217
-- Dates in ISO 8601
-- Opening hours in correct DayOfWeek format
-- sameAs URLs are valid
-
-## Output Format
-
-For each page, output the complete `<script type="application/ld+json">` block:
-
+```typescript
+// For lib/schema.ts
+export const localBusinessSchema = { ... }
+export const websiteSchema = { ... }
+export const organizationSchema = { ... }
 ```
-=== SCHEMA: [Page Name] ===
-
-<!-- Schema 1: [Type] -->
-<script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  ...complete JSON...
-}
-</script>
-
-<!-- Schema 2: [Type] -->
-<script type="application/ld+json">
-{
-  ...complete JSON...
-}
-</script>
-
-=== END SCHEMA ===
-```
-
-## Rules
-- Output valid JSON only (no trailing commas, correct escaping)
-- Mark unknown values as `"[PLACEHOLDER — add value]"` — never leave empty
-- Each page gets its own complete set of schema blocks
-- LocalBusiness @id must be identical everywhere: `"[domain]/#localbusiness"`
-- Test JSON validity mentally before outputting

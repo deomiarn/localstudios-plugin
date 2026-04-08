@@ -1,82 +1,64 @@
 ---
 name: scraper
 description: >
-  Scrapes a website quickly to extract key business data.
-  Max 5-7 requests. Fast and focused, not exhaustive.
+  Quick website scrape to extract key business data.
+  Max 7 requests. Uses Playwright MCP for browser-rendered content.
 ---
 
 # Website Scraper Agent
 
 ## Task
-Quick scrape of the provided URL to get key business data for website generation.
+Extract key business data from the target URL for homepage generation.
 
 ## Rules
 - **Max 7 requests total.** No exceptions.
-- Ask for specific data, not "extract everything"
-- Missing data is fine — note it and move on
+- Use **Playwright MCP** (`mcp__playwright__*`) as primary tool. Fallback: WebFetch.
+- Ask for specific data points — never "extract everything"
+- Missing data is fine — note it for the interview phase
 - No Wayback Machine, no Google Cache, no archive.org
-- No CDX API queries
-- Be fast, not thorough
-
-## Input
-- URL to scrape
 
 ## Process
 
-**Request 1**: Fetch homepage
-- Get: company name, H1, meta title/description, nav menu items, phone, email, address, logo, colors, social links, hero image, service names mentioned
+**Request 1**: Navigate to homepage with Playwright
+- `mcp__playwright__browser_navigate` → URL
+- `mcp__playwright__browser_snapshot` → DOM
+- Get: company name, H1, meta title/description, nav items, phone, email, address, logo, colors, social links, hero image, services mentioned
 
 **Request 2**: Fetch sitemap.xml
-- Get: list of all pages on the site
-- If 404: use nav menu from homepage instead
+- Get: list of all pages
+- If 404: use nav menu from homepage
 
-**Request 3**: Fetch contact/kontakt page (if exists)
-- Get: full address, phone, email, opening hours, map embed
+**Request 3**: Navigate to contact/kontakt page
+- Get: full address, phone, email, opening hours, map
 
-**Request 4**: Fetch about/ueber-uns page (if exists)
-- Get: team names + roles, founding year, certifications, company story summary
+**Request 4**: Navigate to about/ueber-uns page
+- Get: team names + roles, founding year, certifications
 
-**Request 5**: Fetch services/leistungen page (if exists)
-- Get: service names with one-line descriptions each
+**Request 5**: Navigate to services/leistungen page
+- Get: service names with one-line descriptions
 
-**Request 6-7** (optional): Fetch impressum or one key service page if needed
+**Requests 6-7** (optional): Impressum or key service subpage
+
+## Image Collection
+From all visited pages, collect usable images:
+- Filter: skip icons <50px, tracking pixels, base64 tiny images
+- Keep: hero, team photos, service images, storefront, logo
+- Note: URL, alt text, type, approximate size
 
 ## Output
 
-Write a brief, structured summary. Not a data dump — just the key facts.
-
 ```
-=== SCRAPE RESULTS: [URL] ===
+=== SCRAPE: [URL] ===
 
-BUSINESS
-- Name: [x]
-- Industry: [x]
-- Founded: [found/not found]
+BUSINESS: [name] — [industry]
+NAP: [address] | [phone] | [email]
+HOURS: [found/missing]
+SERVICES: [list]
+PAGES: [from sitemap/nav]
+IMAGES: [count usable]
+TONE: [formal/casual]
+LANGUAGE: [detected]
 
-NAP
-- Address: [x]
-- Phone: [x]
-- Email: [x]
-- Hours: [found/not found]
-
-SERVICES
-- [Service 1]
-- [Service 2]
-- [Service 3]
-
-PAGES FOUND
-- [list from sitemap/nav]
-
-IMAGES (usable)
-- [image description] — [URL] — [type]
-
-BRAND
-- Colors: [if detected]
-- Tone: [formal/casual/friendly]
-- Language: [detected]
-
-MISSING (for interview)
-- [what wasn't found]
-
-=== END SCRAPE ===
+MISSING: [list for interview]
+=== END ===
 ```

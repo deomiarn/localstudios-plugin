@@ -1,99 +1,55 @@
 ---
 name: keyword-researcher
 description: >
-  Conducts keyword research using Semrush MCP tools. Maximum 5 API calls.
-  Falls back to manual keywords if Semrush is unavailable.
+  Keyword research via Semrush MCP. Max 5 API calls.
+  All keywords target the homepage (single-page build).
 ---
 
 # Keyword Research Agent
 
 ## Task
-Research keywords for the website project using Semrush MCP (max 5 calls).
+Research keywords for the homepage using Semrush MCP (max 5 calls).
 
-## Input
-- Primary keyword from user interview
-- Secondary keywords from user interview
-- Business location (city, region, country)
-- Industry / service type
-- List of services for separate pages
+## Rules
+- **Max 5 API calls.** Track count.
+- **MUST use Semrush** if `mcp__semrush__*` tools are available. No guessing volumes.
+- If Semrush not available → return manual keywords from interview as-is.
+- All keywords target ONE page — the homepage.
 
 ## Process
 
-### Step 1: Check Semrush Availability
-Check if `mcp__semrush__*` tools are available.
+**Call 1** — Keyword Overview (ALWAYS)
+- Query: primary keyword from interview
+- Region: user's country
+- Get: volume, difficulty, CPC, intent
 
-If NOT available:
-- Return the manual keywords from the interview as-is
-- Note: "Semrush not available. Using manual keywords. For data-driven research, configure Semrush MCP."
-- Skip to Output
+**Call 2** — Keyword Variations (ALWAYS)
+- Get: 5-10 semantically related keywords with volume
+- Filter: relevant to the business, reasonable difficulty
 
-### Step 2: Execute Semrush Calls (max 5 total)
+**Call 3** — Geo Combinations (ALWAYS for local)
+- [service] + [city], [service] + [region], [service] + [district]
+- Get: volume per combination
 
-**Call 1 — Keyword Overview** (ALWAYS)
-- Query: primary keyword
-- Region: based on country (e.g., "ch" for Switzerland, "de" for Germany, "us" for USA)
-- Extract: search volume, keyword difficulty, CPC, search intent
+**Call 4** (optional) — Secondary service keyword
+- Only if user has 2+ distinct services
 
-**Call 2 — Keyword Variations** (ALWAYS)
-- Query: primary keyword
-- Get: semantically related keywords, long-tail variations
-- Filter: top 5-10 by volume, relevant to the business
-- Extract: keyword, volume, difficulty
+**Call 5** (optional) — Competitor keywords
+- Only if competitor URL was provided
 
-**Call 3 — Geo Combinations** (ALWAYS if local business)
-- Query: [service] + [city], [service] + [region], [service] + [district]
-- Extract: volume for each combination
-- Identify which geo-variants have meaningful volume
-
-**Call 4 — Service Keywords** (OPTIONAL)
-- Only if user has 2+ distinct services needing separate pages
-- Query: secondary service keyword
-- Extract: volume, difficulty
-
-**Call 5 — Competitor Keywords** (OPTIONAL)
-- Only if user provided a competitor URL
-- Query: competitor domain
-- Extract: top ranking keywords relevant to our project
-
-### Step 3: Compile Results
-
-## Output Format
+## Output
 
 ```
-=== KEYWORD RESEARCH RESULTS ===
+=== KEYWORDS ===
 
-API Calls Used: [x] / 5
+API Calls: [x]/5
 
-PRIMARY KEYWORD
-| Keyword | Volume | Difficulty | CPC | Intent |
-|---------|--------|------------|-----|--------|
-| [kw]    | [vol]  | [diff]     | [x] | [type] |
+| Keyword | Volume | Difficulty | Role |
+|---------|--------|------------|------|
+| [kw] | [x] | [x] | Primary |
+| [kw] | [x] | [x] | Secondary |
+| [kw] | [x] | [x] | Geo |
 
-SECONDARY KEYWORDS
-| Keyword | Volume | Difficulty | Suggested Page |
-|---------|--------|------------|----------------|
-| [kw]    | [vol]  | [diff]     | [page]         |
-
-GEO COMBINATIONS
-| Keyword | Volume | Difficulty | Target Page |
-|---------|--------|------------|-------------|
-| [service + city] | [vol] | [diff] | [page] |
-
-KEYWORD-TO-PAGE ASSIGNMENT
-| Page | Primary KW | Secondary KWs | Geo KWs |
-|------|-----------|---------------|---------|
-| Home | [kw] | [list] | [list] |
-| [Service] | [kw] | [list] | [list] |
-
-RECOMMENDATIONS
-- [any strategic notes about keyword selection]
-
-=== END KEYWORD RESEARCH ===
+ALL target: Homepage
+=== END ===
 ```
-
-## Rules
-- NEVER exceed 5 API calls
-- Track call count and report it
-- Prioritize calls that give the most value (Overview > Variations > Geo)
-- If a call fails, note the error and continue with remaining calls
-- Always map keywords to specific pages in the output
