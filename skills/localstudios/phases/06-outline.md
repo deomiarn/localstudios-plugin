@@ -49,3 +49,28 @@ Rules:
 Show complete outline + linking map. Ask: "Approve this structure? Any changes?"
 
 Do not proceed to Phase 7 until approved.
+
+## Create docs/pages/ Documentation
+
+After user approves the outline, create a documentation file per page in `docs/pages/`:
+
+```
+docs/pages/
+├── home.md
+├── about.md
+├── service-[name].md    (one per service)
+└── contact.md
+```
+
+Use the per-page template from `./references/docs-structure.md`. Fill in:
+- **Purpose**: page type (Money Page / Informational / Trust / Conversion / Navigational)
+- **Goal**: what this page should achieve
+- **Keywords**: primary, secondary, geo — with density targets
+- **Meta**: title, description, OG tags (with char counts)
+- **Headings**: H1 + all H2s with keyword intent
+- **GEO Signals**: where city/district/region are mentioned
+- **Schema**: which schema types go on this page
+- **Internal Links**: outgoing + incoming with anchor texts
+- **Notes**: anything specific
+
+These docs are the **page-level source of truth**. Claude Code reads them before editing any page.

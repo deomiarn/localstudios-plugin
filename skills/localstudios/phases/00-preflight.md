@@ -28,6 +28,12 @@ The user typically starts in an **empty directory**. Set it up:
 ```markdown
 # [Project Name]
 
+## Project Documentation — READ FIRST
+- **`docs/BUSINESS.md`** — all business facts (NAP, hours, services, USPs)
+- **`docs/SEO-STRATEGY.md`** — keyword targets, geo strategy, linking map
+- **`docs/pages/[page].md`** — per-page: purpose, keywords, SEO, GEO signals
+- **Update docs/** when making changes — keep in sync with code
+
 ## Styling Rules — CRITICAL
 - **ALL styles in `app/globals.css`** — read it before any style change
 - Never use inline `style={}` props
@@ -36,7 +42,8 @@ The user typically starts in an **empty directory**. Set it up:
 - Tailwind utility classes in JSX are OK
 
 ## NAP Data
-All business data lives in `lib/site-config.ts`. Never hardcode in multiple places.
+All business data lives in `lib/site-config.ts` AND `docs/BUSINESS.md`.
+Components read from site-config.ts — never hardcode in multiple places.
 ```
 
 5. **Inform the user**:

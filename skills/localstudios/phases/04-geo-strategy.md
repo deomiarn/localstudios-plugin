@@ -35,3 +35,13 @@ Keyword-to-page assignment table:
 ```
 
 Show table to user before proceeding.
+
+## Create docs/SEO-STRATEGY.md
+
+After completing the keyword-to-page map, create `docs/SEO-STRATEGY.md` using the template from `./references/docs-structure.md`. Include:
+- Primary keyword with volume/difficulty
+- Full keyword map table with page assignments, types, and intent
+- Geo targeting summary (primary city, districts, region)
+- Internal linking map with anchor texts
+- Competitor info if available
+- Data source (Semrush / Manual / Interview) and date
