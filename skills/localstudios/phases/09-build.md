@@ -94,7 +94,10 @@ Search queries per section:
 **If 21st.dev NOT available:**
 Build components with shadcn primitives directly.
 
-### Step 6 — Build Section Components
+### Step 6 — Build Section Components (MUST use /frontend-design)
+
+**If `/frontend-design` skill is loaded, invoke it** for building the components.
+It ensures distinctive, production-grade code — not generic AI-looking output.
 
 One file per section in `components/sections/`:
 ```

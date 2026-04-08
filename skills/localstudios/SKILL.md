@@ -63,6 +63,7 @@ Creates a **single homepage** to pitch the client. Run phases in parallel where 
 | Tool | When Available | Action | NEVER do instead |
 |------|---------------|--------|------------------|
 | `/ui-ux-pro-max` | Phase 8 | MUST call `/ui-ux-pro-max plan` + `/ui-ux-pro-max build` | Do NOT invent your own design |
+| `/frontend-design` | Phase 9 | MUST use for high-quality, distinctive frontend code | Do NOT write generic-looking components |
 | 21st.dev Inspiration | Phase 9 | MUST use `mcp__magic__21st_magic_component_inspiration` (FREE) to find proven layouts before building | Do NOT skip inspiration and build from scratch |
 | `/seo page` | Phase 10 | MUST call `/seo page` to validate the NEW homepage | Do NOT skip SEO validation |
 | `/seo schema` | Phase 10 | MUST call `/seo schema` to validate markup | Do NOT assume schema is correct |
@@ -86,6 +87,7 @@ Creates a **single homepage** to pitch the client. Run phases in parallel where 
 | Semrush MCP | `mcp__semrush__*` | Manual keywords from interview |
 | shadcn MCP | `mcp__shadcn__*` | Install components via CLI |
 | 21st.dev Magic MCP | `mcp__magic__*` | Build components manually with shadcn |
+| frontend-design | `/frontend-design` skill loaded | Auto-install via npx |
 | claude-seo | `/seo` skill loaded | Skip QA validation |
 | ui-ux-pro-max | `/ui-ux-pro-max` loaded | Generic design system |
 

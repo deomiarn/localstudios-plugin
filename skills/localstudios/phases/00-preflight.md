@@ -24,6 +24,7 @@
 | **Playwright MCP** | `claude mcp add playwright -- npx @anthropic-ai/mcp-server-playwright` |
 | **Semrush MCP** | `claude mcp add semrush https://mcp.semrush.com/v1/mcp -t http` |
 | **shadcn MCP** | Write `.mcp.json` with `{"mcpServers":{"shadcn":{"command":"npx","args":["shadcn@latest","mcp"]}}}` |
+| **frontend-design skill** | `npx claude-code-templates@latest --skill creative-design/frontend-design` |
 
 ### Requires User API Key (guided setup)
 
@@ -51,6 +52,10 @@
 **Semrush**: Check if `mcp__semrush__*` tools are available.
 - If NOT → run: `claude mcp add semrush https://mcp.semrush.com/v1/mcp -t http`
 - Requires one-time OAuth via `/mcp` → Semrush → Authenticate
+
+**frontend-design skill**: Check if `/frontend-design` skill is loaded.
+- If NOT → run: `npx claude-code-templates@latest --skill creative-design/frontend-design`
+- This installs the creative design skill for high-quality frontend output
 
 **shadcn**: Check if `mcp__shadcn__*` tools are available.
 - If NOT → write `.mcp.json` in the project directory:
@@ -141,6 +146,7 @@ AUTO-CONFIGURED
   Playwright MCP ..... ✅ Ready / 🔧 Just installed
   Semrush MCP ........ ✅ Ready / 🔧 Just installed
   shadcn MCP ......... ✅ Ready / 🔧 Just installed
+  frontend-design .... ✅ Ready / 🔧 Just installed
 
 21ST.DEV
   Magic MCP .......... ✅ Ready (global) / 🔧 Just configured / ❌ Skipped
