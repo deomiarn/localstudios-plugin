@@ -1,0 +1,25 @@
+{
+  "$schema": "https://anthropic.com/claude-code/marketplace.schema.json",
+  "name": "localstudios-marketplace",
+  "owner": {
+    "name": "LocalStudios"
+  },
+  "metadata": {
+    "description": "LocalStudios plugin marketplace — website generation and SEO tools",
+    "version": "1.0.0"
+  },
+  "plugins": [
+    {
+      "name": "localstudios",
+      "source": "./",
+      "description": "Website generation plugin. Scrapes, researches keywords, writes SEO content, generates schema markup, and builds websites via Google Stitch.",
+      "version": "1.0.0",
+      "author": {
+        "name": "LocalStudios"
+      },
+      "keywords": ["website-generator", "seo", "local-seo"],
+      "category": "productivity",
+      "strict": false
+    }
+  ]
+}

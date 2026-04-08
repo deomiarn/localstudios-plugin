@@ -1,0 +1,20 @@
+{
+  "name": "localstudios",
+  "version": "1.0.0",
+  "description": "Website generation plugin by LocalStudios. Scrapes existing websites, conducts keyword research, creates SEO-optimized content, generates schema markup, and builds complete websites via Google Stitch.",
+  "author": {
+    "name": "LocalStudios",
+    "url": "https://github.com/localstudios"
+  },
+  "license": "MIT",
+  "homepage": "https://github.com/localstudios/localstudios-plugin",
+  "repository": "https://github.com/localstudios/localstudios-plugin",
+  "keywords": [
+    "website-generator",
+    "seo",
+    "local-seo",
+    "schema-markup",
+    "stitch",
+    "design-system"
+  ]
+}
