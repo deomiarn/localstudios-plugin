@@ -142,8 +142,8 @@ AUTO-CONFIGURED
   Semrush MCP ........ ✅ Ready / 🔧 Just installed
   shadcn MCP ......... ✅ Ready / 🔧 Just installed
 
-USER KEY REQUIRED
-  21st.dev Magic ..... ✅ Ready / 🔧 Just configured / ❌ Skipped
+21ST.DEV
+  Magic MCP .......... ✅ Ready (global) / 🔧 Just configured / ❌ Skipped
 
 OPTIONAL
   claude-seo ......... ✅ / ❌ → fallback: best practices
