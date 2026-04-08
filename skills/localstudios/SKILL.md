@@ -34,26 +34,36 @@ Parse the first argument:
 
 Creates a **single homepage** to pitch the client. Not a full website — just one strong page that shows what's possible.
 
-Execute phases 0-12 sequentially. Load each phase file **only when that phase begins**.
+Load each phase file **only when that phase begins**. Run phases in parallel where possible.
 
-| Phase | File | Pause? |
-|-------|------|--------|
-| 0. Preflight | `./phases/00-preflight.md` | WAIT |
-| 1. Scrape | `./phases/01-scrape.md` | |
-| 2. Interview | `./phases/02-interview.md` | WAIT |
-| 3. Keywords | `./phases/03-keywords.md` | |
-| 4. Geo-Strategy | `./phases/04-geo-strategy.md` | |
-| 5. SEO Audit | `./phases/05-seo-audit.md` | |
-| 6. Outline | `./phases/06-outline.md` | WAIT |
-| 7. Content | `./phases/07-content.md` | |
-| 8. Schema | `./phases/08-schema.md` | |
-| 9. Design | `./phases/09-design.md` | |
-| 10. Build | `./phases/10-build.md` | |
-| 11. QA | `./phases/11-quality.md` | |
-| 12. Report | `./phases/12-report.md` | |
+| Phase | File | Pause? | Group |
+|-------|------|--------|-------|
+| 0. Preflight | `./phases/00-preflight.md` | WAIT | — |
+| 1. Scrape | `./phases/01-scrape.md` | | — |
+| 2. Interview | `./phases/02-interview.md` | WAIT | — |
+| 3. Keywords | `./phases/03-keywords.md` | | ⬇ parallel |
+| 4. Geo-Strategy | `./phases/04-geo-strategy.md` | | ⬇ after 3 |
+| 5. SEO Audit | `./phases/05-seo-audit.md` | | ⬇ parallel with 3 |
+| 6. Outline | `./phases/06-outline.md` | WAIT | — |
+| 7. Content | `./phases/07-content.md` | | ⬇ parallel |
+| 8. Schema | `./phases/08-schema.md` | | ⬇ parallel with 7 |
+| 9. Design | `./phases/09-design.md` | | ⬇ parallel with 7+8 |
+| 10. Build | `./phases/10-build.md` | | — (needs 7+8+9) |
+| 11. QA | `./phases/11-quality.md` | | — |
+| 12. Report | `./phases/12-report.md` | | — |
 
-### Rules
-- Never skip phases — execute in order
+### Parallelization Rules
+
+**Always run phases in parallel when they don't depend on each other:**
+
+- **Phases 3+5 parallel**: Keyword research and SEO audit can run at the same time (both only need interview data)
+- **Phase 4 after 3**: Geo-strategy needs keyword results
+- **Phases 7+8+9 parallel**: Content writing, schema generation, and design system are independent. Run all three at the same time.
+- **Phase 10 waits for 7+8+9**: Build needs content, schema, and design to be done.
+
+**Use subagents for parallel work.** Spawn multiple agents in a single message.
+
+### Other Rules
 - WAIT = do not proceed until user responds
 - Load reference files on demand (see each phase)
 - This generates ONE page only — the homepage
