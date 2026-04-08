@@ -90,23 +90,9 @@ Components read from site-config.ts — never hardcode in multiple places.
 
 ---
 
-## Step 2 — Check if restart needed
+## Step 2 — Show Dashboard and Decide
 
-After running all install commands, check if the MCPs are connecting.
-
-**If ANY tool was just installed and is not yet available:**
-```
-Tools were just configured. They load at startup.
-→ Type /exit, then run 'claude' again.
-→ Then re-run: /localstudios generate <url>
-```
-**Stop here.** User restarts once, re-runs, everything is ready.
-
----
-
-## Step 3 — Show Status Dashboard
-
-Only show this AFTER all install commands have been run.
+Show the status AFTER running all install commands:
 
 ```
 === LOCALSTUDIOS PREFLIGHT CHECK ===
@@ -115,27 +101,30 @@ PROJECT
   Directory .......... [current working directory]
   CLAUDE.md .......... ✅ Created
 
-INSTALLED
-  Playwright MCP ..... ✅ Ready / 🔧 Restart needed
-  Semrush MCP ........ ✅ Ready / 🔧 Restart needed
-  shadcn MCP ......... ✅ Ready / 🔧 Restart needed
-  frontend-design .... ✅ Ready / 🔧 Restart needed
-
-BLOCKS
-  shadcnblocks ....... ✅ Key provided
+TOOLS
+  Playwright MCP ..... ✅ / 🔧 Installed
+  Semrush MCP ........ ✅ / 🔧 Installed
+  shadcn MCP ......... ✅ / 🔧 Installed
+  frontend-design .... ✅ / 🔧 Installed
+  shadcnblocks ....... ✅ Key stored
 
 OPTIONAL
-  claude-seo ......... ✅ / ❌ → fallback: best practices
+  claude-seo ......... ✅ / ❌
 
-=== READY ===
+=== STATUS ===
 ```
 
----
+## Step 3 — ALWAYS restart if anything was just installed
 
-## Step 4 — Proceed
+**If ANY tool was just installed or configured in Step 1 (even one):**
 
-**If any tool shows 🔧 Restart needed:**
-→ Tell user to restart. Stop.
+```
+Setup complete. Restart needed to load all tools.
+→ Type /exit, then run 'claude' again.
+→ Then re-run: /localstudios generate <url>
+```
 
-**If all show ✅:**
-→ Start Phase 1 immediately. No confirmation needed.
+**STOP. Do NOT proceed to Phase 1. Do NOT use fallbacks. Do NOT say "CLI fallback is fine".**
+**The restart ensures ALL tools are properly loaded. No exceptions.**
+
+**Only proceed to Phase 1 if this is a RE-RUN after restart and all tools show ✅.**
