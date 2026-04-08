@@ -1,4 +1,4 @@
-# Phase 11 — Quality Check (Homepage)
+# Phase 10 — Quality Check (NEW Homepage)
 
 ## MANDATORY: Use /seo skills if available
 
@@ -21,7 +21,9 @@ Check if `/seo` skill is loaded.
 /seo technical [homepage URL or file path]
 ```
 
-Incorporate all findings. Fix issues before proceeding to Phase 12.
+Incorporate all findings. Fix issues before proceeding to Phase 11.
+
+**This audits the NEW homepage we just built — NOT the old website.**
 
 **DO NOT skip these just because you "already checked manually".**
 
