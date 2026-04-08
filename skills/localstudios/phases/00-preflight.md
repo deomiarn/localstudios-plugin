@@ -21,7 +21,7 @@
 
 | Tool | How Plugin Sets It Up |
 |------|----------------------|
-| **Playwright MCP** | `claude mcp add playwright -- npx @anthropic-ai/mcp-server-playwright` |
+| **Browser MCP** | Check for `mcp__MCP_DOCKER__browser_navigate` OR `mcp__playwright__*` — use whichever is available. Only install Playwright if neither exists: `claude mcp add playwright -- npx @anthropic-ai/mcp-server-playwright` |
 | **Semrush MCP** | `claude mcp add semrush https://mcp.semrush.com/v1/mcp -t http` |
 | **shadcn MCP** | Write `.mcp.json` with `{"mcpServers":{"shadcn":{"command":"npx","args":["shadcn@latest","mcp"]}}}` |
 | **frontend-design skill** | `npx claude-code-templates@latest --skill creative-design/frontend-design` |
@@ -45,8 +45,10 @@
 
 ### 1a. Auto-configure MCP servers
 
-**Playwright**: Check if `mcp__playwright__*` tools are available.
-- If NOT → run: `claude mcp add playwright -- npx @anthropic-ai/mcp-server-playwright`
+**Browser**: Check for browser tools in this order:
+1. `mcp__MCP_DOCKER__browser_navigate` → use MCP Docker (already installed)
+2. `mcp__playwright__*` → use Playwright MCP
+3. Neither → run: `claude mcp add playwright -- npx @anthropic-ai/mcp-server-playwright`
 
 **Semrush**: Check if `mcp__semrush__*` tools are available.
 - If NOT → run: `claude mcp add semrush https://mcp.semrush.com/v1/mcp -t http`
@@ -117,7 +119,7 @@ PROJECT
   CLAUDE.md .......... ✅ Ready
 
 AUTO-CONFIGURED
-  Playwright MCP ..... ✅ Ready / 🔧 Just installed
+  Browser ............ ✅ MCP Docker / ✅ Playwright / 🔧 Just installed
   Semrush MCP ........ ✅ Ready / 🔧 Just installed
   shadcn MCP ......... ✅ Ready / 🔧 Just installed
   frontend-design .... ✅ Ready / 🔧 Just installed

@@ -5,6 +5,12 @@
 ## Agent
 Spawn `scraper` agent with the URL.
 
+## Browser Tool
+Use whatever is available (checked in Phase 0):
+1. `mcp__MCP_DOCKER__browser_navigate` + `browser_snapshot` (if MCP Docker)
+2. `mcp__playwright__browser_navigate` + `browser_snapshot` (if Playwright)
+3. WebFetch (fallback)
+
 ## Process
 
 ### Step 1 — Fetch Homepage (1 request)
