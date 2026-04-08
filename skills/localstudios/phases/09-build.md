@@ -36,7 +36,16 @@ npx shadcn@latest init --preset b0 --template next
 ```
 
 ### Step 2 — shadcnblocks Registry
-Registry in `components.json` (API Key aus Phase 0):
+
+**CRITICAL: API Key gehört in .env.local, NIEMALS direkt in components.json.**
+
+**Step 2a** — Key in `.env.local` speichern (falls nicht schon in Phase 0 geschehen):
+```bash
+echo 'SHADCNBLOCKS_API_KEY=[key from Phase 0]' >> .env.local
+```
+Stelle sicher dass `.env.local` in `.gitignore` steht.
+
+**Step 2b** — Registry in `components.json` mit ENV-Referenz:
 ```json
 {
   "registries": {
@@ -49,6 +58,18 @@ Registry in `components.json` (API Key aus Phase 0):
   }
 }
 ```
+`${SHADCNBLOCKS_API_KEY}` wird automatisch aus der Umgebungsvariable gelesen.
+Der echte Key steht NUR in `.env.local`.
+
+**Step 2c** — Beim Installieren von Blocks die ENV-Variable laden:
+```bash
+source .env.local && npx shadcn add @shadcnblocks/[name]
+```
+
+**VERBOTEN:**
+- Key direkt in components.json als String (`"Bearer sk_live_..."`)
+- Key in irgendeiner Datei die committed wird
+- Key loggen oder in Output anzeigen
 
 ### Step 3 — globals.css (EXAKT aus MASTER.md)
 

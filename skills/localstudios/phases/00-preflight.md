@@ -54,7 +54,12 @@ shadcnblocks API key is required for building the homepage.
 ```
 
 **Do NOT proceed without the key.** Wait until the user provides it.
-Store for Phase 9 (environment variable, NEVER commit to code).
+Immediately save to `.env.local`:
+```bash
+echo 'SHADCNBLOCKS_API_KEY=[user's key]' >> .env.local
+```
+Ensure `.env.local` is in `.gitignore`.
+NEVER put the key directly in `components.json` or any committed file.
 
 ### 1e. frontend-design skill
 ```bash
