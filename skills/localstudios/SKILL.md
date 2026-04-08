@@ -5,7 +5,7 @@ description: >
   to scrape an existing website, conduct keyword research, create SEO-optimized content,
   generate schema markup, design the UI, and build a Next.js + shadcn/ui website.
 user-invokable: true
-argument-hint: "[command] [url]"
+argument-hint: "[generate] [url]"
 license: MIT
 metadata:
   author: LocalStudios
