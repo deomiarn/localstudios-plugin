@@ -3,31 +3,51 @@
 ## Dependency Check
 Is `/ui-ux-pro-max` skill available?
 
-### If available:
-Use ui-ux-pro-max to generate industry-specific design system:
-- Input: industry/service type + company name from Project Brief
-- Output: layout pattern, color palette, typography, effects, anti-patterns
+### If available — USE IT:
+
+Invoke the ui-ux-pro-max skill directly:
+
+```
+/ui-ux-pro-max plan [industry] website for [company name] in [city]
+```
+
+This returns:
+- Recommended UI style from 50+ options
+- Industry-specific color palette
+- Typography pairing (Google Fonts)
+- Layout pattern (e.g. "Hero-Centric + Social Proof")
+- Key effects and hover states
+- Anti-patterns to avoid for this industry
+
+Then apply the design system to the homepage by using:
+
+```
+/ui-ux-pro-max build homepage with [style] for [industry]
+```
+
+Take the output and write all design tokens into `globals.css` in Phase 10.
 
 ### If NOT available:
-Create generic professional design system:
+
+Create a generic professional design system based on the interview:
 
 ```
 DESIGN SYSTEM
 Layout: Clean, card-based with clear hierarchy
 Colors: User preference from interview, or neutral professional palette
 Typography: System fonts or popular Google Fonts pairing
-CTA: High-contrast button, consistent across all pages
+CTA: High-contrast button, consistent across sections
 Mobile: Responsive, touch-friendly targets (min 44px)
 ```
 
-## Design System Brief
+## Output
 
-Output should cover:
-- **Layout pattern** (e.g. "Hero-Centric + Social Proof")
-- **Color palette** (primary, secondary, accent, background, text)
-- **Typography** (heading font, body font, sizes, line heights)
-- **Component styles** (buttons, cards, forms, navigation)
-- **Anti-patterns** to avoid for this industry
-- **Responsive breakpoints**: 375px, 768px, 1024px, 1440px
+Design system brief with:
+- **Style**: which of the 50+ ui-ux-pro-max styles was chosen (or "generic")
+- **Colors**: primary, secondary, accent, background, text (hex codes)
+- **Typography**: heading font, body font, sizes
+- **Component styles**: buttons, cards, navigation
+- **Anti-patterns**: what to avoid for this industry
+- **Breakpoints**: 375px, 768px, 1024px, 1440px
 
-Pass design brief to Phase 10.
+Pass to Phase 10 to write into globals.css.
