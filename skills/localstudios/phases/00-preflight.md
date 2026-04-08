@@ -5,17 +5,19 @@
 
 ---
 
-## Step 1 — Project Directory Setup
+## Required MCP Configurations
 
-The user typically starts in an **empty directory**. Set it up automatically:
+These are the exact configs. Use them verbatim — no alternatives.
 
-### 1a. Set up MCP servers
+### Semrush MCP
+```
+claude mcp add semrush https://mcp.semrush.com/v1/mcp -t http
+```
+- Requires one-time OAuth authentication via `/mcp` → select Semrush → Authenticate
+- Provides: keyword volume, difficulty, CPC, intent, variations
 
-**Check if Semrush MCP is available** (`mcp__semrush__*` tools):
-- If NOT → run: `claude mcp add semrush https://mcp.semrush.com/v1/mcp -t http`
-
-**Check if shadcn MCP is available** (`mcp__shadcn__*` tools):
-- If NOT → create or overwrite `.mcp.json` in the project directory with:
+### shadcn MCP
+Write this exact `.mcp.json` in the project directory:
 ```json
 {
   "mcpServers": {
@@ -26,12 +28,30 @@ The user typically starts in an **empty directory**. Set it up automatically:
   }
 }
 ```
-- **IMPORTANT**: Do NOT use the old URL-based config (`@anthropic-ai/claude-code-mcp` + `shadcn-mcp.vercel.app`). That is broken. Use exactly the config above.
+- Provides: component discovery, search, installation via natural language
+
+### Stitch MCP
+- Pre-configured globally by user as `stitch` in `~/.claude.json`
+- Provides: visual website generation via Google Stitch
+
+---
+
+## Step 1 — Project Directory Setup
+
+The user typically starts in an **empty directory**. Set it up automatically:
+
+### 1a. Set up MCP servers
+
+**Semrush**: Check if `mcp__semrush__*` tools are available.
+- If NOT → run: `claude mcp add semrush https://mcp.semrush.com/v1/mcp -t http`
+
+**shadcn**: Check if `mcp__shadcn__*` tools are available.
+- If NOT → write the `.mcp.json` file above into the project directory.
+- If `.mcp.json` already exists but shadcn is failing → overwrite it with the exact config above.
 
 ### 1b. Create CLAUDE.md
 
-**Check if `CLAUDE.md` exists** in the current working directory.
-**If not → create it:**
+Check if `CLAUDE.md` exists in the current working directory. If not, create it:
 
 ```markdown
 # [Project Name]
@@ -58,28 +78,26 @@ Components read from site-config.ts — never hardcode in multiple places.
 
 After running MCP setup commands, check if the MCPs are now available.
 
-**If any MCP was just added and is still not available:**
+If any MCP was just added and is still not connecting:
 ```
-⚠ MCP servers were just configured. They load at startup.
-→ Restarting Claude Code is needed. Type /exit, then run 'claude' again.
+MCP servers were just configured. They load at startup.
+→ Type /exit, then run 'claude' again.
 → Then re-run: /localstudios generate <url>
 ```
-**Stop the workflow here.** The user only needs to restart and re-run the command — everything else is already set up.
+**Stop the workflow here.** The user only needs to restart and re-run — everything else is already set up.
 
 ---
 
 ## Step 2 — Check All Dependencies
 
-Test each tool by checking if its functions are available:
-
-| Dependency | How to Check | Auto-Setup? |
-|-----------|-------------|-------------|
-| WebFetch | Try calling WebFetch | Built-in, always available |
-| Semrush MCP | Check for `mcp__semrush__*` tools | Yes → `claude mcp add semrush ...` |
-| claude-seo | Check if `/seo` skill is loaded | No → plugin, user must install |
-| ui-ux-pro-max | Check if `/ui-ux-pro-max` skill is loaded | No → plugin, user must install |
-| shadcn MCP | Check for `mcp__shadcn__*` tools | Yes → `npx shadcn@latest mcp init --client claude` |
-| Stitch MCP | Check for `mcp__stitch__*` tools | No → user must configure |
+| Dependency | Check | Auto-Setup | Fallback |
+|-----------|-------|------------|----------|
+| WebFetch | Built-in | — | User provides info manually |
+| Semrush MCP | `mcp__semrush__*` | `claude mcp add ...` | Manual keywords from interview |
+| shadcn MCP | `mcp__shadcn__*` | Write `.mcp.json` | Components via `npx shadcn@latest add` |
+| claude-seo | `/seo` skill loaded | Cannot auto-install | Skip audit, use best practices |
+| ui-ux-pro-max | `/ui-ux-pro-max` loaded | Cannot auto-install | Generic design system |
+| Stitch MCP | `mcp__stitch__*` | Cannot auto-install | Next.js project generated locally |
 
 ---
 
@@ -92,11 +110,11 @@ PROJECT
   Directory .......... [current working directory]
   CLAUDE.md .......... ✅ Ready
 
-MCP SERVERS
+MCP SERVERS (auto-configured)
   Semrush ............ ✅ Ready / 🔧 Just installed (restart needed)
   shadcn ............. ✅ Ready / 🔧 Just installed (restart needed)
 
-PLUGINS
+PLUGINS (require manual install)
   claude-seo ......... ✅ Ready / ❌ Not installed
                        → Without: no audit of existing site
   ui-ux-pro-max ...... ✅ Ready / ❌ Not installed
@@ -118,7 +136,7 @@ OTHER
 → Tell user to restart and re-run. Stop here.
 
 **If plugins are missing (claude-seo, ui-ux-pro-max):**
-- These cannot be auto-installed — they are Claude Code plugins
+- These are Claude Code plugins that cannot be auto-installed
 - Show what will be skipped and the fallback
 - Offer setup instructions if user wants:
   - **claude-seo**: `curl -fsSL https://raw.githubusercontent.com/AgriciDaniel/claude-seo/main/install.sh | bash`
