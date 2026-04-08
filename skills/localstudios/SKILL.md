@@ -81,7 +81,7 @@ Creates a **single homepage** to pitch the client. Run phases in parallel where 
 
 | Tool | Check | Fallback |
 |------|-------|----------|
-| Browser MCP | `mcp__MCP_DOCKER__*` or `mcp__playwright__*` | WebFetch |
+| Playwright MCP | `mcp__playwright__*` | WebFetch |
 | Semrush MCP | `mcp__semrush__*` | Manual keywords |
 | shadcn MCP | `mcp__shadcn__*` | CLI install |
 | shadcnblocks | Registry in components.json | Build from scratch with shadcn |

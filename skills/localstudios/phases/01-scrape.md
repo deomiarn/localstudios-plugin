@@ -6,10 +6,10 @@
 Spawn `scraper` agent with the URL.
 
 ## Browser Tool
-Use whatever is available (checked in Phase 0):
-1. `mcp__MCP_DOCKER__browser_navigate` + `browser_snapshot` (if MCP Docker)
-2. `mcp__playwright__browser_navigate` + `browser_snapshot` (if Playwright)
-3. WebFetch (fallback)
+Use Playwright MCP (auto-installed in Phase 0):
+- `mcp__playwright__browser_navigate` — open URL
+- `mcp__playwright__browser_snapshot` — get rendered DOM
+- Fallback: WebFetch (if Playwright not available)
 
 ## Process
 
