@@ -1,68 +1,42 @@
 # Scraping Checklist
 
-Extract the following data points from the target website. Mark each as FOUND or NOT FOUND.
+## Essential (try to get in max 7 requests)
+- Company name
+- Phone number
+- Email address
+- Street address, postal code, city, region, country
+- Services list (names + brief descriptions)
+- Opening hours
+- Navigation structure (= which pages exist)
+- Logo URL
+- Hero/main image
+- Language
+- Tone (formal/casual)
 
-## Business Information
-- Company name (from title, logo, header, footer, impressum)
-- Industry / business category
-- Tagline or slogan
-- Year founded (from about page or footer)
+## Nice to Have (only if found while getting essentials)
+- Founding year
+- Team member names and roles
+- Certifications / awards
+- Testimonials / reviews
+- Social media URLs
+- Google Business Profile URL
+- Brand colors
+- Meta titles and descriptions
+- Existing schema markup
+- Service images
+- Team photos
 
-## Services & Products
-- List of all services or products mentioned
-- Main/primary service (most prominent)
-- Service descriptions and details
-- Pricing information if visible
-
-## Contact & Location (NAP)
-- Full business name (legal name if visible)
-- Street address
-- Postal code / ZIP
-- City
-- State / Region / Canton
-- Country
-- Phone number(s)
-- Email address(es)
-- Contact form present? Yes/No
-
-## Geographic Signals
-- Primary city served
-- Additional locations or service areas mentioned
-- Regional references (districts, neighborhoods, cantons, states)
-- Google Maps embed present? Yes/No
-
-## Content & Tone
-- Existing page titles (H1s)
-- Writing tone: formal / casual / technical / friendly
-- Language(s) used on the site
-- USPs or value propositions mentioned
-- Testimonials or reviews displayed
-- Team member names and roles (from about page)
-- Certifications, awards, memberships mentioned
-
-## Technical & Brand
-- Logo present and identifiable
-- Primary brand colors (from CSS or visual inspection)
-- Font choices if identifiable
-- Social media links (Google Business, Facebook, Instagram, LinkedIn, etc.)
-- Current number of pages
-- Existing page structure (list all navigation items)
-- Current meta titles and descriptions
-- Existing schema markup (check for JSON-LD in source)
-- Mobile-responsive? (viewport meta tag present?)
-
-## SEO Signals
-- Keywords naturally present in existing headings
-- Keywords in meta titles/descriptions
-- Alt text usage on images
-- Internal linking patterns
+## Skip (not worth extra requests)
+- Blog posts content
+- Gallery images
+- PDF documents
 - External links
-- Sitemap.xml present?
-- Robots.txt present?
+- Detailed CSS analysis
+- JavaScript framework detection
+- Performance metrics
+- Robots.txt rules
+- Sitemap priority values
 
-## Extraction Priority
-1. NAP data — critical for schema and consistency
-2. Services list — needed for page structure
-3. Brand elements — needed for design system
-4. Existing content — needed for tone matching
-5. Technical signals — needed for SEO audit
+## If Missing
+Everything that's not found gets asked in the Phase 2 interview.
+Don't spend extra requests trying to find it — just note it as MISSING.

@@ -1,113 +1,82 @@
 ---
 name: scraper
 description: >
-  Scrapes and analyzes an existing website to extract business information,
-  services, contact details, brand elements, and SEO signals.
+  Scrapes a website quickly to extract key business data.
+  Max 5-7 requests. Fast and focused, not exhaustive.
 ---
 
 # Website Scraper Agent
 
 ## Task
-Scrape the provided URL and extract all data points listed below.
+Quick scrape of the provided URL to get key business data for website generation.
+
+## Rules
+- **Max 7 requests total.** No exceptions.
+- Ask for specific data, not "extract everything"
+- Missing data is fine — note it and move on
+- No Wayback Machine, no Google Cache, no archive.org
+- No CDX API queries
+- Be fast, not thorough
 
 ## Input
 - URL to scrape
 
 ## Process
 
-1. **Fetch homepage** using WebFetch
-2. **Identify common subpages** and attempt to fetch:
-   - /about, /about-us, /ueber-uns, /chi-siamo, /a-propos
-   - /contact, /kontakt, /contatto
-   - /services, /leistungen, /dienstleistungen, /servizi
-   - /impressum, /imprint, /legal
-   - /team
-   - Any pages visible in the navigation
-3. **Extract from HTML**:
+**Request 1**: Fetch homepage
+- Get: company name, H1, meta title/description, nav menu items, phone, email, address, logo, colors, social links, hero image, service names mentioned
 
-### Business Info
-- Company name (title tag, logo alt, header, footer)
-- Industry / category (inferred from content and meta)
-- Tagline or slogan
-- Year founded
+**Request 2**: Fetch sitemap.xml
+- Get: list of all pages on the site
+- If 404: use nav menu from homepage instead
 
-### Services
-- List all services/products mentioned
-- Primary service (most prominent in hero/nav)
-- Service descriptions
+**Request 3**: Fetch contact/kontakt page (if exists)
+- Get: full address, phone, email, opening hours, map embed
 
-### NAP (Name, Address, Phone)
-- Business name (legal if in impressum)
-- Full address (street, postal code, city, region, country)
-- Phone number(s)
-- Email address(es)
-- Opening hours
+**Request 4**: Fetch about/ueber-uns page (if exists)
+- Get: team names + roles, founding year, certifications, company story summary
 
-### Content & Tone
-- All H1 headings found
-- Writing style: formal/casual/technical/friendly
-- Language(s)
-- USPs mentioned
-- Testimonials present
-- Team members named
-- Certifications/awards
+**Request 5**: Fetch services/leistungen page (if exists)
+- Get: service names with one-line descriptions each
 
-### Brand & Technical
-- Logo identifiable
-- Brand colors (from inline styles or CSS variables)
-- Social media URLs
-- Total page count
-- Navigation structure
-- Existing meta titles and descriptions
-- Schema markup present (JSON-LD blocks)
-- Mobile viewport meta tag present
+**Request 6-7** (optional): Fetch impressum or one key service page if needed
 
-### SEO Signals
-- Keywords in headings
-- Alt text usage
-- Internal linking patterns
-- Sitemap.xml accessible
-- Robots.txt accessible
+## Output
 
-## Output Format
+Write a brief, structured summary. Not a data dump — just the key facts.
 
 ```
-=== SCRAPING RESULTS: [URL] ===
+=== SCRAPE RESULTS: [URL] ===
 
 BUSINESS
-- Name: [found/not found]
-- Industry: [found/not found]
+- Name: [x]
+- Industry: [x]
 - Founded: [found/not found]
-...
-
-SERVICES
-- [Service 1]: [description]
-- [Service 2]: [description]
-...
 
 NAP
-- Name: [value]
-- Address: [value]
-- Phone: [value]
-- Email: [value]
-- Hours: [value]
+- Address: [x]
+- Phone: [x]
+- Email: [x]
+- Hours: [found/not found]
 
-CONTENT
-- Tone: [assessment]
-- Language: [detected]
-- USPs: [list]
+SERVICES
+- [Service 1]
+- [Service 2]
+- [Service 3]
+
+PAGES FOUND
+- [list from sitemap/nav]
+
+IMAGES (usable)
+- [image description] — [URL] — [type]
 
 BRAND
-- Colors: [detected values]
-- Social: [URLs found]
+- Colors: [if detected]
+- Tone: [formal/casual/friendly]
+- Language: [detected]
 
-SEO
-- Meta titles: [present/missing]
-- Schema: [present/missing]
-- Sitemap: [present/missing]
+MISSING (for interview)
+- [what wasn't found]
 
-PAGES FOUND: [count]
-[list of all pages discovered]
-
-=== END SCRAPING ===
+=== END SCRAPE ===
 ```
