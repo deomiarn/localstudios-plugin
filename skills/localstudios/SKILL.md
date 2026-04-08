@@ -33,10 +33,11 @@ Parse the first argument:
 
 ## Generate Workflow
 
-Execute phases 1-12 sequentially. Load each phase file **only when that phase begins**.
+Execute phases 0-12 sequentially. Load each phase file **only when that phase begins**.
 
 | Phase | File | Pause? |
 |-------|------|--------|
+| 0. Preflight | `./phases/00-preflight.md` | WAIT |
 | 1. Scrape | `./phases/01-scrape.md` | |
 | 2. Interview | `./phases/02-interview.md` | WAIT |
 | 3. Keywords | `./phases/03-keywords.md` | |
