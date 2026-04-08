@@ -3,7 +3,7 @@ name: localstudios
 description: >
   Website generation and SEO toolkit by LocalStudios. Use /localstudios generate <url>
   to scrape an existing website, conduct keyword research, create SEO-optimized content,
-  generate schema markup, design the UI, and build the complete website via Google Stitch.
+  generate schema markup, design the UI, and build a Next.js + shadcn/ui website.
 user-invokable: true
 argument-hint: "[command] [url]"
 license: MIT
@@ -63,5 +63,12 @@ Execute phases 1-12 sequentially. Load each phase file **only when that phase be
 | Semrush MCP | `mcp__semrush__*` available? | Manual keywords from interview |
 | claude-seo | `/seo` skill available? | Skip audit |
 | ui-ux-pro-max | `/ui-ux-pro-max` available? | Generic design system |
-| Stitch MCP | `mcp__stitch__*` available? | Export as markdown |
+| shadcn MCP | `mcp__shadcn__*` available? | Install components via CLI |
+| Stitch MCP | `mcp__stitch__*` available? | Generate Next.js project directly |
 | WebFetch | Tool available? | User provides info manually |
+
+### Tech Stack
+- **Next.js** App Router (initialized via `npx shadcn@latest init --preset b0 --template next`)
+- **shadcn/ui** for all UI components
+- **globals.css** — single source of truth for ALL styles (never inline)
+- See `./references/code-standards.md` for full standards
