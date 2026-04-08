@@ -23,6 +23,7 @@ These are set up automatically by Phase 0. User just needs to restart once:
 
 | Tool | How Plugin Sets It Up |
 |------|----------------------|
+| **Playwright MCP** | `claude mcp add playwright -- npx @anthropic-ai/mcp-server-playwright` |
 | **Semrush MCP** | `claude mcp add semrush https://mcp.semrush.com/v1/mcp -t http` |
 | **shadcn MCP** | Write `.mcp.json` with `{"mcpServers":{"shadcn":{"command":"npx","args":["shadcn@latest","mcp"]}}}` |
 
@@ -34,7 +35,6 @@ These make the output better but are NEVER required:
 | claude-seo | SEO audit of existing site | `curl -fsSL https://raw.githubusercontent.com/AgriciDaniel/claude-seo/main/install.sh \| bash` | Build from best practices |
 | ui-ux-pro-max | Industry-specific design system | `npm install -g uipro-cli && uipro init --ai claude --global` | Generic design system |
 | Stitch MCP | Visual website generation | User configures in settings | Next.js project built locally |
-| MCP_DOCKER | Browser automation (JS rendering, screenshots) | User configures Docker MCP | WebFetch handles scraping |
 | banana-claude | AI image generation | Plugin install | Scraped images + placeholders |
 
 ---
@@ -42,6 +42,9 @@ These make the output better but are NEVER required:
 ## Step 1 — Project Directory Setup
 
 ### 1a. Auto-configure MCP servers
+
+**Playwright**: Check if `mcp__playwright__*` tools are available.
+- If NOT → run: `claude mcp add playwright -- npx @anthropic-ai/mcp-server-playwright`
 
 **Semrush**: Check if `mcp__semrush__*` tools are available.
 - If NOT → run: `claude mcp add semrush https://mcp.semrush.com/v1/mcp -t http`
@@ -112,6 +115,7 @@ CORE (always available)
   Bash / Files ....... ✅ Ready
 
 AUTO-CONFIGURED
+  Playwright MCP ..... ✅ Ready / 🔧 Just installed (restart needed)
   Semrush MCP ........ ✅ Ready / 🔧 Just installed (restart needed)
   shadcn MCP ......... ✅ Ready / 🔧 Just installed (restart needed)
 
@@ -119,7 +123,6 @@ OPTIONAL ENHANCEMENTS (not required)
   claude-seo ......... ✅ / ❌ → fallback: best practices
   ui-ux-pro-max ...... ✅ / ❌ → fallback: generic design system
   Stitch MCP ......... ✅ / ❌ → fallback: local Next.js build
-  Browser (Docker) ... ✅ / ❌ → fallback: WebFetch
   banana-claude ...... ✅ / ❌ → fallback: scraped images + placeholders
 
 === READY ===

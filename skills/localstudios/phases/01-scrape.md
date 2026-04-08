@@ -7,27 +7,33 @@
 ## Agent
 Spawn `scraper` agent with the provided URL.
 
+## Scraping Tool
+
+Use **Playwright MCP** for scraping. It renders JavaScript, takes screenshots, and navigates subpages.
+
+Playwright MCP is auto-configured in Phase 0:
+```
+claude mcp add playwright -- npx @anthropic-ai/mcp-server-playwright
+```
+
+Tools to use:
+- `mcp__playwright__browser_navigate` — open the URL
+- `mcp__playwright__browser_snapshot` — get the full rendered DOM
+- `mcp__playwright__browser_take_screenshot` — visual reference
+- Navigate to subpages and repeat
+
 ## Process
 
-**Scraping Tool Priority:**
-1. If `mcp__MCP_DOCKER__browser_navigate` is available → use Browser MCP (renders JS, better for SPAs)
-2. Otherwise → use WebFetch (always available, works for most sites)
-
-### Using Browser MCP (if available):
-1. `browser_navigate` to the URL
-2. `browser_snapshot` to get the full rendered DOM
-3. `browser_take_screenshot` for visual reference
-4. Navigate to subpages and repeat
-
-### Using WebFetch (default):
-1. WebFetch on the provided URL
-2. If URL unreachable → mark all fields as `[NOT FOUND]`, proceed to Phase 2
-3. If reachable → also fetch common subpages:
+1. Navigate to the provided URL with Playwright
+2. Take a screenshot for visual reference
+3. Get a DOM snapshot for data extraction
+4. Navigate to common subpages and repeat:
    - /about, /about-us, /ueber-uns, /chi-siamo, /a-propos
    - /contact, /kontakt, /contatto
    - /services, /leistungen, /dienstleistungen, /servizi
    - /impressum, /imprint, /legal
    - /team
+   - Any pages visible in the navigation
 
 ## Extract
 
@@ -62,7 +68,7 @@ Extract ALL usable images from the old website:
 
 5. **GBP Image Scraping**:
    - If a Google Business Profile URL was found (in social links or schema `sameAs`):
-     - Fetch the GBP page via WebFetch
+     - Navigate to the GBP page
      - Extract business photos (exterior, interior, team, products)
    - If no GBP URL but business name + city are known:
      - Note for Phase 2: ask user for GBP URL
