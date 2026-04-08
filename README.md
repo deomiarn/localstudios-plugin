@@ -1,17 +1,10 @@
 # LocalStudios Plugin for Claude Code
 
-Website generation plugin that scrapes existing websites, conducts SEO keyword research, creates optimized content, generates schema markup, and builds complete websites.
+Generates a single-page homepage as a client pitch. Scrapes the existing site, researches keywords, creates SEO-optimized content, and builds a polished Next.js homepage with 21st.dev components.
 
 ## Installation
 
-Add the marketplace to your Claude Code settings:
-
-```bash
-# In Claude Code, run:
-/install localstudios@localstudios-marketplace
-```
-
-Or manually add to `~/.claude/settings.json`:
+Add to `~/.claude/settings.json`:
 
 ```json
 {
@@ -37,35 +30,44 @@ Or manually add to `~/.claude/settings.json`:
 
 ### What it does
 
-1. **Scrapes** the existing website for business info, services, NAP data, brand elements
-2. **Interviews** you to fill gaps and confirm details
-3. **Researches keywords** via Semrush MCP (max 5 API calls, optional)
-4. **Maps keywords** to pages with geo-cluster strategy
-5. **Audits** the existing site for SEO issues (via claude-seo, optional)
-6. **Plans** the complete page structure and gets your approval
-7. **Writes** SEO-optimized content for every page (E-E-A-T, internal linking)
-8. **Generates** schema markup (LocalBusiness, Service, FAQ, Breadcrumb)
-9. **Creates** a design system (via ui-ux-pro-max, optional)
-10. **Builds** the website in Google Stitch (optional, falls back to markdown export)
-11. **Checks** quality against 40+ criteria
-12. **Reports** everything with next steps for the client
+1. **Preflight** — auto-configures MCPs, guides 21st.dev API key setup
+2. **Scrapes** the existing website (max 7 requests, fast)
+3. **Interviews** you to fill gaps and confirm details
+4. **Researches keywords** via Semrush MCP (max 5 API calls)
+5. **Plans** the homepage structure (8 mandatory sections)
+6. **Writes** SEO-optimized content (E-E-A-T, geo-signals)
+7. **Generates** schema markup (LocalBusiness, WebSite)
+8. **Creates** design system via ui-ux-pro-max
+9. **Builds** homepage with 21st.dev polished components
+10. **Checks** quality with /seo validation
+11. **Reports** with next steps
 
 ### Interactive Pauses
 
-The workflow pauses for your input at two points:
-- After Phase 2 (Interview) — confirm the Project Brief
-- After Phase 6 (Outline) — approve the page structure before content writing
+The workflow pauses for your input at:
+- After Preflight — API key setup if needed
+- After Interview — confirm Project Brief
+- After Outline — approve homepage structure
 
-## Optional Dependencies
+## Dependencies
 
-All external tools are optional. The plugin works without them but provides richer results when available.
+### Auto-configured (no user action)
+| Tool | Purpose |
+|------|---------|
+| Playwright MCP | Browser scraping |
+| Semrush MCP | Keyword research |
+| shadcn MCP | Base UI components |
 
-| Tool | What it adds | Install |
-|------|-------------|---------|
-| Semrush MCP | Real keyword volume and difficulty data | Configure Semrush MCP server |
-| claude-seo | SEO audit of existing site | `curl -fsSL https://raw.githubusercontent.com/AgriciDaniel/claude-seo/main/install.sh \| bash` |
-| ui-ux-pro-max | Industry-specific design system | `npm install -g uipro-cli && uipro init --ai claude --global` |
-| Google Stitch MCP | Visual website generation | Configure Stitch MCP server |
+### Requires API key (guided setup)
+| Tool | Purpose | Get key at |
+|------|---------|-----------|
+| 21st.dev Magic MCP | Pre-built polished components | https://21st.dev/mcp |
+
+### Optional (user installs if wanted)
+| Tool | Purpose | Install |
+|------|---------|---------|
+| claude-seo | SEO audit + validation | `curl -fsSL https://raw.githubusercontent.com/AgriciDaniel/claude-seo/main/install.sh \| bash` |
+| ui-ux-pro-max | Industry design system | `npm install -g uipro-cli && uipro init --ai claude --global` |
 
 ## License
 

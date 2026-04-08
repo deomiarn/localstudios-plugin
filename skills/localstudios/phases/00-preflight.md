@@ -9,7 +9,6 @@
 ## Tool Architecture
 
 ### Always Available (built into Claude Code)
-These tools are always present. The plugin works with ONLY these:
 
 | Tool | What it does |
 |------|-------------|
@@ -19,7 +18,6 @@ These tools are always present. The plugin works with ONLY these:
 | **Agent** | Spawn subagents for parallel work |
 
 ### Auto-Configured by Plugin (no user action needed)
-These are set up automatically by Phase 0. User just needs to restart once:
 
 | Tool | How Plugin Sets It Up |
 |------|----------------------|
@@ -27,14 +25,18 @@ These are set up automatically by Phase 0. User just needs to restart once:
 | **Semrush MCP** | `claude mcp add semrush https://mcp.semrush.com/v1/mcp -t http` |
 | **shadcn MCP** | Write `.mcp.json` with `{"mcpServers":{"shadcn":{"command":"npx","args":["shadcn@latest","mcp"]}}}` |
 
+### Requires User API Key (guided setup)
+
+| Tool | Setup |
+|------|-------|
+| **21st.dev Magic MCP** | User provides API key from https://21st.dev/mcp → Claude runs install command |
+
 ### Optional Enhancements (user must install separately)
-These make the output better but are NEVER required:
 
 | Tool | What it adds | Install | Fallback |
 |------|-------------|---------|----------|
-| claude-seo | SEO audit of existing site | `curl -fsSL https://raw.githubusercontent.com/AgriciDaniel/claude-seo/main/install.sh \| bash` | Build from best practices |
-| ui-ux-pro-max | Industry-specific design system | `npm install -g uipro-cli && uipro init --ai claude --global` | Generic design system |
-| Stitch MCP | Visual website generation | User configures in settings | Next.js project built locally |
+| claude-seo | SEO audit + validation | `curl -fsSL https://raw.githubusercontent.com/AgriciDaniel/claude-seo/main/install.sh \| bash` | Best practices |
+| ui-ux-pro-max | Industry-specific design | `npm install -g uipro-cli && uipro init --ai claude --global` | Generic design |
 | banana-claude | AI image generation | Plugin install | Scraped images + placeholders |
 
 ---
@@ -64,7 +66,32 @@ These make the output better but are NEVER required:
 ```
 - If `.mcp.json` exists but shadcn is failing → overwrite with this exact config.
 
-### 1b. Create CLAUDE.md
+### 1b. 21st.dev Magic MCP Setup (guided)
+
+Check if `mcp__magic__*` tools are available.
+
+If NOT → guide the user through setup:
+
+```
+21st.dev Magic MCP is not configured yet. It provides beautiful pre-built components.
+
+To set it up:
+1. Go to https://21st.dev/mcp and get your API key
+2. Paste your API key here:
+```
+
+Wait for the user to provide their API key.
+
+When user provides the key, run:
+```bash
+claude mcp add magic --scope user --env API_KEY="[USER_PROVIDED_KEY]" -- npx -y @21st-dev/magic@latest
+```
+
+**NEVER hardcode or log the API key. Use the user's input directly in the command.**
+
+If user says "skip" → proceed without 21st.dev, components will be built manually with shadcn.
+
+### 1c. Create CLAUDE.md
 
 Check if `CLAUDE.md` exists. If not, create it:
 
@@ -89,7 +116,7 @@ All business data lives in `lib/site-config.ts` AND `docs/BUSINESS.md`.
 Components read from site-config.ts — never hardcode in multiple places.
 ```
 
-### 1c. Check if restart needed
+### 1d. Check if restart needed
 
 If any MCP was just added and is still not connecting:
 ```
@@ -97,7 +124,7 @@ MCP servers were just configured. They load at startup.
 → Type /exit, then run 'claude' again.
 → Then re-run: /localstudios generate <url>
 ```
-**Stop here.** User restarts once, re-runs the command, everything works.
+**Stop here.** User restarts once, re-runs, everything works.
 
 ---
 
@@ -110,19 +137,17 @@ PROJECT
   Directory .......... [current working directory]
   CLAUDE.md .......... ✅ Ready
 
-CORE (always available)
-  WebFetch ........... ✅ Ready
-  Bash / Files ....... ✅ Ready
-
 AUTO-CONFIGURED
-  Playwright MCP ..... ✅ Ready / 🔧 Just installed (restart needed)
-  Semrush MCP ........ ✅ Ready / 🔧 Just installed (restart needed)
-  shadcn MCP ......... ✅ Ready / 🔧 Just installed (restart needed)
+  Playwright MCP ..... ✅ Ready / 🔧 Just installed
+  Semrush MCP ........ ✅ Ready / 🔧 Just installed
+  shadcn MCP ......... ✅ Ready / 🔧 Just installed
 
-OPTIONAL ENHANCEMENTS (not required)
+USER KEY REQUIRED
+  21st.dev Magic ..... ✅ Ready / 🔧 Just configured / ❌ Skipped
+
+OPTIONAL
   claude-seo ......... ✅ / ❌ → fallback: best practices
-  ui-ux-pro-max ...... ✅ / ❌ → fallback: generic design system
-  Stitch MCP ......... ✅ / ❌ → fallback: local Next.js build
+  ui-ux-pro-max ...... ✅ / ❌ → fallback: generic design
   banana-claude ...... ✅ / ❌ → fallback: scraped images + placeholders
 
 === READY ===
@@ -132,26 +157,8 @@ OPTIONAL ENHANCEMENTS (not required)
 
 ## Step 3 — Handle Results
 
-**If any auto-configured MCP was just installed (🔧):**
+**If any MCP was just installed (🔧):**
 → Tell user to restart and re-run. Stop here.
 
-**If optional tools are missing:**
-→ Note which are available, proceed with fallbacks. No blocking.
-
 **If everything is ✅:**
-→ Proceed directly to Phase 1.
-
----
-
-## Step 4 — Confirm and Proceed
-
-```
-Ready to generate website for: [URL]
-
-Tools: [list active]
-Enhancements: [list active optional tools]
-
-Starting Phase 1 (Scrape)...
-```
-
-Proceed to Phase 1. No confirmation needed — just go.
+→ Proceed directly to Phase 1. No confirmation needed — just go.

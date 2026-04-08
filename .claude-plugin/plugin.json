@@ -1,20 +1,22 @@
 {
   "name": "localstudios",
-  "version": "1.0.0",
-  "description": "Website generation plugin by LocalStudios. Scrapes existing websites, conducts keyword research, creates SEO-optimized content, generates schema markup, and builds complete websites via Google Stitch.",
+  "version": "1.1.0",
+  "description": "Homepage generation plugin by LocalStudios. Scrapes existing websites, researches keywords, creates SEO-optimized content, and builds polished Next.js homepages with 21st.dev components.",
   "author": {
     "name": "LocalStudios",
-    "url": "https://github.com/localstudios"
+    "url": "https://github.com/deomiarn"
   },
   "license": "MIT",
-  "homepage": "https://github.com/localstudios/localstudios-plugin",
-  "repository": "https://github.com/localstudios/localstudios-plugin",
+  "homepage": "https://github.com/deomiarn/localstudios-plugin",
+  "repository": "https://github.com/deomiarn/localstudios-plugin",
   "keywords": [
     "website-generator",
+    "homepage",
     "seo",
     "local-seo",
     "schema-markup",
-    "stitch",
-    "design-system"
+    "21st-dev",
+    "shadcn",
+    "nextjs"
   ]
 }

@@ -56,25 +56,25 @@ Load each phase file **only when that phase begins**. Run phases in parallel whe
 
 **Always run phases in parallel when they don't depend on each other:**
 
-- **Phases 3+5 parallel**: Keyword research and SEO audit can run at the same time (both only need interview data)
+- **Phases 3+5 parallel**: Keyword research and SEO audit run simultaneously
 - **Phase 4 after 3**: Geo-strategy needs keyword results
-- **Phases 7+8+9 parallel**: Content writing, schema generation, and design system are independent. Run all three at the same time.
-- **Phase 10 waits for 7+8+9**: Build needs content, schema, and design to be done.
+- **Phases 7+8+9 parallel**: Content, schema, and design are independent — run all three simultaneously
+- **Phase 10 waits for 7+8+9**: Build needs content, schema, and design
 
 **Use subagents for parallel work.** Spawn multiple agents in a single message.
 
-### MANDATORY Skill Usage
+### MANDATORY Skill & Tool Usage
 
 **If a skill or MCP is available, you MUST use it. Never skip an available tool.**
 
 | Tool | When Available | Action | NEVER do instead |
 |------|---------------|--------|------------------|
 | `/ui-ux-pro-max` | Phase 9 | MUST call `/ui-ux-pro-max plan` + `/ui-ux-pro-max build` | Do NOT invent your own design |
+| 21st.dev Magic MCP | Phase 10 | MUST use `mcp__magic__*` to find and build components | Do NOT build components from scratch |
 | `/seo page` | Phase 11 | MUST call `/seo page` on the built homepage | Do NOT skip SEO validation |
 | `/seo schema` | Phase 11 | MUST call `/seo schema` to validate markup | Do NOT assume schema is correct |
-| Stitch MCP | Phase 10 | MUST use Stitch to generate the page | Do NOT build manually if Stitch is there |
 | Semrush MCP | Phase 3 | MUST use for keyword research | Do NOT guess keywords |
-| shadcn MCP | Phase 10 | MUST use to discover/install components | Do NOT manually pick components |
+| shadcn MCP | Phase 10 | MUST use to install base UI components | Do NOT manually pick components |
 
 **Fallbacks are ONLY for when the tool is genuinely unavailable (not detected in preflight).**
 If preflight shows ✅ for a tool, that tool MUST be used in its phase. No exceptions.
@@ -93,12 +93,14 @@ If preflight shows ✅ for a tool, that tool MUST be used in its phase. No excep
 | Playwright MCP | `mcp__playwright__*` | WebFetch |
 | Semrush MCP | `mcp__semrush__*` | Manual keywords from interview |
 | shadcn MCP | `mcp__shadcn__*` | Install components via CLI |
+| 21st.dev Magic MCP | `mcp__magic__*` | Build components manually with shadcn |
 | claude-seo | `/seo` skill loaded | Skip audit |
 | ui-ux-pro-max | `/ui-ux-pro-max` loaded | Generic design system |
-| Stitch MCP | `mcp__stitch__*` | Generate Next.js project directly |
 
 ### Tech Stack
 - **Next.js** App Router (initialized via `npx shadcn@latest init --preset b0 --template next`)
-- **shadcn/ui** for all UI components
+- **shadcn/ui** for base UI components
+- **21st.dev** for polished, pre-built section components
+- **ui-ux-pro-max** for industry-specific design system
 - **globals.css** — single source of truth for ALL styles (never inline)
 - See `./references/code-standards.md` for full standards

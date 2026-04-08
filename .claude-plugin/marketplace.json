@@ -5,19 +5,19 @@
     "name": "LocalStudios"
   },
   "metadata": {
-    "description": "LocalStudios plugin marketplace — website generation and SEO tools",
-    "version": "1.0.0"
+    "description": "LocalStudios plugin marketplace — homepage generation with SEO and 21st.dev components",
+    "version": "1.1.0"
   },
   "plugins": [
     {
       "name": "localstudios",
       "source": "./",
-      "description": "Website generation plugin. Scrapes, researches keywords, writes SEO content, generates schema markup, and builds websites via Google Stitch.",
-      "version": "1.0.0",
+      "description": "Homepage generation plugin. Scrapes, researches keywords, writes SEO content, builds polished Next.js homepages with 21st.dev components.",
+      "version": "1.1.0",
       "author": {
         "name": "LocalStudios"
       },
-      "keywords": ["website-generator", "seo", "local-seo"],
+      "keywords": ["website-generator", "homepage", "seo", "21st-dev", "nextjs"],
       "category": "productivity",
       "strict": false
     }
