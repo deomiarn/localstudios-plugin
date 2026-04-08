@@ -3,11 +3,28 @@
 ## References
 - Load `./references/code-standards.md` for Next.js standards
 - Load `./references/ui-rules.md` for STRICT CSS/code rules
+- Load `design-system/MASTER.md` (created by ui-ux-pro-max in Phase 8)
 
-## CRITICAL: Design aus Phase 8 anwenden
+## Architecture
 
-Lies Phase 8 Output. Extrahiere ALLE Werte (Farben, Fonts, Atmosphäre).
-Jede Farbe, jeder Font im Code MUSS aus Phase 8 kommen.
+```
+ui-ux-pro-max    → LEITET den Prozess (Design System, Style, Anti-Patterns)
+shadcnblocks     → FUNDAMENT (Block-Struktur als Startpunkt)
+/frontend-design → FEINTUNING (Komposition, Atmosphäre, Motion)
+ui-rules.md      → KONTROLLE (keine hardcoded Farben, alles über Variables)
+```
+
+## CRITICAL: Design System aus Phase 8 ist Gesetz
+
+Lies `design-system/MASTER.md`. Extrahiere:
+- Style-Name (z.B. "Soft UI Evolution")
+- Alle Farben (hex → HSL für shadcn)
+- Font-Pairing
+- Effects (Schatten, Transitions, Hover)
+- Anti-Patterns
+- Landing Page Pattern
+
+**Jede Zeile Code MUSS dem MASTER.md entsprechen.**
 
 ---
 
@@ -18,10 +35,8 @@ Jede Farbe, jeder Font im Code MUSS aus Phase 8 kommen.
 npx shadcn@latest init --preset b0 --template next
 ```
 
-### Step 2 — shadcnblocks Registry einrichten
-
-Die Registry und der API Key wurden in Phase 0 eingerichtet.
-Füge die Registry in `components.json` hinzu:
+### Step 2 — shadcnblocks Registry
+Registry in `components.json` (API Key aus Phase 0):
 ```json
 {
   "registries": {
@@ -35,160 +50,156 @@ Füge die Registry in `components.json` hinzu:
 }
 ```
 
-### Step 3 — globals.css (MUSS Phase 8 matchen)
+### Step 3 — globals.css (EXAKT aus MASTER.md)
 
-Schreibe die EXAKTEN Werte aus Phase 8 in globals.css.
-Fonts, Section-Spacing und Atmosphäre-Styles ebenfalls.
+Alle Werte aus `design-system/MASTER.md`:
+```css
+:root {
+  --primary: [EXACT from MASTER.md, converted to HSL];
+  --secondary: [EXACT from MASTER.md];
+  --accent: [EXACT CTA color from MASTER.md];
+  --background: [EXACT from MASTER.md];
+  --foreground: [EXACT from MASTER.md];
+  --muted: [derived from MASTER.md palette];
+  --border: [derived from MASTER.md palette];
+  --radius: [from MASTER.md effects];
+}
+```
+
+Effects aus MASTER.md auch in globals.css:
+- Shadow values
+- Transition durations
+- Hover state styles
+- Section spacing
 
 ### Step 4 — Site Config
-`lib/site-config.ts` — NAP aus Project Brief. Single source of truth.
+`lib/site-config.ts` — NAP aus Project Brief.
 
 ---
 
 ### Step 5 — Blocks INTELLIGENT auswählen
 
-**Für JEDE Homepage-Section einzeln durchgehen. Nicht alle auf einmal suchen.**
+Für JEDE Section einzeln:
 
-Pro Section diesen Prozess durchlaufen:
-
-#### 5a. Überlegen was die Section braucht
-Lies den Content aus Phase 6 für diese Section. Frage dich:
-- Wie viele Text-Elemente hat die Section? (Headline, Subline, Body, etc.)
-- Gibt es Karten/Grid-Elemente? Wie viele?
-- Braucht es ein Bild? Wo?
-- Gibt es einen CTA? Primär oder sekundär?
-- Welches Layout passt? (zentriert, split, asymmetrisch)
+#### 5a. Was braucht die Section?
+Lies Content aus Phase 6 UND Landing Page Pattern aus MASTER.md.
+- Wie viele Elemente?
+- Welches Layout empfiehlt MASTER.md?
+- Welche Atmosphäre/Style?
 
 #### 5b. Gezielt suchen
-Suche mit SPEZIFISCHEN Queries die zum Content passen:
 ```
 shadcn search_items_in_registries @shadcnblocks
 ```
-
-Beispiele für gute vs. schlechte Queries:
+Spezifische Queries basierend auf MASTER.md Pattern:
 ```
-SCHLECHT: "hero"          → zu generisch, 100 Ergebnisse
-GUT:     "hero split image left cta"  → spezifisch zum Layout
-GUT:     "hero centered gradient background"
-
-SCHLECHT: "testimonial"   → zu generisch
-GUT:     "testimonial cards grid 3 columns"
-GUT:     "testimonial single quote large"
-
-SCHLECHT: "feature"       → zu generisch
-GUT:     "feature cards icons 6 grid"
-GUT:     "feature list alternating image"
+GUT: "hero centered gradient medical"
+GUT: "stats cards 4 columns clean"
+GUT: "testimonial minimal single quote"
+SCHLECHT: "hero" (zu generisch)
 ```
 
-#### 5c. Ergebnisse bewerten
-Für jedes Suchergebnis prüfen:
-- Passt die Struktur zum Content? (Anzahl Items, Layout)
-- Passt es zur Branche? (Medical → clean, nicht verspielt)
-- Hat es die richtigen Slots? (Bild, Text, CTA wo nötig)
+#### 5c. Bewerten gegen MASTER.md
+- Passt die Struktur zum empfohlenen Landing Page Pattern?
+- Passt der Block-Style zum gewählten UI Style?
+- Ist der Block kompatibel mit den Anti-Patterns? (z.B. kein "AI purple gradient" wenn MASTER.md das verbietet)
 
-#### 5d. Nicht zufrieden? Weitersuchen.
-Wenn kein Ergebnis passt:
-- Andere Keywords probieren
-- Verwandte Begriffe nutzen ("stats" statt "trust", "pricing" statt "services")
-- Kombinationen testen ("about team photo" statt "about")
+#### 5d. Weitersuchen wenn nötig
+Andere Keywords, verwandte Begriffe. Erst installieren wenn überzeugt.
 
-**Erst installieren wenn du ÜBERZEUGT bist dass der Block passt.**
-
-#### 5e. Block installieren
+#### 5e. Installieren
 ```bash
-export SHADCNBLOCKS_API_KEY="[key]" && npx shadcn add @shadcnblocks/[block-name]
+export SHADCNBLOCKS_API_KEY="[key]" && npx shadcn add @shadcnblocks/[name]
 ```
 
 ---
 
-### Step 6 — Blocks VERWENDEN (nicht neu coden!)
+### Step 6 — Blocks VERWENDEN (nicht neu coden)
 
-**DAS IST DIE WICHTIGSTE REGEL:**
+**Die installierte Block-Datei IST dein Component.**
 
-Der installierte Block liegt jetzt als Datei im Projekt (z.B. `components/blocks/hero7.tsx`).
+Für jeden Block:
+1. **LESE** die Block-Datei
+2. **EDITIERE** direkt:
+   - Platzhalter-Text → Phase 6 Content
+   - Hardcoded Farben → shadcn CSS Variablen (--primary, --accent etc.)
+   - Hardcoded Fonts → font-heading, font-body
+3. **BEHALTE**: Layout, Grid, Responsive, Accessibility
 
-**Diese Datei IST dein Component. Du schreibst KEINEN neuen.**
-
-Für jeden installierten Block:
-
-1. **LESE die Block-Datei** — verstehe die Struktur
-2. **BEARBEITE die Block-Datei direkt** mit dem Edit Tool:
-   - Ersetze Platzhalter-Text mit echtem Content aus Phase 6
-   - Ersetze hardcoded Farben mit shadcn CSS Variablen
-   - Passe die Daten an (Namen, Beschreibungen, Zahlen)
-3. **BEHALTE:**
-   - Das Layout und die Struktur des Blocks
-   - Die responsive Breakpoints
-   - Die Component-Komposition (Imports, Sub-Components)
-   - Die Accessibility-Attribute
-
-**VERBOTEN:**
-- Eine neue Datei wie `components/sections/hero.tsx` erstellen die den Block ignoriert
-- Den Block lesen und dann "inspiriert davon" etwas Neues schreiben
-- Den Block-Code kopieren und in eine neue Datei einfügen
-- Den Block-Import in page.tsx durch einen eigenen Component ersetzen
-
-**Der Block bleibt die Datei. Du EDITIERST sie. Fertig.**
+**VERBOTEN**: Neue Datei erstellen die den Block ersetzt.
 
 ---
 
 ### Step 7 — /frontend-design Feintuning
 
-**Nach dem Content-Einsetzen: Jeden Block-File mit /frontend-design verfeinern.**
+Invoke `/frontend-design` auf die editierten Block-Dateien.
 
-Invoke `/frontend-design` und bearbeite die Block-Dateien:
-- **Komposition**: Whitespace, visuelle Hierarchie verbessern
-- **Typografie**: Schriftgrössen, Gewichte feintunen
-- **Atmosphäre**: Gradients, Tiefe, Texturen wo passend
-- **Motion**: Gezielte Hover-States, Transitions
-- **Visueller Rhythmus**: Spacing zwischen Sections harmonisieren
+Aber: **/frontend-design arbeitet INNERHALB der ui-ux-pro-max Vorgaben.**
+- Style: wie in MASTER.md definiert
+- Farben: nur die aus globals.css
+- Anti-Patterns: respektieren was MASTER.md verbietet
 
-**Auch hier: Die Block-Datei EDITIEREN, keine neue Datei erstellen.**
-
----
-
-### Step 8 — UI Rules Check
-
-Lade `./references/ui-rules.md` und prüfe JEDEN Block:
-- [ ] Keine hardcoded Farben → nur shadcn Variablen
-- [ ] Keine hardcoded Fonts → nur `font-heading`, `font-body`
-- [ ] Keine inline `style={}` Props
-- [ ] Alle Hover-States konsistent
-- [ ] Image Placeholder wo Bilder fehlen (nie leere Spaces)
-- [ ] Border Radius über --radius
-- [ ] Schatten über Tailwind shadow Klassen
+Was /frontend-design verbessert:
+- **Komposition**: Asymmetrie, Whitespace, Hierarchie
+- **Typografie**: Grössen, Gewichte, Abstände feintunen
+- **Atmosphäre**: Gradients, Texturen, Tiefe (im Rahmen des Styles)
+- **Motion**: Hover-States, Transitions (mit MASTER.md Werten)
+- **Visueller Rhythmus**: Spacing zwischen Sections
 
 ---
 
-### Step 9 — Layout + Header/Footer
+### Step 8 — ui-ux-pro-max Review
 
-Header und Footer sind KEINE shadcnblocks — die baust du selbst:
-```
-components/layout/header.tsx    — Navigation, Logo
-components/layout/footer.tsx    — NAP, Links, Öffnungszeiten
-```
+Nach dem Feintuning: ui-ux-pro-max nochmal für Review nutzen:
 
-Oder wenn passende shadcnblocks navbar/footer Blocks gefunden wurden → auch diese verwenden und anpassen (gleicher Prozess wie Step 5-6).
-
-### Step 10 — Assemble
 ```
-app/layout.tsx      — Root Layout mit Header, Footer, SchemaScript
-app/page.tsx        — Homepage: importiert alle Block-Components + Metadata
+/ui-ux-pro-max review homepage
 ```
 
-In `page.tsx` die Blocks in der richtigen Reihenfolge importieren — die Dateinamen sind die shadcnblocks Namen (z.B. `hero7`, `feature1`, `testimonial8`).
+Prüft:
+- Entspricht das Ergebnis dem gewählten Style?
+- Sind Anti-Patterns eingehalten?
+- Accessibility (Kontrast, Touch-Targets, Focus States)
+- Responsive Breakpoints (375, 768, 1024, 1440px)
 
-### Step 11 — Schema
-```
-components/seo/schema-script.tsx  — JSON-LD Injection
-```
+**Fixes aus dem Review sofort umsetzen.**
 
-### Step 12 — Final Check
-- [ ] `npm run build` passes
-- [ ] Alle Farben aus globals.css (keine hardcoded)
-- [ ] Alle Components sind die ORIGINALEN Block-Dateien (editiert, nicht ersetzt)
-- [ ] Keine selbst-gecodeten Section-Components neben ungenutzten Blocks
-- [ ] /frontend-design wurde auf jeden Block angewendet
+---
+
+### Step 9 — UI Rules Check
+
+Load `./references/ui-rules.md`:
+- [ ] Keine hardcoded Farben
+- [ ] Keine hardcoded Fonts
+- [ ] Keine inline `style={}`
 - [ ] Image Placeholder wo Bilder fehlen
-- [ ] Do NOT start dev server
-- [ ] Do NOT take screenshots
+- [ ] Alle Hover-States konsistent
+- [ ] Border Radius über --radius
+
+### Step 10 — Layout
+```
+components/layout/header.tsx
+components/layout/footer.tsx
+```
+Auch diese: wenn shadcnblocks navbar/footer Blocks passen → verwenden.
+Sonst selbst bauen, aber mit MASTER.md Design System.
+
+### Step 11 — Assemble
+```
+app/layout.tsx — Root Layout mit Header, Footer, SchemaScript
+app/page.tsx   — Homepage: alle Block-Components + Metadata
+```
+
+### Step 12 — Schema
+```
+components/seo/schema-script.tsx
+```
+
+### Step 13 — Final Check
+- [ ] `npm run build` passes
+- [ ] Farben matchen MASTER.md exakt
+- [ ] Blocks wurden verwendet (nicht ersetzt)
+- [ ] /frontend-design wurde angewendet
+- [ ] ui-ux-pro-max Review bestanden
+- [ ] Keine Anti-Patterns aus MASTER.md verletzt
+- [ ] Image Placeholder wo nötig

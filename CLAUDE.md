@@ -18,18 +18,26 @@ Homepage generation plugin. Next.js + shadcn/ui + shadcnblocks + /frontend-desig
 
 ## Skills — ALWAYS USE WHEN AVAILABLE
 
-### /frontend-design (MANDATORY in Phase 9)
-- Use for EVERY component — distinctive, not generic
-- Pick a design direction and commit
-- Typography, composition, motion, atmosphere must be intentional
-- Anti-patterns: no SaaS hero clones, no generic card piles
+### /ui-ux-pro-max (LEITET — Phase 8 + 9)
+- Generates the Design System (MASTER.md) — 67 styles, 97 palettes, industry rules
+- ALL design decisions come from MASTER.md
+- Reviews the built homepage at end of Phase 9
+- Hierarchy: ui-ux-pro-max > shadcnblocks > frontend-design
 
-### shadcnblocks (MANDATORY in Phase 9)
+### shadcnblocks (FUNDAMENT — Phase 9)
 - Install Blocks via `npx shadcn add @shadcnblocks/[name]`
-- Blocks are starting points — MUST be refined with /frontend-design
+- Blocks are structural starting points — not the final product
 - EDIT the block files directly — NEVER create new files that replace them
-- Replace placeholder content with Phase 6 content
-- Replace hardcoded colors with shadcn CSS variables
+- Replace content + colors, keep structure
+
+### /frontend-design (FEINTUNING — Phase 9)
+- Refines blocks WITHIN the MASTER.md design rules
+- Komposition, Atmosphäre, Motion, Typografie
+- Must respect MASTER.md style + anti-patterns
+
+### /seo (AUDIT — Phase 10)
+- Runs /seo page, /seo schema, /seo content on the NEW homepage
+- Must FIX all issues found, not just report them
 
 ## UI Rules — CRITICAL
 

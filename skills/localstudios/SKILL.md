@@ -58,14 +58,20 @@ Creates a **single homepage** to pitch the client. Run phases in parallel where 
 
 **If a skill or tool is available, you MUST use it. Never skip.**
 
-| Tool | Phase | Action |
-|------|-------|--------|
-| `/frontend-design` | Phase 9 | MUST use for every component — distinctive design, not generic |
-| shadcnblocks | Phase 9 | MUST install Blocks as starting points, then refine |
-| `/seo page` | Phase 10 | MUST validate the NEW homepage |
-| `/seo schema` | Phase 10 | MUST validate schema markup |
+| Tool | Phase | Role |
+|------|-------|------|
+| `/ui-ux-pro-max` | Phase 8 | LEITET: generates Design System (MASTER.md) — style, colors, fonts, anti-patterns |
+| `/ui-ux-pro-max` | Phase 9 | REVIEW: validates built homepage against MASTER.md |
+| shadcnblocks | Phase 9 | FUNDAMENT: Blocks as structural starting points |
+| `/frontend-design` | Phase 9 | FEINTUNING: makes blocks distinctive (within MASTER.md rules) |
+| `/seo page` | Phase 10 | AUDIT: validates NEW homepage SEO — must FIX all issues found |
+| `/seo schema` | Phase 10 | AUDIT: validates schema markup |
+| `/seo content` | Phase 10 | AUDIT: validates content quality |
 | Semrush MCP | Phase 3 | MUST use for keyword research |
 | shadcn MCP | Phase 9 | MUST use to install base + blocks |
+
+**Hierarchy: ui-ux-pro-max > shadcnblocks > /frontend-design > ui-rules.md**
+ui-ux-pro-max sets the rules. shadcnblocks provides structure. /frontend-design refines. ui-rules enforces code quality.
 
 **Fallbacks ONLY for genuinely unavailable tools.**
 
@@ -85,7 +91,8 @@ Creates a **single homepage** to pitch the client. Run phases in parallel where 
 | Semrush MCP | `mcp__semrush__*` | Manual keywords |
 | shadcn MCP | `mcp__shadcn__*` | CLI install |
 | shadcnblocks | Registry in components.json | Build from scratch with shadcn |
-| claude-seo | `/seo` skill loaded | Skip validation |
+| ui-ux-pro-max | `/ui-ux-pro-max` loaded | Manual design decisions |
+| claude-seo | `/seo` skill loaded | Skip audit |
 | frontend-design | `/frontend-design` loaded | Auto-install via npx |
 
 ### Tech Stack

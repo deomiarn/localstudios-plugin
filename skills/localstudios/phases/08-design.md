@@ -1,65 +1,88 @@
-# Phase 8 — Design Direction
+# Phase 8 — Design System
 
-## Design kommt aus Interview + Branche + /frontend-design Skill
+## MANDATORY: Use /ui-ux-pro-max
 
-### Process
+This skill has 67 UI styles, 97 color palettes, 100 industry reasoning rules.
+It MUST lead the entire design process. No manual design decisions.
 
-1. **Aus dem Interview extrahieren:**
-   - Gewünschter Stil / Referenz-Website
-   - Bestehende Markenfarben (falls vorhanden)
-   - Branche und Zielgruppe
+---
 
-2. **Design-Richtung festlegen:**
-   Basierend auf der Branche eine klare Richtung wählen. Nicht mischen.
-   - Medizin/Dental → clean, vertrauenswürdig, warm
-   - Handwerk → robust, ehrlich, bodenständig
-   - Gastronomie → einladend, appetitlich, warm
-   - Legal/Finanzen → seriös, elegant, nüchtern
-   - Kreativ/Design → mutig, visuell, unkonventionell
-
-3. **Farbpalette definieren:**
-   - Primary: Hauptfarbe (aus Brand oder Branche)
-   - Secondary: Ergänzungsfarbe
-   - Accent: CTA-Farbe (muss sich abheben)
-   - Background, Foreground, Muted, Border
-
-4. **Typografie wählen:**
-   - Heading Font: mit Charakter, passend zur Branche
-   - Body Font: gut lesbar, professionell
-   - Beide via Google Fonts (`next/font`)
-
-5. **Atmosphäre definieren:**
-   - Gradient/Textur für Hintergründe?
-   - Schatten-Stufe (subtil vs. stark)
-   - Rundungen (sharp vs. rounded)
-   - Animations-Niveau (minimal vs. lebendig)
-
-## Output
+### Step 1 — Generate Design System
 
 ```
-DESIGN DIRECTION
-Style: [Richtung]
-Mood: [Atmosphäre in 3 Worten]
+/ui-ux-pro-max plan [industry] [service] website for [company] in [city]
+```
 
-COLORS (als shadcn HSL Variablen)
---primary: [hsl]
---secondary: [hsl]
---accent: [hsl]
---background: [hsl]
---foreground: [hsl]
---muted: [hsl]
---border: [hsl]
---radius: [rem]
+This runs 5 parallel searches (product type, style, color, landing page pattern, typography) and applies industry-specific reasoning rules.
+
+Output includes:
+- **Pattern**: landing page structure (hero-centric, social-proof-focused, etc.)
+- **Style**: from 67 options (e.g. Soft UI Evolution, Swiss Modernism 2.0, etc.)
+- **Colors**: full palette with hex codes (primary, secondary, CTA, background, text)
+- **Typography**: font pairing with Google Fonts links
+- **Effects**: transitions, shadows, hover states, animations
+- **Anti-patterns**: what NOT to do for this industry
+
+### Step 2 — Persist the Design System
+
+```
+/ui-ux-pro-max design-system --persist
+```
+
+This creates `design-system/MASTER.md` as the reference for all subsequent work.
+
+### Step 3 — Get Stack-Specific Guidelines
+
+```
+/ui-ux-pro-max stack nextjs shadcn
+```
+
+Get Next.js + shadcn/ui specific implementation rules.
+
+### Step 4 — Get Landing Page Specifics
+
+```
+/ui-ux-pro-max landing [recommended pattern from Step 1]
+```
+
+Get detailed section-by-section layout guidance for the recommended pattern.
+
+---
+
+## Output for Phase 9
+
+The complete design system to be written into globals.css:
+
+```
+DESIGN SYSTEM (from ui-ux-pro-max)
+
+PATTERN: [e.g. Hero-Centric + Social Proof]
+STYLE: [e.g. Soft UI Evolution]
+
+COLORS (exact hex → convert to HSL for shadcn)
+--primary: [hex → hsl]
+--secondary: [hex → hsl]
+--accent/CTA: [hex → hsl]
+--background: [hex → hsl]
+--foreground: [hex → hsl]
+--muted: [hex → hsl]
 
 TYPOGRAPHY
-Heading: [Font Name]
-Body: [Font Name]
+Heading: [Font Name] (Google Fonts)
+Body: [Font Name] (Google Fonts)
 
-ATMOSPHERE
-Background: [solid/gradient/texture]
-Shadows: [none/subtle/medium]
-Roundness: [sharp/medium/full]
-Motion: [minimal/moderate/expressive]
+EFFECTS
+Shadows: [specific values]
+Transitions: [duration, easing]
+Hover states: [specific behavior]
+Border radius: [value]
+
+ANTI-PATTERNS
+- [what to avoid for this industry]
+
+LANDING PAGE STRUCTURE
+- [section order and layout per pattern]
 ```
 
-Pass to Phase 9 — alles wird in globals.css geschrieben.
+**Phase 9 MUST use these exact values. No deviations.**
+**The design-system/MASTER.md file is the single source of truth.**
