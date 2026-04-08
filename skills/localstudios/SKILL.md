@@ -63,7 +63,7 @@ Creates a **single homepage** to pitch the client. Run phases in parallel where 
 | Tool | When Available | Action | NEVER do instead |
 |------|---------------|--------|------------------|
 | `/ui-ux-pro-max` | Phase 8 | MUST call `/ui-ux-pro-max plan` + `/ui-ux-pro-max build` | Do NOT invent your own design |
-| 21st.dev Magic MCP | Phase 9 | MUST use `mcp__magic__*` to find and build components | Do NOT build components from scratch |
+| 21st.dev Inspiration | Phase 9 | MUST use `mcp__magic__21st_magic_component_inspiration` (FREE) to find proven layouts before building | Do NOT skip inspiration and build from scratch |
 | `/seo page` | Phase 10 | MUST call `/seo page` to validate the NEW homepage | Do NOT skip SEO validation |
 | `/seo schema` | Phase 10 | MUST call `/seo schema` to validate markup | Do NOT assume schema is correct |
 | Semrush MCP | Phase 3 | MUST use for keyword research | Do NOT guess keywords |
