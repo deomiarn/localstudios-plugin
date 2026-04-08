@@ -37,6 +37,28 @@ Spawn `quality-checker` agent.
 - Keyword-rich anchors, varied, no "click here"
 - NAP identical everywhere
 
+### Images
+- All images are WebP format (or served as WebP via next/image)
+- All images have descriptive, keyword-relevant alt text
+- All images have title attribute
+- No alt text is empty or generic ("image", "photo", "IMG_1234")
+- Alt text includes city/location where contextually appropriate
+- All images ≥ 1024px on longest side
+- Above-fold images have `priority` prop (Next.js)
+- Below-fold images lazy-loaded (automatic in Next.js)
+- `width` and `height` set on all images (prevents CLS)
+- No placeholder images remaining
+- Image sources documented in docs/pages/[page].md
+- File names follow convention: `[page]-[section]-[descriptor].webp`
+
+### Sections
+- Home has all 8 mandatory sections (see page-sections.md)
+- About has all 6 mandatory sections
+- Each Service page has all 7 mandatory sections
+- Contact has all 5 mandatory sections
+- Sections are in correct order
+- No sections missing or empty
+
 ### Conversion
 - CTA above fold on every page
 - Phone clickable (tel:)

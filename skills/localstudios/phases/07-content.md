@@ -1,7 +1,9 @@
 # Phase 7 — Content Writing
 
-## Reference
-Load `./references/content-guidelines.md` for all writing rules.
+## References
+- Load `./references/content-guidelines.md` for writing rules
+- Load `./references/page-sections.md` for mandatory sections per page
+- Load `./references/image-strategy.md` for image alt text + title rules
 
 ## Agent
 Spawn `content-writer` agent per page. Pages can be written in parallel.
@@ -54,5 +56,15 @@ Must contain: primary keyword + city + what the business does. 2-3 sentences.
 - Service: 800-1200 words
 - Contact: 200-400 words
 
+### Images per Section
+- Follow `page-sections.md` for which sections need images
+- For each image, write:
+  - **alt text**: descriptive + keyword + location (see templates in `image-strategy.md`)
+  - **title attribute**: slightly more detailed, include benefit or CTA
+  - **filename**: `[page]-[section]-[descriptor].webp`
+- Source: use scraped images from Phase 1 first, GBP second, Banana last
+- All images must be WebP (Next.js handles conversion via next/image)
+- Minimum 1024px resolution
+
 ## Output per Page
-Complete content + meta tags + internal links list + keyword density report.
+Complete content + meta tags + internal links list + keyword density report + image assignments with alt/title texts.

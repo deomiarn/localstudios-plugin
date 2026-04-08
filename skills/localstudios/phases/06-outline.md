@@ -2,9 +2,14 @@
 
 **⚠ MANDATORY PAUSE — Do not proceed until user approves.**
 
+## References
+- Load `./references/page-sections.md` for mandatory sections per page type
+- Load `./references/image-strategy.md` for image placement rules
+
 ## Process
 
 Create the complete outline BEFORE any content is written.
+Use the mandatory sections from `page-sections.md` — never skip or reorder them.
 
 ## Per-Page Outline Format
 
@@ -22,13 +27,19 @@ Sections:
 
 ## Standard Page Templates
 
-**HOME**: Hero (H1 + CTA) → Trust Bar (3 USPs) → Services Overview (cards + links) → Social Proof → Local Trust → CTA repeat → Footer (NAP)
+**HOME** (8 sections): Hero → Trust Bar → Services Overview → About Teaser → Social Proof → Local Area → CTA → Footer
+**ABOUT** (6 sections): Hero/Intro → Our Story → Team → Credentials → Local Connection → CTA
+**SERVICE** (7 sections): Hero → What & Why → Process → Benefits → FAQ → Testimonial → CTA
+**CONTACT** (5 sections): Hero/NAP → Contact Form → Map → Opening Hours → Alternative Contact
 
-**ABOUT**: Team Story → Credentials/Certifications (E-E-A-T) → Photo placeholders → Local connection
+See `./references/page-sections.md` for exact content, images, and SEO requirements per section.
 
-**SERVICE** (per service): What is it → Who is it for → Process/Steps → Benefits → FAQ (5-7 questions) → CTA → Internal links
-
-**CONTACT**: NAP prominent → Contact form → Maps embed → Opening hours → Additional contact methods
+### Image Placement in Outline
+For each section, note which image goes there and its source:
+- `[SCRAPED]` — from old website (Phase 1)
+- `[GBP]` — from Google Business Profile
+- `[GENERATE]` — needs Banana AI generation
+- `[PLACEHOLDER]` — no image available yet
 
 ## Internal Linking Map
 
