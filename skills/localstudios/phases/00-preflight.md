@@ -1,29 +1,27 @@
 # Phase 0 — Preflight Check
 
 **This phase runs BEFORE everything else. No exceptions.**
+**The user should not have to do anything manually — Claude handles all setup.**
 
 ---
 
 ## Step 1 — Project Directory Setup
 
-The user typically starts in an **empty directory**. Set it up:
+The user typically starts in an **empty directory**. Set it up automatically:
 
-1. **Check if `.mcp.json` exists** in the current working directory
-2. **If not → create it** with the shadcn MCP config:
+### 1a. Set up MCP servers
 
-```json
-{
-  "mcpServers": {
-    "shadcn": {
-      "command": "npx",
-      "args": ["shadcn@latest", "mcp"]
-    }
-  }
-}
-```
+**Check if Semrush MCP is available** (`mcp__semrush__*` tools):
+- If NOT → run: `claude mcp add semrush https://mcp.semrush.com/v1/mcp -t http`
 
-3. **Check if `CLAUDE.md` exists** in the current working directory
-4. **If not → create it** with the core styling rules:
+**Check if shadcn MCP is available** (`mcp__shadcn__*` tools):
+- If NOT → run: `npx shadcn@latest mcp init --client claude` in the project directory
+- This creates/updates the `.mcp.json` with the correct shadcn config
+
+### 1b. Create CLAUDE.md
+
+**Check if `CLAUDE.md` exists** in the current working directory.
+**If not → create it:**
 
 ```markdown
 # [Project Name]
@@ -46,22 +44,17 @@ All business data lives in `lib/site-config.ts` AND `docs/BUSINESS.md`.
 Components read from site-config.ts — never hardcode in multiple places.
 ```
 
-5. **Inform the user**:
-```
-Project directory initialized:
-  .mcp.json .... created (shadcn MCP)
-  CLAUDE.md .... created (styling rules)
-```
+### 1c. Check if restart needed
 
-**If .mcp.json was just created OR any MCP is not connecting:**
-Tell the user clearly:
+After running MCP setup commands, check if the MCPs are now available.
+
+**If any MCP was just added and is still not available:**
 ```
-⚠ .mcp.json was just created/updated. MCPs are loaded at startup.
-→ Please restart Claude Code (/exit, then run 'claude' again).
-→ No new terminal needed — just restart Claude.
+⚠ MCP servers were just configured. They load at startup.
+→ Restarting Claude Code is needed. Type /exit, then run 'claude' again.
 → Then re-run: /localstudios generate <url>
 ```
-**Stop the workflow here.** Do not continue with fallbacks — let the user restart so all MCPs are available.
+**Stop the workflow here.** The user only needs to restart and re-run the command — everything else is already set up.
 
 ---
 
@@ -69,14 +62,14 @@ Tell the user clearly:
 
 Test each tool by checking if its functions are available:
 
-| Dependency | How to Check | Required? |
-|-----------|-------------|-----------|
-| WebFetch | Try calling WebFetch | Required for scraping |
-| Semrush MCP | Check for `mcp__semrush__*` tools | Optional |
-| claude-seo | Check if `/seo` skill is loaded | Optional |
-| ui-ux-pro-max | Check if `/ui-ux-pro-max` skill is loaded | Optional |
-| shadcn MCP | Check for `mcp__shadcn__*` tools | Optional |
-| Stitch MCP | Check for `mcp__stitch__*` tools | Optional |
+| Dependency | How to Check | Auto-Setup? |
+|-----------|-------------|-------------|
+| WebFetch | Try calling WebFetch | Built-in, always available |
+| Semrush MCP | Check for `mcp__semrush__*` tools | Yes → `claude mcp add semrush ...` |
+| claude-seo | Check if `/seo` skill is loaded | No → plugin, user must install |
+| ui-ux-pro-max | Check if `/ui-ux-pro-max` skill is loaded | No → plugin, user must install |
+| shadcn MCP | Check for `mcp__shadcn__*` tools | Yes → `npx shadcn@latest mcp init --client claude` |
+| Stitch MCP | Check for `mcp__stitch__*` tools | No → user must configure |
 
 ---
 
@@ -87,28 +80,20 @@ Test each tool by checking if its functions are available:
 
 PROJECT
   Directory .......... [current working directory]
-  .mcp.json .......... ✅ Created / ✅ Already exists
-  CLAUDE.md .......... ✅ Created / ✅ Already exists
+  CLAUDE.md .......... ✅ Ready
 
-CORE
-  WebFetch ........... ✅ Ready / ❌ Not available
-                       → Without: all info must come from interview
+MCP SERVERS
+  Semrush ............ ✅ Ready / 🔧 Just installed (restart needed)
+  shadcn ............. ✅ Ready / 🔧 Just installed (restart needed)
 
-KEYWORD RESEARCH
-  Semrush MCP ........ ✅ Ready / ❌ Not configured
-                       → Without: manual keywords only (from interview)
-
-SEO ANALYSIS
+PLUGINS
   claude-seo ......... ✅ Ready / ❌ Not installed
-                       → Without: no audit, build from best practices
-
-DESIGN
+                       → Without: no audit of existing site
   ui-ux-pro-max ...... ✅ Ready / ❌ Not installed
                        → Without: generic design system
 
-BUILD
-  shadcn MCP ......... ✅ Ready / ⏳ Just configured (available next restart)
-                       → Without: components via CLI
+OTHER
+  WebFetch ........... ✅ Ready
   Stitch MCP ......... ✅ Ready / ❌ Not configured
                        → Without: Next.js project generated locally
 
@@ -117,21 +102,21 @@ BUILD
 
 ---
 
-## Step 4 — Handle Issues
+## Step 4 — Handle Results
 
-**If OPTIONAL tools are missing:**
-- Show the fallback for each
-- Ask: "Continue with available tools, or set up missing ones first?"
-- If user wants to set up, provide instructions:
-  - **Semrush**: "Add Semrush MCP to your global Claude Code settings (~/.claude/settings.json)"
+**If any MCP was just installed (🔧):**
+→ Tell user to restart and re-run. Stop here.
+
+**If plugins are missing (claude-seo, ui-ux-pro-max):**
+- These cannot be auto-installed — they are Claude Code plugins
+- Show what will be skipped and the fallback
+- Offer setup instructions if user wants:
   - **claude-seo**: `curl -fsSL https://raw.githubusercontent.com/AgriciDaniel/claude-seo/main/install.sh | bash`
   - **ui-ux-pro-max**: `npm install -g uipro-cli && uipro init --ai claude --global`
-  - **shadcn MCP**: Already configured in .mcp.json — restart Claude Code
-  - **Stitch**: "Add Google Stitch MCP to your global Claude Code settings"
+- Ask: "Continue without these, or install them first?"
 
-**If user wants to skip:**
-- Record which tools are available
-- All subsequent phases will check this and use fallbacks automatically
+**If everything is ✅:**
+→ Proceed directly to Phase 1
 
 ---
 
@@ -140,8 +125,8 @@ BUILD
 ```
 Ready to generate website for: [URL]
 
-Tools active: [list of ✅ tools]
-Skipping: [list of ❌ tools with fallbacks]
+Tools active: [list]
+Skipping: [list with fallbacks]
 
 Starting Phase 1 (Scrape)...
 ```
