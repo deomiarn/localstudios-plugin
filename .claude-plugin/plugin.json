@@ -1,7 +1,7 @@
 {
   "name": "localstudios",
-  "version": "1.1.0",
-  "description": "Homepage generation plugin by LocalStudios. Scrapes existing websites, researches keywords, creates SEO-optimized content, and builds polished Next.js homepages with 21st.dev components.",
+  "version": "1.2.0",
+  "description": "Homepage generation plugin by LocalStudios. Scrapes websites, researches keywords, writes extensive SEO content, builds Next.js homepages with shadcnblocks + frontend-design refinement.",
   "author": {
     "name": "LocalStudios",
     "url": "https://github.com/deomiarn"
@@ -13,10 +13,9 @@
     "website-generator",
     "homepage",
     "seo",
-    "local-seo",
-    "schema-markup",
-    "21st-dev",
+    "shadcnblocks",
     "shadcn",
-    "nextjs"
+    "nextjs",
+    "frontend-design"
   ]
 }

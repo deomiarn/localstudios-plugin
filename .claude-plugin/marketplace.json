@@ -5,19 +5,19 @@
     "name": "LocalStudios"
   },
   "metadata": {
-    "description": "LocalStudios plugin marketplace — homepage generation with SEO and 21st.dev components",
-    "version": "1.1.0"
+    "description": "LocalStudios plugin marketplace — homepage generation with shadcnblocks + frontend-design",
+    "version": "1.2.0"
   },
   "plugins": [
     {
       "name": "localstudios",
       "source": "./",
-      "description": "Homepage generation plugin. Scrapes, researches keywords, writes SEO content, builds polished Next.js homepages with 21st.dev components.",
-      "version": "1.1.0",
+      "description": "Homepage generation plugin. Scrapes, researches keywords, writes extensive SEO content, builds polished Next.js homepages with shadcnblocks + frontend-design.",
+      "version": "1.2.0",
       "author": {
         "name": "LocalStudios"
       },
-      "keywords": ["website-generator", "homepage", "seo", "21st-dev", "nextjs"],
+      "keywords": ["website-generator", "homepage", "seo", "shadcnblocks", "nextjs"],
       "category": "productivity",
       "strict": false
     }

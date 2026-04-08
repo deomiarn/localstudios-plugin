@@ -26,18 +26,17 @@
 | **shadcn MCP** | Write `.mcp.json` with `{"mcpServers":{"shadcn":{"command":"npx","args":["shadcn@latest","mcp"]}}}` |
 | **frontend-design skill** | `npx claude-code-templates@latest --skill creative-design/frontend-design` |
 
-### Requires User API Key (guided setup)
+### Requires User API Key (guided setup in Phase 9)
 
 | Tool | Setup |
 |------|-------|
-| **21st.dev Magic MCP** | User provides API key from https://21st.dev/mcp → Claude runs install command |
+| **shadcnblocks** | User provides API key from https://shadcnblocks.com → stored as ENV variable, added to components.json registry |
 
 ### Optional Enhancements (user must install separately)
 
 | Tool | What it adds | Install | Fallback |
 |------|-------------|---------|----------|
 | claude-seo | SEO audit + validation | `curl -fsSL https://raw.githubusercontent.com/AgriciDaniel/claude-seo/main/install.sh \| bash` | Best practices |
-| ui-ux-pro-max | Industry-specific design | `npm install -g uipro-cli && uipro init --ai claude --global` | Generic design |
 | banana-claude | AI image generation | Plugin install | Scraped images + placeholders |
 
 ---
@@ -71,32 +70,7 @@
 ```
 - If `.mcp.json` exists but shadcn is failing → overwrite with this exact config.
 
-### 1b. 21st.dev Magic MCP Setup (guided)
-
-Check if `mcp__magic__*` tools are available.
-
-If NOT → guide the user through setup:
-
-```
-21st.dev Magic MCP is not configured yet. It provides beautiful pre-built components.
-
-To set it up:
-1. Go to https://21st.dev/mcp and get your API key
-2. Paste your API key here:
-```
-
-Wait for the user to provide their API key.
-
-When user provides the key, run:
-```bash
-claude mcp add magic --scope user --env API_KEY="[USER_PROVIDED_KEY]" -- npx -y @21st-dev/magic@latest
-```
-
-**NEVER hardcode or log the API key. Use the user's input directly in the command.**
-
-If user says "skip" → proceed without 21st.dev, components will be built manually with shadcn.
-
-### 1c. Create CLAUDE.md
+### 1b. Create CLAUDE.md
 
 Check if `CLAUDE.md` exists. If not, create it:
 
@@ -121,7 +95,7 @@ All business data lives in `lib/site-config.ts` AND `docs/BUSINESS.md`.
 Components read from site-config.ts — never hardcode in multiple places.
 ```
 
-### 1d. Check if restart needed
+### 1c. Check if restart needed
 
 If any MCP was just added and is still not connecting:
 ```
@@ -148,12 +122,9 @@ AUTO-CONFIGURED
   shadcn MCP ......... ✅ Ready / 🔧 Just installed
   frontend-design .... ✅ Ready / 🔧 Just installed
 
-21ST.DEV
-  Magic MCP .......... ✅ Ready (global) / 🔧 Just configured / ❌ Skipped
-
 OPTIONAL
+  shadcnblocks ....... API key needed in Phase 9 (from shadcnblocks.com)
   claude-seo ......... ✅ / ❌ → fallback: best practices
-  ui-ux-pro-max ...... ✅ / ❌ → fallback: generic design
   banana-claude ...... ✅ / ❌ → fallback: scraped images + placeholders
 
 === READY ===

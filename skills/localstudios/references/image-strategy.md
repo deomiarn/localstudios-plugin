@@ -135,8 +135,26 @@ Before Phase 10 (Build), verify:
 
 ## Placeholder Strategy
 
-If an image cannot be sourced (no old site, no GBP, banana not available):
-- Use a styled placeholder `<div>` with icon + text: "Image: [description]"
-- Mark in docs as `❌ Placeholder — needs real image`
-- Flag in quality check (Phase 11)
-- Never ship a site with generic stock photos — better a clean placeholder than a fake image
+If an image cannot be sourced (Cloudflare, auth, no old site, no GBP):
+- **Skippen ist OK** — kein Problem
+- Aber **NIEMALS leere Spaces** im Design lassen
+- IMMER stilvolle Placeholder einsetzen die zum Design passen:
+
+```tsx
+/* Gradient Placeholder — passt sich dem Farbschema an */
+<div className="aspect-video rounded-lg bg-gradient-to-br from-primary/20 to-accent/20 flex items-center justify-center">
+  <span className="text-muted-foreground text-sm">Praxisfoto</span>
+</div>
+
+/* Icon Placeholder */
+<div className="aspect-square rounded-lg bg-muted flex items-center justify-center">
+  <ImageIcon className="h-8 w-8 text-muted-foreground/50" />
+</div>
+```
+
+Placeholder Regeln:
+- Gleiche Proportionen (aspect-ratio) wie das echte Bild
+- Gleiche Rundungen und Schatten
+- shadcn Farb-Variablen (nie hardcoded)
+- Beschreibender Text oder passendes Icon
+- Mark in docs als `❌ Placeholder — needs real image`

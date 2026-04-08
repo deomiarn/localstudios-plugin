@@ -67,7 +67,8 @@ Incorporate all findings. Fix issues before proceeding to Phase 11.
 - [ ] All styles in globals.css
 - [ ] NAP from siteConfig only
 - [ ] `npm run build` passes
-- [ ] Design from ui-ux-pro-max was applied (not generic defaults)
+- [ ] /frontend-design was applied (not generic AI-looking output)
+- [ ] shadcnblocks Blocks were refined (not left as-is)
 
 ## Scoring
 `[passed] / [total] — [percentage]%`
