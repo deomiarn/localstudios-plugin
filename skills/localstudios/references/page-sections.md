@@ -5,20 +5,29 @@ These sections are proven for SEO, GEO, conversion, and visual appeal.
 
 ---
 
-## HOME PAGE — 8 Sections
+## HOME PAGE — 10 Sections
 
 | # | Section | Purpose | Image | SEO/GEO |
 |---|---------|---------|-------|---------|
-| 1 | **Hero** | First impression + primary CTA | 1x hero image (business/storefront, full-width) | H1 with primary KW + city. Subheadline with secondary KW. CTA above fold. |
-| 2 | **Trust Bar** | Instant credibility | None (icons/numbers only) | 3-4 trust signals: years experience, clients served, Google rating, certifications. |
-| 3 | **Services Overview** | Show what you offer + internal links | 1x image per service card (3-6 images) | Each card links to service page. Card titles contain service + city keyword. |
-| 4 | **About Teaser** | Personal connection | 1x team/owner photo | 2-3 sentences from experience perspective. Link to About page. Mention founding year + city. |
-| 5 | **Social Proof** | Build trust through others | 1x per testimonial or Google review screenshot (2-3 images) | Real names, real reviews. Star ratings if available. Mention city in at least one review. |
-| 6 | **Local Area** | GEO signals + local trust | 1x map or neighborhood image | Mention city, district, region. "Serving [area] since [year]". List neighborhoods/districts served. |
-| 7 | **CTA Section** | Convert after trust is built | None or background image | Repeat primary CTA. Phone number (clickable). Clear action: "Book now", "Call us", "Get quote". |
-| 8 | **Footer** | NAP + navigation | Logo | Full NAP (identical to schema). Links to all pages. Social links. Opening hours. |
+| 1 | **Hero** | First impression + primary CTA | 1x hero image (full-width or split) | H1 with primary KW + city. Subheadline with secondary KW. CTA above fold (pill-shape, grosszügig). |
+| 2 | **Trust Bar** | Instant credibility | None (icons/numbers only) | 3-4 trust signals: years, clients, rating, certifications. |
+| 3 | **Featured Service 1** | Highlight #1 Dienstleistung | 1x grosses Service-Bild | Alternating Layout (Bild links, Text rechts). Ausführlicher Text (3-4 Sätze). Eigener CTA. |
+| 4 | **Featured Service 2** | Highlight #2 Dienstleistung | 1x grosses Service-Bild | Alternating Layout (Text links, Bild rechts). Eigener CTA. |
+| 5 | **Services Grid** | Alle weiteren Services | 1x Bild oder Icon pro Card | Kompakte Cards im Grid. Service-Name + 1-2 Sätze. |
+| 6 | **About Teaser** | Personal connection | 1x team/owner photo | 2-3 Absätze aus Erfahrungsperspektive. Gründungsjahr + Stadt. |
+| 7 | **Social Proof** | Trust through others | Optional: Profilbilder | 3-4 echte Reviews mit Stars. Ort in mind. 1 Review erwähnen. |
+| 8 | **Local Area + Map** | GEO + Google Maps | Google Maps Embed (URL vom User) | Stadt, Stadtteile, Region. "Seit [Jahr] in [Stadt]". |
+| 9 | **CTA Section** | Convert | Background gradient oder Bild | Pill-Shape CTA Button. Telefonnummer clickable. |
+| 10 | **Footer** | NAP + navigation | Logo | NAP identisch mit Schema. Öffnungszeiten. Social Links. |
 
-**Home total: 8-14 images**
+**Home total: 8-14 images (Minimum 5, Bilder machen Pages schöner)**
+
+### Wichtig für Sections:
+- **ALLE Sections zentriert** (mx-auto max-w-7xl)
+- **Featured Services**: 2-3 Hauptdienstleistungen als grosse eigene Sections mit Bild
+- **Buttons**: Pill-Shape (rounded-full), grosszügig, zum Ambiente passend
+- **Labels/Tags**: Stilvoll, nicht generische Pill-Badges
+- **Google Maps**: Echte Embed URL vom User (im Interview gefragt)
 
 ---
 

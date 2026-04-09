@@ -36,9 +36,11 @@ CONTACT (for schema + footer)
 [ ] Email: ___
 [ ] Opening hours: ___
 [ ] Google Business Profile URL: ___
+[ ] Google Maps Embed URL (für Karte auf der Website): ___
 
 SERVICES (for overview section)
 [ ] Main services (3-6): ___
+[ ] Welche 2-3 Hauptdienstleistungen sollen prominent hervorgehoben werden? ___
 
 TRUST
 [ ] Years experience / clients / Google rating: ___
