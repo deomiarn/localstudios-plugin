@@ -3,6 +3,11 @@
 ## Task
 Build all dynamic pages that pull content from Sanity CMS.
 
+## Build Process — SAME AS HOMEPAGE
+Every dynamic page template uses the same build process as static pages:
+shadcnblocks suchen → installieren → editieren → /frontend-design → checks.
+See Phase 4 "Build Process" section for the exact steps.
+
 ## Pages
 
 ### Service Detail — `app/leistungen/[slug]/page.tsx`

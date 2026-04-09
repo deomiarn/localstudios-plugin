@@ -72,11 +72,43 @@ Load `./references/page-templates/contact.md`
 - Helpful: search, link to home, popular pages
 - Not generic — reflects the brand personality
 
+## Build Process — SAME AS HOMEPAGE for every page
+
+Jede Page wird exakt gleich gebaut wie die Homepage in Phase 9 von generate:
+
+### 1. shadcnblocks suchen
+- Für jede Section der Page: shadcnblocks durchsuchen
+- Spezifische Queries (nicht generisch)
+- Mindestens 2 Queries pro Section, vergleichen
+- Block wählen der zum Content und Design Brief passt
+
+### 2. Block installieren
+```bash
+source .env.local && npx shadcn add @shadcnblocks/[name]
+```
+
+### 3. Block EDITIEREN (nicht ersetzen!)
+- Platzhalter → echter Content
+- Hardcoded Farben → shadcn CSS Variablen
+- Fonts → font-heading, font-body
+- Layout behalten, Content ersetzen
+
+### 4. /frontend-design Feintuning
+Jeden Block verfeinern — Komposition, Atmosphäre, Motion.
+Innerhalb der design-system.md Vorgaben.
+
+### 5. Checks pro Block
+- [ ] Zentriert? (mx-auto max-w-7xl)
+- [ ] Buttons lesbar? (Kontrast gegen Background)
+- [ ] Keine Pill-Badges?
+- [ ] Keine hardcoded Farben?
+- [ ] Min 3 Bilder pro Page?
+
 ## Rules for ALL pages
 - Same globals.css design system as homepage
 - Same header/footer components
 - Sections centered (mx-auto max-w-7xl)
-- Buttons readable on all backgrounds
+- Buttons readable on all backgrounds — variant="outline" NEVER on dark bg
 - No pill badges
 - Min 3 images per page (placeholder where needed)
 - Metadata export with SEO title + description + OG tags
