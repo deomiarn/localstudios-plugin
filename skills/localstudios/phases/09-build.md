@@ -57,28 +57,37 @@ Alle Werte aus `design-system.md` übertragen:
 
 ---
 
-### Step 5 — Blocks auswählen
+### Step 5 — Blocks auswählen (VARIIEREN!)
+
+**Do NOT always pick the same blocks.** Search broadly, compare options.
 
 Für JEDE Section einzeln:
 
 **5a.** Lies Content aus Phase 6. Was braucht diese Section?
-**5b.** Suche shadcnblocks mit spezifischen Queries:
+
+**5b.** Suche shadcnblocks — MINDESTENS 2 verschiedene Queries pro Section:
 ```
 shadcn search_items_in_registries @shadcnblocks
 ```
-Queries basierend auf Referenz-Website und Content-Bedarf:
+Erste Suche spezifisch:
 ```
-GUT:  "hero gradient image right medical"
-GUT:  "testimonial cards minimal 3 columns"
-SCHLECHT: "hero" (zu generisch)
+"hero split image gradient"
+"testimonial minimal quote large"
+"feature alternating image text"
 ```
-**5c.** Bewerte gegen design-system.md — passt der Block zum Gefühl?
-**5d.** Nicht zufrieden → weitersuchen mit anderen Keywords
-**5e.** Installieren: `source .env.local && npx shadcn add @shadcnblocks/[name]`
+Zweite Suche mit anderen Keywords:
+```
+"hero centered dark overlay"
+"review cards stars grid"  
+"services showcase icons"
+```
+
+**5c.** Vergleiche die Ergebnisse. Wähle den der am besten zum Design Brief passt.
+**5d.** Installieren: `source .env.local && npx shadcn add @shadcnblocks/[name]`
 
 ---
 
-### Step 6 — Blocks VERWENDEN
+### Step 6 — Blocks VERWENDEN und FIXEN
 
 **Die Block-Datei IST dein Component. EDITIERE sie direkt.**
 
@@ -88,6 +97,38 @@ SCHLECHT: "hero" (zu generisch)
    - Hardcoded Farben → shadcn CSS Variablen
    - Hardcoded Fonts → font-heading, font-body
 3. BEHALTE: Layout, Grid, Responsive, Accessibility
+
+**DANN sofort diese 3 Checks auf JEDEN Block:**
+
+**CHECK 1 — Ist die Section zentriert?**
+Jeder Block MUSS einen zentrierten Container haben:
+```tsx
+<div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+```
+Wenn nicht vorhanden → hinzufügen. Kein Block darf links-aligned sein.
+
+**CHECK 2 — Sind Buttons lesbar?**
+Für JEDEN Button im Block prüfen:
+- Auf dunklem Hintergrund → heller Button mit dunklem Text
+- Auf hellem Hintergrund → dunkler Button mit hellem Text
+- Secondary Button: hat sichtbaren Border UND lesbaren Text?
+- Teste: `bg-X text-Y` — ist Y auf X lesbar? Wenn nein → fixen.
+```tsx
+// AUF DUNKLEM bg:
+className="bg-white text-primary"        // ✅ lesbar
+className="bg-white text-white"          // ❌ UNSICHTBAR
+className="border-white text-white/50"   // ❌ kaum sichtbar
+
+// AUF HELLEM bg:
+className="bg-primary text-primary-foreground" // ✅ lesbar
+```
+
+**CHECK 3 — Keine Pill-Badges?**
+Wenn der Block `rounded-full border px-3 py-1` Tags hat → durch clean Text ersetzen:
+```tsx
+// Raus: <span className="rounded-full border ...">Ort</span>
+// Rein: Ort · Ort · Ort (als Text)
+```
 
 **VERBOTEN**: Neue Datei erstellen die den Block ersetzt.
 

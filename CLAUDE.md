@@ -1,64 +1,72 @@
 # LocalStudios Plugin
 
-Homepage generation plugin. Next.js + shadcn/ui + shadcnblocks + /frontend-design.
+## HARD RULES — read before writing ANY code
+
+### 1. CENTERING — every section, always
+```tsx
+// EVERY section component MUST have this wrapper:
+<section className="py-16 md:py-24 lg:py-32">
+  <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+    {/* content here */}
+  </div>
+</section>
+```
+If a shadcnblocks block is not centered → add this wrapper.
+If content appears left-aligned → the wrapper is missing. Fix it.
+
+### 2. BUTTONS — visible, contrasty, generous
+```tsx
+// On DARK backgrounds: light button with dark text
+<Button className="bg-white text-primary hover:bg-white/90 px-8 py-3 text-lg font-semibold">
+  044 853 22 74
+</Button>
+
+// On LIGHT backgrounds: dark button with light text  
+<Button className="bg-primary text-primary-foreground hover:bg-primary/90 px-8 py-3 text-lg font-semibold">
+  Termin vereinbaren
+</Button>
+
+// Secondary: MUST have visible border AND readable text
+<Button variant="outline" className="border-2 border-primary text-primary hover:bg-primary hover:text-white px-6 py-2.5">
+  Mehr erfahren
+</Button>
+```
+
+**NEVER:** white button with white/invisible text. ALWAYS check: is the text readable against the button background AND the section background?
+
+### 3. NO PILL BADGES / LABELS
+```tsx
+// VERBOTEN:
+<span className="rounded-full border px-3 py-1">Regensdorf</span>
+
+// STATTDESSEN — clean text:
+<p className="text-muted-foreground">Regensdorf · Steinmaur · Oberglatt</p>
+```
+
+### 4. COLORS — only CSS variables
+```tsx
+// NEVER: bg-blue-600, text-gray-500, bg-[#1E3A8A], style={{color:'#333'}}
+// ALWAYS: bg-primary, text-muted-foreground, bg-accent
+```
+
+### 5. FONTS — from design-system.md, not generic
+Choose distinctive fonts that match the industry. Never default Inter/Sans.
+
+### 6. IMAGES — minimum 5, never empty spaces
+Styled placeholders where images aren't available.
+
+### 7. SHADCNBLOCKS — vary your choices
+Do NOT always pick hero1, feature1, testimonial1.
+Search with SPECIFIC queries. Try different blocks each time.
+Read the block descriptions before choosing.
+
+---
 
 ## Project Documentation
-- **`docs/BUSINESS.md`** — all business facts
-- **`docs/SEO-STRATEGY.md`** — keyword targets
-- **`docs/pages/home.md`** — homepage: keywords, SEO, GEO
-- **`design-system.md`** — colors, fonts, atmosphere (from Design Brief)
-
-## Agents (5)
-| Agent | Phase | Purpose |
-|-------|-------|---------|
-| `scraper` | 1 | Quick website scrape (max 7 requests, Playwright) |
-| `keyword-researcher` | 3 | Semrush keyword research (max 5 API calls) |
-| `content-writer` | 6 | Extensive homepage content (1500-2500 words) |
-| `schema-generator` | 7 | JSON-LD schema (LocalBusiness, WebSite) |
-| `quality-checker` | 10 | QA + /seo audit with fixes |
-
-## Design Process
-
-```
-Design Brief (Referenz-Screenshots + Adjektive + Farben)
-  → design-system.md (Farben, Fonts, Spacing, Anti-Patterns)
-    → shadcnblocks (Fundament — Blöcke passend zur Referenz)
-      → /frontend-design (Feintuning — unverwechselbar)
-        → /seo audit (Prüfung + sofortige Fixes)
-```
-
-## Skills — ALWAYS USE
-
-### /frontend-design (MANDATORY Phase 9)
-- Use for EVERY component — distinctive, non-generic
-- Pick a direction and commit (see skill for options)
-- Anti-patterns: no SaaS hero clones, no generic card piles
-
-### shadcnblocks (FUNDAMENT Phase 9)
-- Install Blocks: `npx shadcn add @shadcnblocks/[name]`
-- EDIT block files directly — NEVER create new files
-- Replace content + hardcoded colors, keep structure
-
-### /liquid-glass (optional effect)
-- Glassmorphism/frosted-glass effects where fitting
-- Use tastefully — not on everything, but where it adds depth
-
-### /seo (AUDIT Phase 10)
-- /seo page + /seo schema + /seo content
-- Must FIX all issues found
-
-## UI Rules — CRITICAL
-
-Read `references/ui-rules.md` before ANY component code.
-
-- ALL styles in `app/globals.css`
-- ALL colors via shadcn CSS variables
-- NEVER hardcode hex/rgb in components
-- NEVER inline style={}
-- NEVER leave empty spaces — styled placeholders
-- Minimum 5 images on homepage
-- Fonts only via globals.css
-- Hover states consistent
+- `docs/BUSINESS.md` — business facts
+- `docs/SEO-STRATEGY.md` — keywords
+- `docs/pages/home.md` — homepage SEO
+- `design-system.md` — colors, fonts, atmosphere
 
 ## NAP Data
 `lib/site-config.ts` — single source of truth.
