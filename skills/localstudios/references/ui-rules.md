@@ -31,61 +31,56 @@ Das ist der Standard-Container für ALLE Sections. Keine Ausnahmen ausser Full-W
 
 ---
 
-## Buttons — MÜSSEN zum Ambiente passen
+## Buttons — zum Style passend, grosszügig, sichtbar
 
-### Button-Varianten in globals.css definieren
-Shadcn Buttons sind zu generisch. Definiere eigene Varianten:
+### Button-Shape: Claude entscheidet basierend auf Design Brief
+- Pill (rounded-full) → für weiche, moderne, freundliche Designs
+- Rounded (rounded-lg) → für professionelle, seriöse Designs
+- Sharp (rounded-sm) → für brutale, industrielle Designs
 
+**Claude wählt die Shape passend zum Gefühl aus dem Design Brief.**
+
+### Button-Varianten in globals.css
 ```css
-/* In globals.css */
-
 /* Primary CTA — auffällig, einladend */
 .btn-primary {
   @apply bg-primary text-primary-foreground font-semibold;
-  @apply px-8 py-3 rounded-full;  /* grosszügiges Padding, pill-shape */
+  @apply px-8 py-3;  /* grosszügiges Padding */
   @apply hover:bg-primary/90 transition-all duration-200;
   @apply shadow-md hover:shadow-lg;
   @apply text-base md:text-lg;
+  border-radius: var(--radius-btn);  /* aus Design System */
 }
 
-/* Secondary — klar sichtbar, NICHT weiss auf weiss */
+/* Secondary — klar sichtbar, kontrastreich */
 .btn-secondary {
   @apply bg-secondary text-secondary-foreground font-medium;
-  @apply px-6 py-2.5 rounded-full;
+  @apply px-6 py-2.5;
   @apply border-2 border-border;
   @apply hover:bg-accent hover:text-accent-foreground transition-all duration-200;
-  @apply text-base;
+  border-radius: var(--radius-btn);
 }
 
-/* Ghost/Outline */
+/* Outline */
 .btn-outline {
   @apply bg-transparent text-foreground font-medium;
-  @apply px-6 py-2.5 rounded-full;
+  @apply px-6 py-2.5;
   @apply border-2 border-primary;
   @apply hover:bg-primary hover:text-primary-foreground transition-all duration-200;
-}
-
-/* Small/Tag Style */
-.btn-tag {
-  @apply bg-muted text-muted-foreground font-medium;
-  @apply px-4 py-1.5 rounded-full text-sm;
-  @apply hover:bg-primary/10 hover:text-primary transition-colors;
+  border-radius: var(--radius-btn);
 }
 ```
 
 ### Button-Regeln
-- **Primary CTA**: Pill-Shape (rounded-full), grosszügiges Padding, Shadow
-- **Secondary**: MUSS sichtbar sein — NIE weiss auf weiss, NIE unsichtbar
-- **Alle Buttons**: `rounded-full` als Default (nicht `rounded-md`)
-- **Padding**: Grosszügig — min `px-6 py-2.5`, CTA noch mehr
-- **Hover**: Sichtbare Veränderung (Farbe, Shadow, Scale)
-- **Icons in Buttons**: Links vom Text, mit `gap-2`
+- **Grosszügiges Padding**: min `px-6 py-2.5`, CTA noch mehr
+- **Secondary MUSS sichtbar sein** — kontrastreicher Text, sichtbarer Border
+- **Hover**: sichtbare Veränderung (Farbe, Shadow, oder Scale)
+- **Icons**: links vom Text, mit `gap-2`
 
-### VERBOTEN bei Buttons
+### VERBOTEN
 ```tsx
-/* NIEMALS: */
-className="bg-white text-white"     /* unsichtbarer Text! */
-className="rounded-md px-3 py-1"    /* zu klein, zu eckig */
+className="bg-white text-white"      /* unsichtbar! */
+className="px-3 py-1"               /* zu klein */
 className="bg-gray-100 text-gray-400" /* sieht disabled aus */
 ```
 
@@ -146,26 +141,30 @@ style={{ color: '#333' }}
 
 ---
 
-## Labels & Tags — stilvoll, nicht generisch
+## Labels & Tags — KEINE Pill-Badges
 
-### Region-Tags, Kategorie-Labels etc.
+### Keine generischen Label/Tag/Badge Elemente verwenden.
+Stattdessen: clean, simple, direkt in den Text integriert.
+
 ```tsx
-/* NICHT so (generisch, langweilig): */
+/* VERBOTEN — generische Pill-Badges: */
 <span className="rounded-full border px-3 py-1 text-sm">Regensdorf</span>
+<span className="rounded-full bg-primary/10 px-4 py-1.5 text-sm">Regensdorf</span>
 
-/* SO (stilvoll, passend zum Design): */
-<span className="rounded-full bg-primary/8 text-primary px-4 py-1.5 text-sm font-medium">
-  Regensdorf
-</span>
+/* STATTDESSEN — clean inline: */
+<p className="text-muted-foreground">
+  Regensdorf · Steinmaur · Oberglatt · Niederhasli
+</p>
 
-/* Oder als subtile Badges: */
-<span className="text-sm text-muted-foreground font-medium">
-  Regensdorf · Steinmaur · Oberglatt
-</span>
+/* Oder als einfache Liste: */
+<ul className="flex flex-wrap gap-x-6 gap-y-1 text-sm text-muted-foreground">
+  <li>Regensdorf</li>
+  <li>Steinmaur</li>
+  <li>Oberglatt</li>
+</ul>
 ```
 
-Keine generischen Pill-Badges mit weissem Hintergrund und dünnem Border.
-Labels müssen zum Farbschema passen und stilvoll aussehen.
+**Prinzip: Clean und simple. Kein visuelles Rauschen durch unnötige Badge-Elemente.**
 
 ---
 
