@@ -19,10 +19,12 @@ metadata:
 | Command | Description |
 |---------|-------------|
 | `generate <url>` | Generate a single-page homepage as client pitch |
+| `clone <source-path> <new-url>` | Clone an existing project for a new client |
 
 ## Routing
 
 - **`generate`** → Execute generate workflow (second arg = URL)
+- **`clone`** → Execute clone workflow (second arg = source path, third = new URL)
 - **No argument** → Show commands table
 - **Unknown** → Show "Unknown command." + commands table
 
@@ -96,3 +98,30 @@ Design Brief (Referenz-Screenshots + Adjektive + Farben)
 - **shadcn/ui** + **shadcnblocks** (Fundament)
 - **frontend-design** (Feintuning)
 - **globals.css** — single source of truth for ALL styles
+
+---
+
+## Clone Workflow
+
+Reuses an existing project as template. Faster than generate — no block-hunting, no structure decisions.
+
+```
+/localstudios clone <source-project-path> <new-url>
+```
+
+| Phase | File | Pause? |
+|-------|------|--------|
+| 0. Preflight | `./phases/clone/00-preflight.md` | WAIT |
+| 1. Read Source | `./phases/clone/01-read-source.md` | |
+| 2. Scrape New | `./phases/clone/02-scrape.md` | |
+| 3. Interview | `./phases/clone/03-interview.md` | WAIT |
+| 4. Keywords | `./phases/clone/04-keywords.md` | |
+| 5. Adapt | `./phases/clone/05-adapt.md` | |
+| 6. QA | `./phases/clone/06-quality.md` | |
+| 7. Report | `./phases/clone/07-report.md` | |
+
+### Key Differences vs Generate
+- **No block search** — existing blocks are reused as-is
+- **No new structure** — same sections, new content
+- **Design Brief is focused** — "keep same style?" or "change to ___?"
+- **Much faster** — skip design decisions, just adapt
