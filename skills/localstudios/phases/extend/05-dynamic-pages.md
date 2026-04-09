@@ -3,6 +3,10 @@
 ## Task
 Build all dynamic pages that pull content from Sanity CMS.
 
+## Style = Homepage Style
+Der Homepage-Style wird 1:1 auf alle dynamischen Pages übertragen.
+Gleiche globals.css, gleiche Buttons, gleiche Typografie, gleiche Atmosphäre.
+
 ## Build Process — SAME AS HOMEPAGE
 Every dynamic page template uses the same build process as static pages:
 shadcnblocks suchen → installieren → editieren → /frontend-design → checks.

@@ -1,7 +1,16 @@
 # Extend Phase 4 — Static Pages
 
 ## Task
-Build all static pages. Use same design system, shadcnblocks, /frontend-design as homepage.
+Build all static pages. **Der Style der Homepage wird 1:1 weitergeführt.**
+
+### CRITICAL: Style-Konsistenz mit Homepage
+- **Gleiche globals.css** — keine neuen Farben, Fonts, Spacing erfinden
+- **Gleiche Button-Styles** — btn-primary, btn-secondary wie auf Homepage
+- **Gleiche Section-Abstände** — .section Klasse identisch
+- **Gleiche Typografie-Hierarchie** — H1/H2/H3 wie auf Homepage
+- **Gleiche Atmosphäre** — Shadows, Rundungen, Gradients konsistent
+- **Gleicher Header/Footer** — auf JEDER Page identisch
+- Die Unterseiten müssen aussehen als wären sie TEIL derselben Website, nicht als separate Projekte.
 
 ## Pages to Build (parallel where possible)
 
