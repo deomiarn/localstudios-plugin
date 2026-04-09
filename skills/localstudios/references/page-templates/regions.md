@@ -1,22 +1,35 @@
-# Regions Page Template
+# Regions Overview — `/regionen`
 
-## Route: `/regionen` (overview) + `/regionen/[slug]` (detail)
+## Sections (4, fixed order)
 
-## Overview Sections
-1. **Hero** — H1: "[Service] in der Region — [Company]"
-2. **Map/Visual** — Service area visualization
-3. **Regions Grid** — Cards pro Region → Link zu Detail
+| # | Section | Content |
+|---|---------|---------|
+| 1 | **Hero** | H1: "[Service] in der Region — [Company]", Überblick |
+| 2 | **Map / Service Area** | Visuelle Darstellung des Einzugsgebiets |
+| 3 | **Regions Grid** | Cards pro Region: Name + kurze Beschreibung → Link zu Detail |
+| 4 | **CTA** | Kontakt + Telefon |
 
-## Detail Sections
-1. **Hero** — H1: "[Service] in [Region] — [Company]"
-2. **Description** — Was wir in dieser Region anbieten
-3. **Services Available** — Grid der verfügbaren Services
-4. **How to Reach** — Anfahrt, ÖV, Parkplätze
-5. **CTA** — Termin + Telefon
+## SEO
+- GEO-heavy: alle Ortsnamen im Content
+- BreadcrumbList: Home > Regionen
 
-## SEO — GEO HEAVY
+---
+
+# Region Detail — `/regionen/[slug]`
+
+## Sections (6, fixed order)
+
+| # | Section | Content |
+|---|---------|---------|
+| 1 | **Hero** | H1: "[Service] in [Region] — [Company]", Intro mit Ortsbezug |
+| 2 | **About Region** | Was wir in dieser Region anbieten, warum wir hier aktiv sind |
+| 3 | **Services Available** | Grid der verfügbaren Services in dieser Region |
+| 4 | **How to Reach** | Anfahrt, ÖV, Parkplätze, Distanz, Landmarks |
+| 5 | **Local References** | Bekannte Orte, Postleitzahlen, Nachbargemeinden |
+| 6 | **CTA** | "Termin für [Region] vereinbaren" + Telefon |
+
+## SEO
 - H1: [Service] + [Region]
-- Postal codes, neighborhood names, landmarks
-- LocalBusiness schema with areaServed
+- LocalBusiness Schema mit areaServed
 - BreadcrumbList: Home > Regionen > [Region]
-- Internal links to service pages
+- Postal codes, Landmarks, Nachbargemeinden = GEO Signale

@@ -1,33 +1,48 @@
-# Blog Page Template
+# Blog Overview — `/blog`
 
-## Route: `/blog` (overview) + `/blog/kategorie/[slug]` + `/blog/[slug]` (post)
+## Sections (4, fixed order)
 
-## Overview Sections
-1. **Hero** — H1: "Blog — [Company]"
-2. **Category Filter** — Clean text buttons/tabs (NOT pill badges), filter posts
-3. **Posts Grid** — Cards mit Cover Image, Title, Excerpt, Date, Category, Author
-4. **Pagination** — Numbered pages or "Load more"
-
-## Category Sections
-1. **Hero** — H1: "[Category] — Blog — [Company]"
-2. **Posts Grid** — Filtered by category
-
-## Post Sections
-1. **Header** — Title, Author + photo, Date, Category, Reading time
-2. **Cover Image** — Full width
-3. **Content** — Portable text rendered (headings, paragraphs, images, lists)
-4. **Author Box** — Bio, photo, link to team page
-5. **Related Posts** — 2-3 related articles
-6. **CTA** — Subscribe or contact
+| # | Section | Content |
+|---|---------|---------|
+| 1 | **Hero** | H1: "Blog — [Company]", kurzer Intro |
+| 2 | **Category Filter** | Clean Tabs/Buttons (NOT pill badges), filtert Posts |
+| 3 | **Posts Grid** | Cards: Cover Image + Titel + Excerpt + Datum + Kategorie + Autor |
+| 4 | **Pagination** | Nummeriert oder "Mehr laden" |
 
 ## SEO
-- BlogPosting schema on posts
-- BreadcrumbList: Home > Blog > [Post] or Home > Blog > [Category] > [Post]
-- Author linked to Person schema
-- publishedAt, dateModified
-- Unique meta title + description per post
+- BreadcrumbList: Home > Blog
 
-## Technical
-- Sanity portable text → React components
-- Image optimization via Sanity CDN + next/image
-- ISR for blog posts (revalidate on publish)
+---
+
+# Blog Category — `/blog/kategorie/[slug]`
+
+## Sections (3, fixed order)
+
+| # | Section | Content |
+|---|---------|---------|
+| 1 | **Hero** | H1: "[Category] — Blog — [Company]", Kategorie-Beschreibung |
+| 2 | **Posts Grid** | Gefiltert nach Kategorie |
+| 3 | **Pagination** | Nummeriert |
+
+## SEO
+- BreadcrumbList: Home > Blog > [Category]
+
+---
+
+# Blog Post — `/blog/[slug]`
+
+## Sections (6, fixed order)
+
+| # | Section | Content |
+|---|---------|---------|
+| 1 | **Header** | Titel, Autor + Foto, Datum, Kategorie, Lesezeit |
+| 2 | **Cover Image** | Grosses Bild, full-width |
+| 3 | **Content** | Portable Text gerendert (Headings, Text, Bilder, Listen) |
+| 4 | **Author Box** | Foto, Name, Kurzbio, Link zu /team/[slug] |
+| 5 | **Related Posts** | 2-3 verwandte Artikel als Cards |
+| 6 | **CTA** | Kontakt oder Newsletter |
+
+## SEO
+- BlogPosting Schema + BreadcrumbList: Home > Blog > [Post]
+- Author → Person Schema
+- publishedAt, dateModified
