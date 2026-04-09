@@ -20,11 +20,13 @@ metadata:
 |---------|-------------|
 | `generate <url>` | Generate a single-page homepage as client pitch |
 | `clone <source-path> <new-url>` | Clone an existing project for a new client |
+| `extend` | Extend homepage into full website with all pages + Sanity CMS |
 
 ## Routing
 
 - **`generate`** → Execute generate workflow (second arg = URL)
 - **`clone`** → Execute clone workflow (second arg = source path, third = new URL)
+- **`extend`** → Extend existing homepage into full website (run in project dir)
 - **No argument** → Show commands table
 - **Unknown** → Show "Unknown command." + commands table
 
@@ -125,3 +127,49 @@ Reuses an existing project as template. Faster than generate — no block-huntin
 - **No new structure** — same sections, new content
 - **Design Brief is focused** — "keep same style?" or "change to ___?"
 - **Much faster** — skip design decisions, just adapt
+
+---
+
+## Extend Workflow
+
+Extends an existing homepage (from `generate`) into a full website with all pages, Sanity CMS for dynamic content, and technical files.
+
+```
+/localstudios extend
+```
+
+Run in the existing project directory. Reads docs/, design-system.md, and homepage.
+
+| Phase | File | Pause? |
+|-------|------|--------|
+| 0. Preflight | `./phases/extend/00-preflight.md` | WAIT |
+| 1. Read Project | `./phases/extend/01-read-project.md` | |
+| 2. Interview | `./phases/extend/02-interview.md` | WAIT |
+| 3. Sanity Setup | `./phases/extend/03-sanity.md` | |
+| 4. Static Pages | `./phases/extend/04-static-pages.md` | |
+| 5. Dynamic Pages | `./phases/extend/05-dynamic-pages.md` | |
+| 6. Technical Files | `./phases/extend/06-technical.md` | |
+| 7. Content | `./phases/extend/07-content.md` | |
+| 8. QA + SEO Audit | `./phases/extend/08-quality.md` | |
+| 9. Report | `./phases/extend/09-report.md` | |
+
+### Pages Built
+
+**Static:** Services Overview, About, Team Overview, Regions Overview, FAQ, Blog Overview, Contact, Impressum, Datenschutz, 404
+
+**Dynamic (Sanity CMS):** Service Detail `[slug]`, Team Member `[slug]`, Region Detail `[slug]`, Blog Category `[slug]`, Blog Post `[slug]`
+
+**Technical:** sitemap.xml, robots.txt, llms.txt, llms-full.txt
+
+### Sanity Integration
+- Globale Daten (NAP, Öffnungszeiten, Social Links) in Sanity — components read from CMS
+- Collections: services, team, regions, blogPosts, blogCategories
+- Sanity MCP (`mcp__Sanity__*`) for schema + content setup
+
+### MANDATORY /seo Usage in QA
+Run on EVERY page built:
+- `/seo page` — on-page SEO validation
+- `/seo schema` — structured data validation
+- `/seo content` — content quality + E-E-A-T
+- `/seo technical` — crawlability, performance
+**FIX all issues immediately. Re-audit after fixes.**
