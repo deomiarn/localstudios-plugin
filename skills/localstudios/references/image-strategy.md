@@ -115,6 +115,8 @@ import Image from "next/image"
 
 ## Image Count per Page Type
 
+**Bilder machen Pages schöner. Lieber ein Bild mehr als zu wenig.**
+
 | Page | Min Images | Max Images | Must-Have |
 |------|-----------|-----------|-----------|
 | Home | 8 | 14 | Hero, service cards, team teaser, testimonials, storefront |

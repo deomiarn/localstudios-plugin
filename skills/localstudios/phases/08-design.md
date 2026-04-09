@@ -1,88 +1,80 @@
 # Phase 8 — Design System
 
-## MANDATORY: Use /ui-ux-pro-max
+## Kein externer Skill — Design kommt aus dem Design Brief
 
-This skill has 67 UI styles, 97 color palettes, 100 industry reasoning rules.
-It MUST lead the entire design process. No manual design decisions.
-
----
-
-### Step 1 — Generate Design System
-
-```
-/ui-ux-pro-max plan [industry] [service] website for [company] in [city]
-```
-
-This runs 5 parallel searches (product type, style, color, landing page pattern, typography) and applies industry-specific reasoning rules.
-
-Output includes:
-- **Pattern**: landing page structure (hero-centric, social-proof-focused, etc.)
-- **Style**: from 67 options (e.g. Soft UI Evolution, Swiss Modernism 2.0, etc.)
-- **Colors**: full palette with hex codes (primary, secondary, CTA, background, text)
-- **Typography**: font pairing with Google Fonts links
-- **Effects**: transitions, shadows, hover states, animations
-- **Anti-patterns**: what NOT to do for this industry
-
-### Step 2 — Persist the Design System
-
-```
-/ui-ux-pro-max design-system --persist
-```
-
-This creates `design-system/MASTER.md` as the reference for all subsequent work.
-
-### Step 3 — Get Stack-Specific Guidelines
-
-```
-/ui-ux-pro-max stack nextjs shadcn
-```
-
-Get Next.js + shadcn/ui specific implementation rules.
-
-### Step 4 — Get Landing Page Specifics
-
-```
-/ui-ux-pro-max landing [recommended pattern from Step 1]
-```
-
-Get detailed section-by-section layout guidance for the recommended pattern.
+Der User hat in Phase 2 einen Design Brief gegeben:
+- Referenz-Screenshots/URLs
+- Adjektive
+- Farben
+- Typografie-Präferenz
+- Anti-Muster
 
 ---
 
-## Output for Phase 9
+### Step 1 — Referenzen analysieren
 
-The complete design system to be written into globals.css:
+Wenn der User Referenz-URLs gegeben hat:
+- Fetch die URLs (Playwright oder WebFetch)
+- Extrahiere: Farbpalette, Layout-Muster, Typografie, Atmosphäre
+- Notiere: Was macht diese Seite gut? Was übernehmen wir?
 
+Wenn Screenshots/Bilder statt URLs:
+- Analysiere visuell: Farben, Layout, Spacing, Typografie-Stil
+
+### Step 2 — Design System schreiben
+
+Erstelle `design-system.md` im Projekt-Root:
+
+```markdown
+# Design System — [Company Name]
+
+## Inspiration
+- Referenz: [URL/Screenshot-Beschreibung]
+- Was übernommen wird: [Layout-Muster, Farbgefühl, Typografie-Stil]
+
+## Gefühl
+[3-5 Adjektive aus Design Brief]
+
+## Farben (HSL für shadcn)
+- --primary: [hsl] — [Beschreibung, z.B. "warmes Blau"]
+- --primary-foreground: [hsl]
+- --secondary: [hsl]
+- --accent: [hsl] — [CTA Farbe]
+- --accent-foreground: [hsl]
+- --background: [hsl]
+- --foreground: [hsl]
+- --muted: [hsl]
+- --muted-foreground: [hsl]
+- --border: [hsl]
+- --radius: [rem]
+
+## Typografie
+- Heading: [Font Name] (Google Fonts)
+- Body: [Font Name] (Google Fonts)
+- Begründung: [warum diese Kombination zum Gefühl passt]
+
+## Atmosphäre
+- Hintergrund: [solid / subtle gradient / texture]
+- Schatten: [none / subtle / medium]
+- Rundungen: [sharp / medium / rounded]
+- Whitespace: [normal / grosszügig / sehr grosszügig]
+- Animationen: [minimal / dezent / lebendig]
+
+## Anti-Muster (aus Design Brief)
+- [Was der User NICHT will]
+- [Was zur Branche nicht passt]
+
+## Bilder
+- Minimum 5 Bilder auf der Homepage
+- Stil: [passend zu Adjektiven — warm/clean/professionell]
+- Placeholder: Gradient mit --primary/--accent, nie leere Spaces
 ```
-DESIGN SYSTEM (from ui-ux-pro-max)
 
-PATTERN: [e.g. Hero-Centric + Social Proof]
-STYLE: [e.g. Soft UI Evolution]
+### Step 3 — In globals.css übertragen
 
-COLORS (exact hex → convert to HSL for shadcn)
---primary: [hex → hsl]
---secondary: [hex → hsl]
---accent/CTA: [hex → hsl]
---background: [hex → hsl]
---foreground: [hex → hsl]
---muted: [hex → hsl]
+Alle Werte aus design-system.md werden in Phase 9 exakt in globals.css geschrieben.
+design-system.md ist die Quelle, globals.css ist die Umsetzung.
 
-TYPOGRAPHY
-Heading: [Font Name] (Google Fonts)
-Body: [Font Name] (Google Fonts)
+## Output
 
-EFFECTS
-Shadows: [specific values]
-Transitions: [duration, easing]
-Hover states: [specific behavior]
-Border radius: [value]
-
-ANTI-PATTERNS
-- [what to avoid for this industry]
-
-LANDING PAGE STRUCTURE
-- [section order and layout per pattern]
-```
-
-**Phase 9 MUST use these exact values. No deviations.**
-**The design-system/MASTER.md file is the single source of truth.**
+`design-system.md` im Projekt-Root. Wird von Phase 9 geladen.

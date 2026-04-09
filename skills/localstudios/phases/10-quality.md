@@ -38,17 +38,17 @@
 - [ ] NO inline `style={}` props
 - [ ] Fonts via font-heading, font-body only
 - [ ] Hover states consistent
-- [ ] globals.css matches MASTER.md from Phase 8
+- [ ] globals.css matches design-system.md from Phase 8
 
 ### shadcnblocks
 - [ ] Block files are the actual components (not replaced)
 - [ ] Block content replaced with Phase 6 content
 - [ ] Block structure preserved
 
-### Design (MASTER.md compliance)
-- [ ] Style matches what ui-ux-pro-max recommended
-- [ ] Colors match MASTER.md palette
-- [ ] Anti-patterns from MASTER.md not violated
+### Design (design-system.md compliance)
+- [ ] Style matches design-system.md (from Design Brief)
+- [ ] Colors match design-system.md palette
+- [ ] Anti-patterns from design-system.md not violated
 - [ ] /frontend-design was applied
 - [ ] Page has visual identity — not generic AI output
 

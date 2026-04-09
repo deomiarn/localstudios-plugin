@@ -2,28 +2,21 @@
 
 **This phase runs BEFORE everything else. No exceptions.**
 **The user should not have to do anything manually — Claude handles all setup.**
-**The plugin MUST work with zero pre-installed tools.**
 
 ---
 
 ## SETUP IS NOT OPTIONAL
 
 **Run EVERY install command below. Do NOT skip because "something similar is already available".**
-If MCP Docker browser is available — install Playwright anyway.
-If some other keyword tool exists — install Semrush anyway.
-These are the EXACT tools this plugin uses. No substitutes.
 
 ---
 
 ## Step 1 — Install ALL required tools
 
-Run these commands. Check AFTER running if they are available. Do NOT check first and skip.
-
 ### 1a. Playwright MCP
 ```bash
 claude mcp add playwright npx @playwright/mcp@latest
 ```
-Do NOT use MCP Docker or any other browser tool as substitute.
 
 ### 1b. Semrush MCP
 ```bash
@@ -43,9 +36,23 @@ Write `.mcp.json` in the project directory:
   }
 }
 ```
-If `.mcp.json` already exists → overwrite it with this exact config.
 
-### 1d. shadcnblocks API Key (REQUIRED)
+### 1d. frontend-design skill
+```bash
+npx claude-code-templates@latest --skill creative-design/frontend-design
+```
+
+### 1e. Vercel agent-skills (web-design-guidelines + react-best-practices)
+```bash
+npx skills add vercel-labs/agent-skills
+```
+
+### 1f. Liquid Glass skill
+```bash
+npx skills add haider-nawaz/liquid-glass-skill
+```
+
+### 1g. shadcnblocks API Key (REQUIRED)
 Ask the user:
 ```
 shadcnblocks API key is required for building the homepage.
@@ -54,82 +61,80 @@ shadcnblocks API key is required for building the homepage.
 ```
 
 **Do NOT proceed without the key.** Wait until the user provides it.
-Immediately save to `.env.local`:
+
+Save to `.env.local`:
 ```bash
-echo 'SHADCNBLOCKS_API_KEY=[user's key]' >> .env.local
+echo 'SHADCNBLOCKS_API_KEY=[user key]' >> .env.local
 ```
 Ensure `.env.local` is in `.gitignore`.
 NEVER put the key directly in `components.json` or any committed file.
 
-### 1e. frontend-design skill
-```bash
-npx claude-code-templates@latest --skill creative-design/frontend-design
-```
-
-### 1f. Create CLAUDE.md
+### 1h. Create CLAUDE.md
 
 ```markdown
 # [Project Name]
 
 ## Project Documentation — READ FIRST
-- **`docs/BUSINESS.md`** — all business facts (NAP, hours, services, USPs)
-- **`docs/SEO-STRATEGY.md`** — keyword targets, geo strategy, linking map
-- **`docs/pages/[page].md`** — per-page: purpose, keywords, SEO, GEO signals
-- **Update docs/** when making changes — keep in sync with code
+- **`docs/BUSINESS.md`** — all business facts
+- **`docs/SEO-STRATEGY.md`** — keyword targets
+- **`docs/pages/home.md`** — homepage: keywords, SEO, GEO
+- **`design-system.md`** — colors, fonts, atmosphere (from Design Brief)
 
 ## Skills — ALWAYS USE
-- /frontend-design for every component (distinctive, not generic)
-- references/ui-rules.md for strict CSS rules (no hardcoded colors)
+- /frontend-design — for every component (distinctive, not generic)
+- shadcnblocks — Blocks as structural foundation (EDIT, don't replace)
+- /liquid-glass — for glassmorphism/frosted effects where fitting
 
-## Styling Rules — CRITICAL
-- **ALL styles in `app/globals.css`** — read it before any style change
-- Never use inline `style={}` props
-- Never create separate CSS files
-- All colors via shadcn CSS variables (--primary, --accent etc.)
-- Override shadcn defaults in globals.css, not in component files
+## UI Rules — CRITICAL
+- ALL styles in `app/globals.css` — read before any change
+- ALL colors via shadcn CSS variables (--primary, --accent etc.)
+- NEVER hardcode hex/rgb in components
+- NEVER inline style={} props
+- NEVER leave empty spaces — use styled placeholders
+- Minimum 5 images on homepage
 
 ## NAP Data
-All business data lives in `lib/site-config.ts` AND `docs/BUSINESS.md`.
-Components read from site-config.ts — never hardcode in multiple places.
+`lib/site-config.ts` — single source of truth.
 ```
 
 ---
 
-## Step 2 — Show Dashboard and Decide
+## Step 2 — Check if restart needed
 
-Show the status AFTER running all install commands:
-
-```
-=== LOCALSTUDIOS PREFLIGHT CHECK ===
-
-PROJECT
-  Directory .......... [current working directory]
-  CLAUDE.md .......... ✅ Created
-
-TOOLS
-  Playwright MCP ..... ✅ / 🔧 Installed
-  Semrush MCP ........ ✅ / 🔧 Installed
-  shadcn MCP ......... ✅ / 🔧 Installed
-  frontend-design .... ✅ / 🔧 Installed
-  shadcnblocks ....... ✅ Key stored
-
-OPTIONAL
-  claude-seo ......... ✅ / ❌
-
-=== STATUS ===
-```
-
-## Step 3 — ALWAYS restart if anything was just installed
-
-**If ANY tool was just installed or configured in Step 1 (even one):**
-
+**If ANY tool was just installed:**
 ```
 Setup complete. Restart needed to load all tools.
 → Type /exit, then run 'claude' again.
 → Then re-run: /localstudios generate <url>
 ```
-
-**STOP. Do NOT proceed to Phase 1. Do NOT use fallbacks. Do NOT say "CLI fallback is fine".**
-**The restart ensures ALL tools are properly loaded. No exceptions.**
+**STOP. Do NOT proceed. Do NOT use fallbacks.**
 
 **Only proceed to Phase 1 if this is a RE-RUN after restart and all tools show ✅.**
+
+---
+
+## Step 3 — Status Dashboard
+
+```
+=== LOCALSTUDIOS PREFLIGHT CHECK ===
+
+PROJECT
+  Directory .......... [cwd]
+  CLAUDE.md .......... ✅
+
+INSTALLED
+  Playwright MCP ..... ✅ / 🔧 Restart needed
+  Semrush MCP ........ ✅ / 🔧 Restart needed
+  shadcn MCP ......... ✅ / 🔧 Restart needed
+  frontend-design .... ✅ / 🔧 Installed
+  vercel agent-skills  ✅ / 🔧 Installed
+  liquid-glass ....... ✅ / 🔧 Installed
+
+BLOCKS
+  shadcnblocks ....... ✅ Key in .env.local
+
+OPTIONAL
+  claude-seo ......... ✅ / ❌
+
+=== READY ===
+```

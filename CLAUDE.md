@@ -3,60 +3,62 @@
 Homepage generation plugin. Next.js + shadcn/ui + shadcnblocks + /frontend-design.
 
 ## Project Documentation
-- **`docs/BUSINESS.md`** — all business facts (NAP, hours, services, USPs)
-- **`docs/SEO-STRATEGY.md`** — keyword targets, geo strategy
-- **`docs/pages/home.md`** — homepage: purpose, keywords, SEO, GEO
+- **`docs/BUSINESS.md`** — all business facts
+- **`docs/SEO-STRATEGY.md`** — keyword targets
+- **`docs/pages/home.md`** — homepage: keywords, SEO, GEO
+- **`design-system.md`** — colors, fonts, atmosphere (from Design Brief)
 
 ## Agents (5)
 | Agent | Phase | Purpose |
 |-------|-------|---------|
-| `scraper` | 1 | Quick website scrape (max 7 requests, Playwright MCP) |
+| `scraper` | 1 | Quick website scrape (max 7 requests, Playwright) |
 | `keyword-researcher` | 3 | Semrush keyword research (max 5 API calls) |
-| `content-writer` | 6 | Extensive homepage content (1500-2500 words, E-E-A-T) |
+| `content-writer` | 6 | Extensive homepage content (1500-2500 words) |
 | `schema-generator` | 7 | JSON-LD schema (LocalBusiness, WebSite) |
-| `quality-checker` | 10 | Final QA (SEO, UI rules, shadcnblocks, design quality) |
+| `quality-checker` | 10 | QA + /seo audit with fixes |
 
-## Skills — ALWAYS USE WHEN AVAILABLE
+## Design Process
 
-### /ui-ux-pro-max (LEITET — Phase 8 + 9)
-- Generates the Design System (MASTER.md) — 67 styles, 97 palettes, industry rules
-- ALL design decisions come from MASTER.md
-- Reviews the built homepage at end of Phase 9
-- Hierarchy: ui-ux-pro-max > shadcnblocks > frontend-design
+```
+Design Brief (Referenz-Screenshots + Adjektive + Farben)
+  → design-system.md (Farben, Fonts, Spacing, Anti-Patterns)
+    → shadcnblocks (Fundament — Blöcke passend zur Referenz)
+      → /frontend-design (Feintuning — unverwechselbar)
+        → /seo audit (Prüfung + sofortige Fixes)
+```
 
-### shadcnblocks (FUNDAMENT — Phase 9)
-- Install Blocks via `npx shadcn add @shadcnblocks/[name]`
-- Blocks are structural starting points — not the final product
-- EDIT the block files directly — NEVER create new files that replace them
-- Replace content + colors, keep structure
+## Skills — ALWAYS USE
 
-### /frontend-design (FEINTUNING — Phase 9)
-- Refines blocks WITHIN the MASTER.md design rules
-- Komposition, Atmosphäre, Motion, Typografie
-- Must respect MASTER.md style + anti-patterns
+### /frontend-design (MANDATORY Phase 9)
+- Use for EVERY component — distinctive, non-generic
+- Pick a direction and commit (see skill for options)
+- Anti-patterns: no SaaS hero clones, no generic card piles
 
-### /seo (AUDIT — Phase 10)
-- Runs /seo page, /seo schema, /seo content on the NEW homepage
-- Must FIX all issues found, not just report them
+### shadcnblocks (FUNDAMENT Phase 9)
+- Install Blocks: `npx shadcn add @shadcnblocks/[name]`
+- EDIT block files directly — NEVER create new files
+- Replace content + hardcoded colors, keep structure
+
+### /liquid-glass (optional effect)
+- Glassmorphism/frosted-glass effects where fitting
+- Use tastefully — not on everything, but where it adds depth
+
+### /seo (AUDIT Phase 10)
+- /seo page + /seo schema + /seo content
+- Must FIX all issues found
 
 ## UI Rules — CRITICAL
 
-### Read `references/ui-rules.md` before writing ANY component code.
+Read `references/ui-rules.md` before ANY component code.
 
-- **ALL styles in `app/globals.css`** — read before any change
-- **ALL colors via shadcn CSS variables** (--primary, --accent etc.)
-- **NEVER** hardcode hex/rgb/hsl in components
-- **NEVER** use `className="bg-blue-600"` — use `className="bg-primary"`
-- **NEVER** use inline `style={}` props
-- **NEVER** leave empty spaces where images should be — use styled placeholders
-- Fonts only via globals.css (`font-heading`, `font-body`)
-- Hover states consistent across all components
+- ALL styles in `app/globals.css`
+- ALL colors via shadcn CSS variables
+- NEVER hardcode hex/rgb in components
+- NEVER inline style={}
+- NEVER leave empty spaces — styled placeholders
+- Minimum 5 images on homepage
+- Fonts only via globals.css
+- Hover states consistent
 
 ## NAP Data
-`lib/site-config.ts` AND `docs/BUSINESS.md` — single source of truth.
-Never hardcode NAP in multiple places.
-
-## Development
-- Keep SKILL.md concise — detail in phases/ and references/
-- All external dependencies have fallbacks
-- Agents are spawned by phases, not called directly
+`lib/site-config.ts` — single source of truth.

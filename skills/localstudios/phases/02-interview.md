@@ -1,25 +1,23 @@
-# Phase 2 — User Interview
+# Phase 2 — Interview + Design Brief
 
 **⚠ MANDATORY PAUSE — Do not proceed until user responds.**
 
 ## References
-- Load `./references/interview-template.md` for checklist format
+- Load `./references/interview-template.md` for business checklist
+- Load `./references/design-brief-template.md` for design questions
 - Load `./references/docs-structure.md` for BUSINESS.md template
-
-## Context
-We're building a **single homepage** as a client pitch. Only ask what's needed for that.
 
 ## Process
 
-1. Present checklist — prefill from Phase 1 scraping
-2. `[FOUND — please confirm]: <value>` for scraped data
-3. `[MISSING — required]` for essential gaps
-4. Wait for response
+Present TWO checklists: Business Info + Design Brief.
+Prefill from Phase 1 scraping where possible.
 
-## Checklist
+---
+
+## Part 1 — Business Information
 
 ```
-=== HOMEPAGE GENERATOR: INFORMATION CHECK ===
+=== BUSINESS INFO ===
 
 BUSINESS
 [ ] Company name: ___
@@ -32,10 +30,6 @@ SEO
 [ ] 2-3 Secondary Keywords: ___
 [ ] Target audience: ___
 
-DESIGN
-[ ] Style preference — or "AI decides": ___
-[ ] Colors — keep existing or new: ___
-
 CONTACT (for schema + footer)
 [ ] Full address: ___
 [ ] Phone: ___
@@ -47,14 +41,43 @@ SERVICES (for overview section)
 [ ] Main services (3-6): ___
 
 TRUST
-[ ] Years experience / clients served / Google rating: ___
+[ ] Years experience / clients / Google rating: ___
 [ ] Certifications or awards: ___
 
 CONVERSION
 [ ] Main goal: Call / Form / Book / Purchase: ___
-
-=== ANSWER THESE — THEN WE BUILD ===
 ```
+
+## Part 2 — Design Brief (WICHTIGSTER INPUT)
+
+```
+=== DESIGN BRIEF ===
+
+REFERENZEN (der grösste Hebel — zeig mir ein Bild)
+[ ] 1-3 Screenshots oder URLs von Websites die dir gefallen: ___
+[ ] Was genau gefällt daran? ___
+
+GEFÜHL
+[ ] 3-5 Adjektive: ___
+    (modern, warm, vertrauenswürdig, premium, clean, elegant, mutig...)
+
+FARBEN
+[ ] Primary (Hex oder "wie Referenz X" oder "AI entscheidet"): ___
+[ ] Accent/CTA (Hex oder "wie Referenz X"): ___
+
+TYPOGRAFIE
+[ ] Serif / Sans-Serif / Egal: ___
+
+BESONDERES
+[ ] Was soll auffallen? ___
+
+ANTI-MUSTER
+[ ] Was NICHT? ___
+
+=== WARTE AUF ANTWORT ===
+```
+
+---
 
 ## After Response
 
@@ -65,13 +88,10 @@ Business: [name] — [industry] — [city]
 Primary Keyword: [keyword]
 Services: [list]
 Goal: [call/form/booking]
+Design: [adjectives] — Referenz: [URL/description]
+Colors: [primary] + [accent]
 === END BRIEF ===
 ```
 
-Confirm with user.
-
 ### 2. Create docs/BUSINESS.md
-Fill from interview + scraping data. Single source of truth for all business facts.
-
-### 3. Update CLAUDE.md
-Add docs references.
+### 3. Update CLAUDE.md with docs references
