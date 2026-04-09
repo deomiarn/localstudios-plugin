@@ -26,13 +26,21 @@ If content appears left-aligned → the wrapper is missing. Fix it.
   Termin vereinbaren
 </Button>
 
-// Secondary: MUST have visible border AND readable text
+// Secondary on LIGHT bg: visible border + readable text
 <Button variant="outline" className="border-2 border-primary text-primary hover:bg-primary hover:text-white px-6 py-2.5">
   Mehr erfahren
 </Button>
+
+// Secondary on DARK bg: transparent with white border — NEVER use variant="outline" as-is
+<Button className="bg-transparent border-2 border-white text-white hover:bg-white hover:text-primary px-6 py-2.5">
+  Öffnungszeiten
+</Button>
 ```
 
-**NEVER:** white button with white/invisible text. ALWAYS check: is the text readable against the button background AND the section background?
+**CRITICAL: shadcn Button variant="outline" sets its own bg/text colors that BREAK on dark backgrounds.**
+NEVER use `variant="outline"` on dark sections. Instead use custom classes: `bg-transparent border-2 border-white text-white`.
+
+**For EVERY button: check text is readable against BOTH the button bg AND the section bg.**
 
 ### 3. NO PILL BADGES / LABELS
 ```tsx

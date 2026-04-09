@@ -77,11 +77,26 @@ Das ist der Standard-Container für ALLE Sections. Keine Ausnahmen ausser Full-W
 - **Hover**: sichtbare Veränderung (Farbe, Shadow, oder Scale)
 - **Icons**: links vom Text, mit `gap-2`
 
+### Buttons auf dunklem Hintergrund
+**shadcn `variant="outline"` ist KAPUTT auf dunklen Sections** — es setzt `bg-background` (weiss) und `text-foreground` was auf dunklem bg unsichtbar wird.
+
+Auf dunklem Hintergrund IMMER custom classes statt variant:
+```tsx
+// RICHTIG auf dunklem bg:
+<Button className="bg-transparent border-2 border-white text-white hover:bg-white hover:text-primary px-6 py-2.5">
+  Öffnungszeiten
+</Button>
+
+// FALSCH auf dunklem bg:
+<Button variant="outline">  // ❌ wird weiss auf weiss
+```
+
 ### VERBOTEN
 ```tsx
-className="bg-white text-white"      /* unsichtbar! */
-className="px-3 py-1"               /* zu klein */
-className="bg-gray-100 text-gray-400" /* sieht disabled aus */
+variant="outline" auf dunklem Hintergrund  /* wird unsichtbar */
+className="bg-white text-white"            /* unsichtbar */
+className="px-3 py-1"                     /* zu klein */
+className="bg-gray-100 text-gray-400"     /* disabled look */
 ```
 
 ---
