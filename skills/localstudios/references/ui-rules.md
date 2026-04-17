@@ -1,60 +1,54 @@
 # UI Rules — Strikte CSS/Code Regeln
 
 Diese Regeln gelten IMMER. Kein Code wird geschrieben ohne sie einzuhalten.
-Alle Styles kommen aus `design.md` → `globals.css`. Keine hardcoded Farben. Keine fremden Block-Libraries.
+
+**Prinzip:** Tailwind-first. `globals.css` ist nur Tokens (CSS-Vars aus `design.md` + Tailwind v4 `@theme` Mapping + optional Font-Base). Alle Styles landen als Tailwind-Utilities in den Components. Keine hardcoded Farben. Keine fremden Block-Libraries.
 
 ---
 
-## Layout & Zentrierung
+## Layout & Zentrierung — via Tailwind-Utilities
 
-### ALLE Sections zentriert
-```css
-/* In globals.css — PFLICHT */
-.section {
-  @apply py-16 md:py-24 lg:py-32;
-  @apply mx-auto max-w-7xl px-4 sm:px-6 lg:px-8;
-}
-```
+Keine `.section`-Custom-Klasse. Zentrierung direkt in den Components:
 
-**Jede Section MUSS zentriert sein.** Kein links-aligned Content.
-Bei Full-Bleed Backgrounds: äusseres `<section>` mit Background, inneres `<div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">` für den Content.
-
-### Container Standard
 ```tsx
-className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8"
+<section className="py-16 md:py-24 lg:py-32">
+  <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+    {/* content */}
+  </div>
+</section>
 ```
-Standard-Container für ALLE Sections. Keine Ausnahmen ausser Full-Width Hero-Bilder (das Bild selbst darf bleeden, der Text-Content nicht).
+
+Bei Full-Bleed Backgrounds: äusseres `<section>` mit Background (`bg-primary text-primary-foreground` etc.), inneres `<div>` mit dem Container.
+
+Vertikales Section-Padding ist **immer** `py-16 md:py-24 lg:py-32` — wenn `design.md` einen anderen Rhythmus vorgibt, die Werte konsistent über alle Sections anwenden.
 
 ---
 
-## Buttons — via Utility-Klassen aus globals.css
+## Buttons — Tailwind-Utilities komponiert im Button-Component
 
-Buttons werden NIEMALS mit Inline-Tailwind für Farben gebaut. Sie nutzen die `.btn-*` Utility-Klassen aus globals.css (die wiederum CSS-Vars aus design.md nutzen).
+Der Button-Component lebt in `components/ui/button.tsx` und komponiert Tailwind-Utilities per Variant — **keine `.btn-*` Custom-Classes in globals.css**:
 
 ```tsx
 import { Button } from "@/components/ui/button"
 
-// primary — bg-primary text-primary-foreground
 <Button variant="primary">Termin vereinbaren</Button>
-
-// secondary — bg-secondary text-secondary-foreground + border
 <Button variant="secondary">Mehr erfahren</Button>
-
-// outline — transparent + border-primary + text-foreground (auf hellem bg)
 <Button variant="outline">Öffnungszeiten</Button>
 
-// outline-on-dark — für dunkle Section-Backgrounds (WICHTIG — sonst unsichtbar)
+// Auf DUNKLEN Section-Backgrounds:
 <Button variant="outline-on-dark">044 853 22 74</Button>
 ```
 
+Die Variant-Definition (siehe `code-standards.md`) nutzt nur Tailwind: `bg-primary text-primary-foreground hover:bg-primary/90 px-8 py-3 …`. Radius kommt aus `--radius` via `rounded-[var(--radius)]`.
+
 ### Button-Shape
-Shape kommt aus `design.md` (Button-Sektion: pill / rounded / sharp). Wird zentral via `--radius-btn` gesetzt. Components erben das automatisch.
+Shape kommt aus `design.md`. Sie wird im Button-Component über Tailwind-Utilities und `--radius` gesetzt.
 
 ### Button-Regeln
-- **Grosszügiges Padding** — die `.btn-primary` Utility enthält `px-8 py-3`. Nicht kleiner machen.
-- **Secondary MUSS sichtbar sein** — die Utility-Klasse kümmert sich darum (border-2 border-border).
-- **Auf dunklem Section-Background** IMMER `variant="outline-on-dark"` (NIE generisches `border border-white/20` oder Tailwind-Default).
-- **Icons** links vom Text, mit `gap-2`.
+- **Grosszügiges Padding** — primary `px-8 py-3`, nicht kleiner
+- **Secondary MUSS sichtbar sein** — hat `border border-border` im Component
+- **Auf dunklem Section-Background** IMMER `variant="outline-on-dark"` (NIE generisches `border-white/20`)
+- **Icons** links vom Text, mit `gap-2`
 
 ### VERBOTEN
 ```tsx
@@ -66,30 +60,23 @@ Shape kommt aus `design.md` (Button-Sektion: pill / rounded / sharp). Wird zentr
 
 ---
 
-## Typografie — aus design.md, via next/font
+## Typografie — via next/font + Tailwind-Utilities
 
-### Fonts sind in design.md festgelegt
+### Fonts sind in `design.md` festgelegt
 - `next/font/google` Loader in `app/layout.tsx`
-- CSS Vars `--font-heading` / `--font-body`
-- Utilities `font-heading` / `font-body` in Components
+- CSS-Var `--font-heading` / `--font-body` werden auf `<html>` gesetzt
+- `@theme inline` in globals.css mapped sie zu Tailwind (`font-heading` / `font-body` Utility)
+- `globals.css @layer base` setzt `body { font-family: var(--font-body) }` und `h1-h4 { font-family: var(--font-heading) }` — dadurch erben Headings automatisch
 
+### Scale in der Component, nicht in globals.css
 ```tsx
-<h1 className="font-heading">…</h1>
-<p className="font-body text-muted-foreground">…</p>
+<h1 className="text-4xl md:text-5xl lg:text-6xl font-extrabold tracking-tight">…</h1>
+<h2 className="text-3xl md:text-4xl font-bold tracking-tight">…</h2>
+<h3 className="text-xl md:text-2xl font-semibold">…</h3>
+<p  className="text-base md:text-lg leading-relaxed text-muted-foreground">…</p>
 ```
 
-### Schrift-Hierarchie in globals.css
-Scale kommt aus `design.md`. Typische Startwerte:
-```css
-@layer base {
-  h1 { @apply text-4xl md:text-5xl lg:text-6xl font-extrabold tracking-tight; letter-spacing: -0.02em; }
-  h2 { @apply text-3xl md:text-4xl font-bold tracking-tight; letter-spacing: -0.015em; }
-  h3 { @apply text-xl md:text-2xl font-semibold; }
-  p  { @apply text-base md:text-lg leading-relaxed; color: hsl(var(--muted-foreground)); }
-}
-```
-
-Passe die Skala wenn `design.md` andere Werte vorgibt.
+Wenn `design.md` eine spezielle Letter-Spacing oder Line-Height vorschreibt die sich mit Tailwind nicht ausdrücken lässt → `@layer base` in globals.css für h1/h2 ergänzen. Nur soweit nötig.
 
 ---
 
@@ -175,25 +162,25 @@ Phase 2 muss fragen: „Google Maps Embed URL für den Standort?"
 
 ---
 
-## Spacing & Sections
+## Spacing & Sections — Tailwind direkt
 
-### Section-Spacing konsistent
-```css
-.section {
-  @apply py-16 md:py-24 lg:py-32;
-  @apply mx-auto max-w-7xl px-4 sm:px-6 lg:px-8;
-}
+### Section-Spacing konsistent (Tailwind-Utilities, keine Custom-Class)
+```tsx
+<section className="py-16 md:py-24 lg:py-32">
+  <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">…</div>
+</section>
 ```
 
 ### Alternating Backgrounds
-Jede zweite Section mit leichtem Hintergrund:
 ```tsx
-<section className="section bg-secondary/30">…</section>
+<section className="py-16 md:py-24 lg:py-32 bg-secondary/30">
+  <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">…</div>
+</section>
 ```
 
 ### Full-Bleed Backgrounds
 ```tsx
-<section className="w-full bg-primary text-primary-foreground">
+<section className="bg-primary text-primary-foreground">
   <div className="py-16 md:py-24 lg:py-32 mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">…</div>
 </section>
 ```

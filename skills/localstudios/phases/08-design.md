@@ -73,16 +73,16 @@ Fehlt etwas im Output von `getdesign` → ergänzen, aber **niemals** Werte erfi
   - h3: [...]
   - p:  [...]
 
-## Buttons
-- Primary:   bg-primary text-primary-foreground, padding [z.B. px-8 py-3], radius [z.B. --radius-btn 0.5rem], hover [bg-primary/90 + shadow]
-- Secondary: bg-secondary text-secondary-foreground, border-2 border-border, hover [bg-accent text-accent-foreground]
+## Buttons (werden als Tailwind-Utilities im Button-Component komponiert)
+- Primary:   bg-primary text-primary-foreground, padding [z.B. px-8 py-3], hover [bg-primary/90 + shadow]
+- Secondary: bg-secondary text-secondary-foreground, border border-border, hover [bg-secondary/80]
 - Outline:   transparent, border-2 border-primary, hover [bg-primary text-primary-foreground]
-- Shape: [pill (rounded-full) | rounded (rounded-lg) | sharp (rounded-sm)]
+- Shape / Radius: kommt aus `--radius` (z.B. rounded-lg → 0.5rem; rounded-full → pill-shape)
 
 ## Section & Layout
-- Section Spacing: py-16 md:py-24 lg:py-32
-- Container: mx-auto max-w-7xl px-4 sm:px-6 lg:px-8
-- Radius: --radius [0.5rem | 0.75rem | ...]
+- Section Spacing (Tailwind-Utilities): py-16 md:py-24 lg:py-32
+- Container (Tailwind-Utilities):       mx-auto max-w-7xl px-4 sm:px-6 lg:px-8
+- Radius-Token: --radius [0.5rem | 0.75rem | ...]
 
 ## Atmosphäre
 - Background-Stil: [solid | subtle gradient | grain texture]

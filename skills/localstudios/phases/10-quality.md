@@ -111,7 +111,7 @@ Für JEDE Variante (`/`, `/variant-2`, `/variant-3`):
 4. **Abweichungen fixen**
    - Für jede Abweichung das verantwortliche File identifizieren und sofort anpassen
    - Häufige Fixes:
-     - Buttons zu klein → `.btn-primary` padding anpassen in globals.css
+     - Buttons zu klein → Button-Component variants anpassen (`px-8 py-3` → grösser)
      - Heading zu wenig dominant → Scale in globals.css erhöhen (matcht dann auch `design.md`)
      - Section fühlt sich eng → Container-Padding oder Section-Spacing erhöhen
      - Variante sieht wie andere aus → Blueprint-Schwerpunkt stärker implementieren (andere Komposition, anderer Rhythmus)

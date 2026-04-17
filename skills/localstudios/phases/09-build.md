@@ -35,66 +35,82 @@ npx create-next-app@latest . --typescript --tailwind --app --no-src-dir --import
 
 Kein `shadcn init`. Kein Registry-Setup. Keine Block-Library.
 
-### Step 2 — globals.css aus design.md generieren
+### Step 2 — globals.css aus design.md generieren (MINIMAL)
 
-`app/globals.css` wird **1:1 aus `design.md`** abgeleitet. Nichts erfinden.
+`app/globals.css` bleibt **schlank**. Der Job ist:
+- Farb-Tokens als CSS-Vars definieren (shadcn-Stil, HSL)
+- Tailwind v4 `@theme` mapping damit `bg-primary` / `text-accent` / `border-border` funktionieren
+- Fonts via `next/font` an CSS-Vars binden
+- Radius als Token
 
-Skelett:
+**Alles andere passiert in den Components via Tailwind-Utility-Klassen.** Kein `.section`, kein `.btn-*` by default. Nur wenn `design.md` eine wirklich wiederkehrende Atmosphäre-Eigenart beschreibt die sich mit purem Tailwind unschön wiederholt → dann eine schmale Custom-Class ergänzen (z.B. `.ambient-grain` für Grain-Overlay) und in `design.md` dokumentieren.
+
+Skelett (shadcn-Pattern, Tailwind v4):
 
 ```css
 @import "tailwindcss";
 
-@theme {
-  --color-background: hsl(<aus design.md>);
-  --color-foreground: hsl(<aus design.md>);
-  --color-primary: hsl(<aus design.md>);
-  --color-primary-foreground: hsl(<aus design.md>);
-  --color-accent: hsl(<aus design.md>);
-  --color-accent-foreground: hsl(<aus design.md>);
-  --color-muted: hsl(<aus design.md>);
-  --color-muted-foreground: hsl(<aus design.md>);
-  --color-border: hsl(<aus design.md>);
-  --color-ring: hsl(<aus design.md>);
-
-  --font-heading: var(--font-heading);   /* gesetzt via next/font */
-  --font-body: var(--font-body);
-
-  --radius: <aus design.md>;
-  --radius-btn: <aus design.md>;
-}
-
+/* 1) CSS-Vars aus design.md */
 @layer base {
-  body { @apply bg-background text-foreground font-body antialiased; }
+  :root {
+    --background: <H S L aus design.md>;          /* z.B. 0 0% 100% */
+    --foreground: <H S L>;
+    --primary: <H S L>;
+    --primary-foreground: <H S L>;
+    --secondary: <H S L>;
+    --secondary-foreground: <H S L>;
+    --accent: <H S L>;
+    --accent-foreground: <H S L>;
+    --muted: <H S L>;
+    --muted-foreground: <H S L>;
+    --border: <H S L>;
+    --ring: <H S L>;
 
-  h1 { @apply <scale aus design.md>; letter-spacing: <aus design.md>; }
-  h2 { @apply <scale aus design.md>; letter-spacing: <aus design.md>; }
-  h3 { @apply <scale aus design.md>; }
-  p  { @apply <scale aus design.md>; }
+    --radius: <aus design.md>;                    /* z.B. 0.5rem */
+  }
+
+  * { border-color: hsl(var(--border)); }
+  body { @apply bg-background text-foreground antialiased; font-family: var(--font-body); }
+  h1, h2, h3, h4 { font-family: var(--font-heading); }
 }
 
-@layer components {
-  .section   { @apply py-16 md:py-24 lg:py-32 mx-auto max-w-7xl px-4 sm:px-6 lg:px-8; }
-  .section-full { @apply py-16 md:py-24 lg:py-32 w-full; }  /* für full-bleed backgrounds */
+/* 2) Tailwind v4 mapping — damit bg-primary etc. funktioniert */
+@theme inline {
+  --color-background: hsl(var(--background));
+  --color-foreground: hsl(var(--foreground));
+  --color-primary: hsl(var(--primary));
+  --color-primary-foreground: hsl(var(--primary-foreground));
+  --color-secondary: hsl(var(--secondary));
+  --color-secondary-foreground: hsl(var(--secondary-foreground));
+  --color-accent: hsl(var(--accent));
+  --color-accent-foreground: hsl(var(--accent-foreground));
+  --color-muted: hsl(var(--muted));
+  --color-muted-foreground: hsl(var(--muted-foreground));
+  --color-border: hsl(var(--border));
+  --color-ring: hsl(var(--ring));
 
-  .btn-primary   { @apply bg-primary text-primary-foreground font-semibold px-8 py-3 text-base md:text-lg
-                        hover:bg-primary/90 transition-all duration-200 shadow-md hover:shadow-lg;
-                   border-radius: var(--radius-btn); }
-  .btn-secondary { @apply bg-secondary text-secondary-foreground font-medium px-6 py-2.5
-                        border-2 border-border
-                        hover:bg-accent hover:text-accent-foreground transition-all duration-200;
-                   border-radius: var(--radius-btn); }
-  .btn-outline   { @apply bg-transparent text-foreground font-medium px-6 py-2.5
-                        border-2 border-primary
-                        hover:bg-primary hover:text-primary-foreground transition-all duration-200;
-                   border-radius: var(--radius-btn); }
-  /* Auf DUNKLEM Section-Background statt variant/outline-Tailwind-Default: */
-  .btn-outline-on-dark { @apply bg-transparent text-white border-2 border-white px-6 py-2.5
-                              hover:bg-white hover:text-primary transition-all duration-200;
-                         border-radius: var(--radius-btn); }
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+
+  --font-heading: var(--font-heading);
+  --font-body: var(--font-body);
 }
 ```
 
-**globals.css ist identisch für alle Varianten.** Wenn `design.md` einen Token hat den globals.css nicht nutzt, ergänzen. Wenn globals.css einen Token nutzt der in `design.md` fehlt, `design.md` updaten (nicht umgekehrt erfinden).
+Wenn `design.md` spezielle Atmosphäre-Eigenarten definiert die sich mit reinem Tailwind schlecht ausdrücken lassen, schreibe kleine Utility-Klassen drunter — **nur so viele wie nötig**. Beispiel:
+
+```css
+@layer utilities {
+  /* Nur wenn design.md einen Grain-Overlay vorschreibt: */
+  .bg-grain { background-image: url("/grain.svg"); background-blend-mode: overlay; }
+}
+```
+
+**Regel:** Wenn etwas in Tailwind-Utilities ausdrückbar ist → in die Component. Nicht in globals.css.
+
+**globals.css ist identisch für alle Varianten.** Wenn `design.md` einen Token hat den globals.css nicht mapped, ergänzen. Wenn globals.css einen Token nutzt der in `design.md` fehlt, `design.md` updaten (nicht umgekehrt erfinden).
 
 ### Step 3 — Fonts via next/font
 
@@ -168,7 +184,7 @@ components/
     footer.tsx                  → Shared
     variant-switcher.tsx        → Vergleichs-Nav
   ui/
-    button.tsx                  → minimaler Wrapper (nutzt .btn-primary etc.)
+    button.tsx                  → komponiert Tailwind-Utilities per Variant, nutzt CSS-Vars aus globals.css
     image-placeholder.tsx       → Gradient-Placeholder für fehlende Bilder
   seo/
     schema-script.tsx           → Shared
@@ -185,30 +201,35 @@ variant-blueprints.md
 
 ### Step 6 — Minimal UI Primitives
 
-`components/ui/button.tsx`:
+`components/ui/button.tsx` — komponiert **Tailwind-Utilities direkt**, nutzt die CSS-Vars aus `globals.css` (keine `.btn-*` Custom-Classes):
 
 ```tsx
 import { ComponentPropsWithoutRef } from "react"
 import { cn } from "@/lib/cn"
 
 type Variant = "primary" | "secondary" | "outline" | "outline-on-dark"
+
 interface ButtonProps extends ComponentPropsWithoutRef<"button"> {
   variant?: Variant
-  asChild?: boolean
+}
+
+const base = "inline-flex items-center justify-center rounded-[var(--radius)] font-semibold transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:opacity-50 disabled:pointer-events-none"
+
+const variants: Record<Variant, string> = {
+  primary:           "bg-primary text-primary-foreground hover:bg-primary/90 px-8 py-3 text-base md:text-lg shadow-md hover:shadow-lg",
+  secondary:         "bg-secondary text-secondary-foreground hover:bg-secondary/80 border border-border px-6 py-2.5",
+  outline:           "bg-transparent text-foreground border-2 border-primary hover:bg-primary hover:text-primary-foreground px-6 py-2.5",
+  "outline-on-dark": "bg-transparent text-white border-2 border-white hover:bg-white hover:text-primary px-6 py-2.5",
 }
 
 export function Button({ variant = "primary", className, ...rest }: ButtonProps) {
-  const cls = {
-    primary: "btn-primary",
-    secondary: "btn-secondary",
-    outline: "btn-outline",
-    "outline-on-dark": "btn-outline-on-dark",
-  }[variant]
-  return <button className={cn(cls, className)} {...rest} />
+  return <button className={cn(base, variants[variant], className)} {...rest} />
 }
 ```
 
-`components/ui/image-placeholder.tsx`:
+Die Button-Styles leben im Component-Code, nicht in `globals.css`. Shape/Padding anpassen wenn `design.md` das vorgibt — aber über Tailwind-Utilities im Component.
+
+`components/ui/image-placeholder.tsx` — auch reines Tailwind:
 
 ```tsx
 export function ImagePlaceholder({ label, className = "" }: { label: string; className?: string }) {
@@ -226,7 +247,7 @@ export function ImagePlaceholder({ label, className = "" }: { label: string; cla
 export const cn = (...parts: (string | undefined | false | null)[]) => parts.filter(Boolean).join(" ")
 ```
 
-Keine weiteren UI-Libraries. Alles andere (Cards, Accordions, etc.) wird — falls gebraucht — als Custom Component in der jeweiligen Section direkt inline geschrieben.
+Keine weiteren UI-Libraries. Cards, Accordions, etc. als Custom Component in der jeweiligen Section inline geschrieben — mit Tailwind-Utilities und CSS-Vars.
 
 ---
 
@@ -280,16 +301,23 @@ Notiere für die aktuelle Variante:
 
 Regeln:
 1. **Semantisches HTML.** `<section>`, `<article>`, `<header>`, `<footer>`, `<h2>`, `<p>`. Keine anonymen `<div>`-Wrapper wo ein Semantic passt.
-2. **Container zentriert** via `<section className="section">` oder (bei Full-Bleed Background) mit innerem `<div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">`.
-3. **Keine hardcoded Farben.** Nur `bg-primary`, `text-foreground`, `bg-muted/40`, etc. — also CSS Vars aus `design.md`.
+2. **Container zentriert** via Tailwind-Utilities direkt:
+   ```tsx
+   <section className="py-16 md:py-24 lg:py-32">
+     <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">…</div>
+   </section>
+   ```
+   Bei Full-Bleed Background das äussere `<section>` mit `bg-primary` o.ä., den inneren Container aber zentriert lassen.
+3. **Keine hardcoded Farben.** Nur `bg-primary`, `text-foreground`, `bg-muted/40`, `text-accent-foreground` — also Tailwind-Utilities die aus den CSS-Vars in `globals.css` gemappt sind.
 4. **Keine pill-badges für Orte/Labels.** Clean Text / einfache Liste.
 5. **Buttons via `<Button variant="…">`.** Auf dunklem Section-Background → `variant="outline-on-dark"`, niemals generische Tailwind-Outline.
 6. **Content aus Phase 6 einsetzen** (Text ist identisch über Varianten — nur das Layout ändert sich).
 7. **Bild:** Jede Section bekommt ein Bild. Wenn scraped → `next/image`. Wenn nicht → `<ImagePlaceholder label="…" />`.
 8. **Clean Code:** Eine Section = eine Component. Keine Inline-Komplex-Logik. Kleine lokale Helper als `function` im selben File, keine neue Files für Trivialitäten.
 9. **Accessibility:** `alt` auf Images, `aria-label` auf Icon-only Buttons, `tel:` Links für Telefonnummern.
+10. **Keine eigenen Custom-Classes definieren** — wenn du merkst du willst eine schreiben, prüf ob Tailwind-Utilities reichen. Wenn nicht (sehr selten), dokumentiere die Eigenart in `design.md` + füge eine schmale Utility in globals.css hinzu.
 
-Beispiel (Hero für Variant 1):
+Beispiel (Hero für Variant 1) — **reine Tailwind-Utilities**, keine `.section`-Klasse:
 
 ```tsx
 // components/sections/variant-1/hero.tsx
@@ -300,23 +328,22 @@ import { siteConfig } from "@/lib/site-config"
 
 export function Hero() {
   return (
-    <section className="section grid items-center gap-12 lg:grid-cols-[3fr_2fr]">
-      <div>
-        <h1 className="font-heading">
-          <!-- Primary KW + City aus Phase 6 Content -->
-        </h1>
-        <p className="mt-6 max-w-xl text-lg text-muted-foreground">
-          <!-- Subheadline aus Phase 6 -->
-        </p>
-        <div className="mt-8 flex flex-wrap gap-4">
-          <Button variant="primary">Termin vereinbaren</Button>
-          <a href={`tel:${siteConfig.nap.phone}`} className="inline-flex items-center">
-            <Button variant="outline">{siteConfig.nap.phone}</Button>
-          </a>
+    <section className="py-16 md:py-24 lg:py-32">
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 grid items-center gap-12 lg:grid-cols-[3fr_2fr]">
+        <div>
+          <h1 className="text-4xl md:text-5xl lg:text-6xl font-extrabold tracking-tight">
+            {/* Primary KW + City aus Phase 6 Content */}
+          </h1>
+          <p className="mt-6 max-w-xl text-lg text-muted-foreground">
+            {/* Subheadline aus Phase 6 */}
+          </p>
+          <div className="mt-8 flex flex-wrap gap-4">
+            <Button variant="primary">Termin vereinbaren</Button>
+            <a href={`tel:${siteConfig.nap.phone}`}>
+              <Button variant="outline">{siteConfig.nap.phone}</Button>
+            </a>
+          </div>
         </div>
-      </div>
-      <div>
-        {/* Wenn scraped Bild vorhanden: <Image src="..." alt="..." width={800} height={600} priority /> */}
         <ImagePlaceholder label="Praxis-Aussenansicht" className="aspect-[4/5]" />
       </div>
     </section>
@@ -326,11 +353,11 @@ export function Hero() {
 
 #### 8c. Section Checks (nach jeder Section)
 
-**CHECK 1 — Zentriert?** `.section` Wrapper ODER interner `mx-auto max-w-7xl` Container vorhanden?
+**CHECK 1 — Zentriert?** Innerer Container mit `mx-auto max-w-7xl px-4 sm:px-6 lg:px-8` vorhanden?
 
 **CHECK 2 — Buttons lesbar auf dem eigenen Section-Hintergrund?**
 - Section mit hellem Hintergrund → `variant="primary"` (dark on light)
-- Section mit dunklem/accent-Hintergrund → `variant="primary"` (wenn `primary-foreground` dafür lesbar ist) ODER custom `bg-white text-primary` Button inline
+- Section mit dunklem/accent-Hintergrund → `variant="primary"` (wenn `primary-foreground` dafür lesbar ist) ODER inline `className="bg-white text-primary"` Override
 - Secondary auf dunkel: **nie** Tailwind-Default `border`-Utility ohne Farbangabe — immer `variant="outline-on-dark"`
 
 **CHECK 3 — Keine Pill-Badges?** Orte/Kategorien → inline Text oder Liste.

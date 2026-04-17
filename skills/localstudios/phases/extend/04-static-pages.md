@@ -13,8 +13,8 @@ Build all static pages. **Der Style der Homepage wird 1:1 weitergeführt.**
 ### CRITICAL: Style-Konsistenz mit Homepage
 - **Gleiche `design.md`** — keine neuen Tokens erfinden
 - **Gleiche `globals.css`** — keine Style-Overrides in Page-Files
-- **Gleiche Button-Klassen** — `.btn-primary` / `.btn-secondary` / `.btn-outline` / `.btn-outline-on-dark`
-- **Gleiche Section-Abstände** — `.section` Utility identisch
+- **Gleicher Button-Component** — `<Button variant="primary|secondary|outline|outline-on-dark" />` (Tailwind-Utilities im Component)
+- **Gleiche Section-Abstände** — `py-16 md:py-24 lg:py-32` via Tailwind-Utilities
 - **Gleiche Typografie-Hierarchie** — H1/H2/H3 aus `@layer base`
 - **Gleicher Header/Footer** — auf JEDER Page identisch (via `app/layout.tsx`)
 - Die Unterseiten müssen aussehen als wären sie TEIL derselben Website
@@ -102,7 +102,7 @@ Pro Section ein eigenes File in `components/sections/<page>/<section>.tsx` (z.B.
 
 Regeln (aus `ui-rules.md`):
 - Semantisches HTML (`<section>`, `<article>`, `<h2>`, `<p>`)
-- `.section` Utility für Zentrierung
+- Zentrierung via Tailwind-Utilities (`py-16 md:py-24 lg:py-32` + innerer `mx-auto max-w-7xl px-4 sm:px-6 lg:px-8` Container)
 - CSS-Vars aus globals.css (keine hardcoded Farben)
 - Content entsprechend Page-Template
 - Buttons via `<Button variant="…" />`
@@ -138,7 +138,7 @@ export default function AboutPage() {
 ```
 
 ### 4. Checks pro Page
-- [ ] Zentriert (`.section` oder `mx-auto max-w-7xl`)
+- [ ] Zentriert (`mx-auto max-w-7xl` Container via Tailwind)
 - [ ] Buttons lesbar auf jedem Section-Background
 - [ ] Keine Pill-Badges
 - [ ] Keine hardcoded Farben

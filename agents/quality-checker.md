@@ -68,7 +68,7 @@ If `/seo` skill is loaded:
 - [ ] NO separate .module.css files
 - [ ] Fonts nur via `font-heading` / `font-body` Utilities
 - [ ] Hover states konsistent
-- [ ] Border radius via `--radius` / `--radius-btn`
+- [ ] Border radius via `--radius` (Tailwind `rounded-lg` / `rounded-[var(--radius)]`)
 - [ ] `globals.css` matcht `design.md` Tokens 1:1
 
 ### design.md Compliance

@@ -72,7 +72,7 @@ Für JEDES Section-Component-File in `components/sections/variant-N/*.tsx`:
 3. Keyword-to-Section Mapping aus `docs/SEO-STRATEGY.md` respektieren
 4. Layout, Grid, Responsive behalten — nur Text/Bilder ersetzen
 5. CHECK Buttons: auf dem Section-Hintergrund lesbar?
-6. CHECK Zentrierung: `.section` Wrapper oder `mx-auto max-w-7xl` Container vorhanden?
+6. CHECK Zentrierung: `mx-auto max-w-7xl` Container vorhanden (via Tailwind-Utilities)?
 
 **Write 1500-2500 Wörter total über alle 10 Sections.**
 
@@ -196,7 +196,7 @@ Muss passen bevor QA.
 - [ ] Schema hat neue Business-Daten + industry @type
 - [ ] Metadata hat neues title/description/OG
 - [ ] Buttons auf allen Backgrounds lesbar (kein Tailwind-Default-Outline auf dunkel)
-- [ ] Sections zentriert (.section / mx-auto max-w-7xl)
+- [ ] Sections zentriert (mx-auto max-w-7xl Container via Tailwind)
 - [ ] Kein alter Client-Name irgendwo im Code
 - [ ] Min 5 Bilder pro Variante (scraped oder `<ImagePlaceholder>`)
 - [ ] Alle Bilder mit alt + title

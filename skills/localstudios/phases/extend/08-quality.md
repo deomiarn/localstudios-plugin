@@ -33,7 +33,7 @@ Three parts pro Page: Checklist → Playwright Visual Validation → SEO Audit.
 **Design (design.md compliance)**
 - [ ] Alle Pages nutzen dieselbe `design.md` und `globals.css` wie Homepage
 - [ ] Keine hardcoded Farben in Components
-- [ ] Sections zentriert (`.section` oder `mx-auto max-w-7xl`)
+- [ ] Sections zentriert (`mx-auto max-w-7xl` Container via Tailwind)
 - [ ] Buttons readable auf jedem Section-Background (`variant="outline-on-dark"` auf dunklen Sections)
 - [ ] Keine Pill-Badges
 - [ ] Layout-Rhythmus pro Page-Typ klar erkennbar (About anders als Services Overview, Blog anders als Contact)
