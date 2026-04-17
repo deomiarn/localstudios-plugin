@@ -1,5 +1,12 @@
 # Clone Phase 5 — Adapt Project
 
+## References
+- Load `./references/content-guidelines.md` for writing rules
+- Load `./references/image-strategy.md` for image sourcing + alt text
+- Load `./references/page-sections.md` for section structure
+- Load `./references/ui-rules.md` for CSS constraints
+- Load `docs/SEO-STRATEGY.md` for keyword-to-section mapping (from Phase 3)
+
 ## Task
 Copy the source project and adapt EVERYTHING for the new client.
 
@@ -8,105 +15,192 @@ Copy the source project and adapt EVERYTHING for the new client.
 ### Step 1 — Copy Source Project
 ```bash
 cp -R [source-path]/ .
-rm -rf .git node_modules
+rm -rf .git node_modules .next
 ```
 
-### Step 2 — Update design-system.md
+### Step 2 — design.md aktualisieren (nur falls Style geändert)
 
-If user wants style changes:
-- Update colors (convert to HSL for shadcn)
-- Update fonts if requested
-- Update atmosphere if industry changes
-- Consider inspo images from interview
-- Update anti-patterns for new industry
+Lies die Design-Änderungs-Entscheidung aus `docs/BUSINESS.md` / Clone Brief.
 
-If user wants to keep style:
-- Keep design-system.md as-is
-- Only update company name references
+#### Fall „Keep" (Style vom Source übernehmen)
+- `design.md` aus Source bleibt unverändert.
+- `globals.css` bleibt unverändert.
+- Kein getdesign-Call.
 
-### Step 3 — Update globals.css
+#### Fall „Anpassen" oder „Neu"
+- Lies die Design Source (Command ODER Pfad) aus `docs/BUSINESS.md`.
+- **Wenn getdesign Command:**
+  ```bash
+  # im Projekt-Root ausführen
+  <exakter command aus Phase 3>
+  ```
+  Output konsolidieren → `design.md` im Projekt-Root überschreiben.
+- **Wenn bestehende design.md Pfad:**
+  ```bash
+  cp "<Pfad>" ./design.md
+  ```
+- `design.md` normalisieren — muss alle Pflicht-Sektionen enthalten (Farben HSL, Typografie, Buttons, Section/Layout, Atmosphäre, Anti-Muster). Siehe `generate/phases/08-design.md` Step 2 als Referenz.
 
-Apply design-system.md changes:
-- Replace color variables with new values
-- Replace font imports if changed
-- Keep spacing, shadows, section styles unless requested otherwise
+### Step 3 — globals.css regenerieren (nur falls Style geändert)
 
-### Step 4 — Update site-config.ts
+Alle Tokens aus neuer `design.md` in `app/globals.css` übertragen:
+- CSS-Vars (`@theme`)
+- Fonts via `next/font` im layout.tsx
+- Typografie-Scale in `@layer base`
+- Button-Utility-Klassen in `@layer components`
+- Section-Spacing
 
-Replace ALL business data:
-- Company name
+Struktur aus `references/code-standards.md` folgen.
+
+### Step 4 — site-config.ts updaten
+
+Alle Business-Daten ersetzen:
+- Company name, legal name
 - Full NAP (address, phone, email)
 - Opening hours
 - Social links
 - Google Maps URL
-- Description with new primary keyword
+- Description mit neuem Primary Keyword
 
-### Step 5 — Update Content in ALL Components
+### Step 5 — Content in ALLEN Section-Components schreiben
 
-For EACH block/section component file:
+**Load `references/content-guidelines.md` — follow ALL rules.**
+
+Für JEDES Section-Component-File in `components/sections/variant-N/*.tsx`:
 1. READ the file
-2. REPLACE all text content with new content (write fresh for new client)
-3. REPLACE service names, descriptions, testimonials
-4. REPLACE team member info
-5. KEEP the layout structure, responsive design, component composition
-6. CHECK buttons: readable on their background? (dark bg → light button etc.)
-7. CHECK centering: `mx-auto max-w-7xl` wrapper present?
+2. REPLACE all text content — FRESH schreiben für neuen Client (kein blosses Find/Replace)
+3. Keyword-to-Section Mapping aus `docs/SEO-STRATEGY.md` respektieren
+4. Layout, Grid, Responsive behalten — nur Text/Bilder ersetzen
+5. CHECK Buttons: auf dem Section-Hintergrund lesbar?
+6. CHECK Zentrierung: `.section` Wrapper oder `mx-auto max-w-7xl` Container vorhanden?
 
-**Write 1500-2500 words total — same quality as generate.**
-Follow all content rules from `references/content-guidelines.md`.
+**Write 1500-2500 Wörter total über alle 10 Sections.**
 
-### Step 6 — Update Schema
+**Section-Wörterzahlen (gleich wie generate, siehe page-sections.md):**
+- Hero: 150-250 Wörter — H1 mit primary KW + city
+- Trust Bar: 50-100 Wörter — 3-4 konkrete Zahlen
+- Featured Service 1: 150-250 Wörter — Hauptservice, 3-4 Sätze + CTA
+- Featured Service 2: 150-250 Wörter — zweiter Hauptservice
+- Services Grid: 150-300 Wörter — weitere Services als Cards
+- About: 200-350 Wörter — Gründungsstory, persönliche Motivation
+- Social Proof: 150-250 Wörter — 3-4 detaillierte Testimonials
+- Local Area: 150-250 Wörter — warum dieser Standort, Gebiete
+- CTA: 100-150 Wörter — Werteversprechen-Zusammenfassung
+- Footer: 100-150 Wörter — full NAP, hours, links
 
-Edit `lib/schema.ts`:
-- New company name, NAP, opening hours
-- New industry @type
-- New sameAs URLs
-- New description with keywords
+**Tonalität** (aus Clone Brief):
+- Ton aus Interview nutzen (formal / persönlich / freundlich / fachlich)
+- An Branche anpassen (medical formeller, kreativ casual)
+- Professionell aber persönlich — aus Erfahrung schreiben
+- Konkrete Zahlen und Details
+- Lokale Referenzen die echt wirken
 
-### Step 7 — Update Metadata
+**VERBOTEN:**
+- „Willkommen auf unserer Website"
+- „Wir sind ein führendes…"
+- „Herzlich willkommen bei…"
+- Generische Phrasen ohne Substanz
+- Keyword Stuffing
+
+**SEO Rules:**
+- H1: primary keyword + city, genau einmal
+- Geo-term im ersten Absatz + mindestens einer H2
+- Keyword density 1-2%
+- Jedes Bild: alt mit keyword + location + description
+- Jedes Bild: title mit benefit/CTA
+
+**Meta Tags:**
+- Meta Title: Primary KW — Company — City (max 60 chars)
+- Meta Description: Benefit + CTA + Location (max 155 chars)
+- OG Title + OG Description
+
+### Step 6 — Schema updaten
+
+Edit `components/seo/schema-script.tsx`:
+- Neuer Company-Name, NAP, Opening Hours
+- Neuer Industry `@type` (Dentist, Restaurant, Plumber, etc.)
+- Neue sameAs URLs
+- Neue description mit keywords
+
+### Step 7 — Metadata updaten
 
 Edit `app/layout.tsx`:
-- New meta title (Primary KW — Company — City)
-- New meta description
-- New OG tags
-- Correct `lang` attribute
+- Neues meta title (Primary KW — Company — City)
+- Neue meta description
+- Neue OG tags
+- Richtiges `lang` attribute
 
-### Step 8 — Update Images
+### Step 8 — Images (Follow image-strategy.md)
 
-- Replace image references with new client images (scraped or placeholder)
-- Styled placeholders where images missing
-- Minimum 5 images
+**Source Priority (cost-aware):**
+1. Scrape von NEW client Website (Phase 2 Scraping — Bilder wiederverwenden)
+2. Scrape von Google Business Profile (wenn GBP URL vorhanden)
+3. AI Generation via /banana (letzter Ausweg — nur für Hero/Backgrounds)
 
-### Step 9 — Update docs/
+**Minimum 5 Bilder auf der Homepage pro Variante** (siehe image-strategy.md):
+- Hero: 1x hero (full-width oder split)
+- Featured Services: 1x pro Featured Service
+- Services Grid: 1x pro Card wenn möglich
+- About: 1x team/owner
+- Social Proof: optional Profilbilder
+- Local Area: Google Maps Embed
+- Storefront/Exterior: wenn verfügbar
 
-- Create new `docs/BUSINESS.md`
-- Create new `docs/SEO-STRATEGY.md` with new keywords
-- Create new `docs/pages/home.md`
+**Alt Text — Templates aus image-strategy.md:**
+| Section | Alt Text Pattern |
+|---------|-----------------|
+| Hero | [Service] in [City] — [was gezeigt wird] |
+| Team | [Name], [Role] at [Company] in [City] |
+| Service | [Service] — [brief description] |
+| Storefront | [Company] office in [City/District] |
+
+**Source Tracking — in `docs/pages/home.md` dokumentieren:**
+```
+| Image | Source | Original URL | Status |
+|-------|--------|-------------|--------|
+| hero.webp | New website | https://… | ✅ Scraped |
+| team.webp | GBP | https://… | ✅ Scraped |
+| … | — | — | ❌ Placeholder |
+```
+
+**Styled Placeholders wo Bilder fehlen — niemals leere Spaces:**
+```tsx
+<ImagePlaceholder label="Praxisfoto" className="aspect-video" />
+```
+
+### Step 9 — docs/ updaten
+
+- Neue `docs/BUSINESS.md` (inklusive Design-Eintrag)
+- Neue `docs/SEO-STRATEGY.md` mit keyword mapping
+- Neue `docs/pages/home.md` mit image source tracking
 
 ### Step 10 — Reinstall Dependencies
 ```bash
 npm install
 ```
 
-### Step 11 — /frontend-design Review (if style changed)
-
-If the industry or style changed significantly:
-- Invoke `/frontend-design` to refine the adapted components
-- Ensure the new style feels intentional, not just recolored
-
-### Step 12 — Build Check
+### Step 11 — Build Check
 ```bash
 npm run build
 ```
-Must pass before QA.
+Muss passen bevor QA.
 
 ### Checks After Adaptation
-- [ ] ALL text is new client content (no old client text remaining)
-- [ ] site-config.ts has new NAP
-- [ ] globals.css has new colors/fonts (if changed)
-- [ ] Schema has new business data
-- [ ] Metadata has new title/description
-- [ ] Buttons readable on all backgrounds
-- [ ] Sections centered
-- [ ] No old client name anywhere in the code
+- [ ] ALL text ist neuer Client-Content (kein alter Client-Text übrig)
+- [ ] Content 1500-2500 Wörter (nicht dünn / generisch)
+- [ ] Ton matcht Interview-Spezifikation
+- [ ] Keywords in den richtigen Sections laut SEO-STRATEGY.md
+- [ ] site-config.ts hat neue NAP
+- [ ] design.md aktuell (bei Style-Change regeneriert)
+- [ ] globals.css matcht design.md (bei Style-Change)
+- [ ] Schema hat neue Business-Daten + industry @type
+- [ ] Metadata hat neues title/description/OG
+- [ ] Buttons auf allen Backgrounds lesbar (kein Tailwind-Default-Outline auf dunkel)
+- [ ] Sections zentriert (.section / mx-auto max-w-7xl)
+- [ ] Kein alter Client-Name irgendwo im Code
+- [ ] Min 5 Bilder pro Variante (scraped oder `<ImagePlaceholder>`)
+- [ ] Alle Bilder mit alt + title
+- [ ] Image Sources in docs/pages/home.md dokumentiert
+- [ ] Keine hardcoded Farben in Components
+- [ ] Keine Pill-Badges
 - [ ] `npm run build` passes

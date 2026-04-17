@@ -46,10 +46,15 @@ RECHTLICHES
 [ ] Hosting-Provider (für Datenschutzerklärung): ___
 [ ] Analytics Tools im Einsatz (GA4, etc.): ___
 
-STYLE-ÄNDERUNGEN
-[ ] Soll der Homepage-Style 1:1 auf alle Pages übertragen werden? Ja/Nein: ___
-[ ] Inspo-Bilder für Unterseiten (optional): ___
-[ ] Besondere Wünsche für bestimmte Pages: ___
+DESIGN FÜR UNTERSEITEN
+[ ] Homepage-Style wird 1:1 übernommen (design.md + globals.css der Homepage) — bestätigen? Ja (default) / Nein: ___
+    (Bei "Nein" → kurz erklären warum; normalerweise bleibt der Style konsistent)
+[ ] Layout-Rhythmus-Varianz pro Page-Typ (damit sich Seiten unterscheiden):
+    - Services-Seiten (z.B. "Prozess-Steps visuell darstellen", "Bilder prominent"): ___
+    - About/Team (z.B. "grosse Teamfotos", "persönlicher Stil"): ___
+    - Blog (z.B. "clean/magazin-look", "Bilder-schwer"): ___
+    - Kontakt (z.B. "Karte prominent", "Formular simpel"): ___
+[ ] Anti-Muster für Unterseiten (z.B. "keine Sidebar", "kein Dark Mode auf Blog"): ___
 
 === WARTE AUF ANTWORT ===
 ```

@@ -1,194 +1,215 @@
-# Code Standards — Next.js + shadcn/ui
+# Code Standards — Next.js + Tailwind + Custom Components
 
-All generated websites use **Next.js App Router** with **shadcn/ui** components.
-All styling lives in **globals.css** — never inline styles.
+All generated websites use **Next.js App Router** with **Tailwind CSS** and **custom components**.
+All styling lives in **globals.css** — never inline styles. All Tokens come from **`design.md`**.
+
+No fremde Block-Libraries. No shadcn/ui. No shadcnblocks. Components sind custom, semantisch, in eigenen Files.
 
 ---
 
 ## Project Initialization
 
 ```bash
-npx shadcn@latest init --preset b0 --template next
+npx create-next-app@latest . --typescript --tailwind --app --no-src-dir --import-alias "@/*" --eslint --use-npm
 ```
 
-This creates a Next.js project with shadcn/ui pre-configured (Tailwind CSS v4, CSS variables, dark mode support).
+Ergebnis: Next.js + Tailwind CSS. Keine weiteren UI-Libraries installieren.
 
 ## File Structure
 
 ```
 project/
 ├── app/
-│   ├── layout.tsx                # Root layout (metadata, fonts, global providers)
-│   ├── page.tsx                  # Home page
-│   ├── globals.css               # ALL styles — single source of truth
-│   ├── about/
-│   │   └── page.tsx
-│   ├── services/
-│   │   ├── page.tsx              # Services overview (optional)
-│   │   └── [service]/
-│   │       └── page.tsx          # Individual service page
-│   └── contact/
-│       └── page.tsx
+│   ├── layout.tsx                # Root layout (metadata, fonts, header/footer, schema)
+│   ├── page.tsx                  # Home — Variant 1
+│   ├── variant-2/page.tsx        # Variant 2
+│   ├── variant-3/page.tsx        # Variant 3
+│   ├── globals.css               # ALL styles — single source of truth, abgeleitet aus design.md
+│   └── <andere Seiten bei Extend>
 ├── components/
-│   ├── ui/                       # shadcn/ui components (auto-generated)
-│   │   ├── button.tsx
-│   │   ├── card.tsx
-│   │   ├── accordion.tsx
-│   │   └── ...
+│   ├── ui/
+│   │   ├── button.tsx            # Minimaler Wrapper um .btn-* Utility-Klassen
+│   │   └── image-placeholder.tsx # Gradient-Placeholder für fehlende Bilder
 │   ├── layout/
-│   │   ├── header.tsx            # Site header with navigation
-│   │   ├── footer.tsx            # Footer with NAP data
-│   │   └── mobile-nav.tsx        # Mobile navigation drawer
+│   │   ├── header.tsx            # Shared
+│   │   ├── footer.tsx            # Shared
+│   │   └── variant-switcher.tsx  # Vergleichs-Nav (wird vor Delivery entfernt)
 │   ├── sections/
-│   │   ├── hero.tsx              # Hero section with CTA
-│   │   ├── trust-bar.tsx         # USP numbers/badges
-│   │   ├── services-grid.tsx     # Service cards overview
-│   │   ├── testimonials.tsx      # Social proof section
-│   │   ├── local-trust.tsx       # Map + local signals
-│   │   ├── cta-section.tsx       # Reusable CTA block
-│   │   ├── faq-section.tsx       # FAQ accordion (uses shadcn Accordion)
-│   │   └── contact-form.tsx      # Contact form (uses shadcn Input, Button)
+│   │   ├── variant-1/            # Custom Components für Variante 1 (10 Files)
+│   │   ├── variant-2/            # Custom Components für Variante 2
+│   │   └── variant-3/            # Custom Components für Variante 3
 │   └── seo/
-│       ├── schema-script.tsx     # JSON-LD schema injection
-│       └── breadcrumbs.tsx       # Breadcrumb navigation
+│       └── schema-script.tsx     # JSON-LD Injection
 ├── lib/
-│   ├── utils.ts                  # shadcn cn() utility
-│   ├── site-config.ts            # Company name, NAP, social links
-│   └── keywords.ts               # Keyword mappings per page
+│   ├── cn.ts                     # Minimaler className-Joiner (kein clsx/cva)
+│   └── site-config.ts            # NAP, Phone, Email, Maps URL, Social
 ├── public/
-│   ├── images/                   # Optimized images
-│   └── fonts/                    # Local font files if needed
-└── schema/
-    ├── localbusiness.json        # LocalBusiness JSON-LD
-    ├── organization.json         # Organization schema
-    └── [page]-schema.json        # Per-page schema
+│   └── images/
+├── design.md                     # Single Source of Truth — aus Phase 8
+└── variant-blueprints.md         # Layout-Pläne pro Variante — aus Phase 8
 ```
 
 ## Styling Rules — globals.css
 
 ### CRITICAL RULE
-**ALL styles live in `app/globals.css`. No exceptions.**
+**ALL styles live in `app/globals.css`. No exceptions.** Alle Tokens stammen aus `design.md`.
 
 - No `style={}` props on elements
-- No `styled-components` or CSS-in-JS
-- No separate `.module.css` files
-- Tailwind utility classes in JSX are OK (they compile from globals.css)
-- Custom styles MUST be added to globals.css as utility classes or component styles
+- No `styled-components` / CSS-in-JS / `.module.css`
+- Tailwind utility classes in JSX sind OK (kompilieren aus globals.css)
+- Custom Styles kommen als Utility-Klassen oder `@layer base` in globals.css
 
-### globals.css Structure
+### globals.css Skelett
 
 ```css
 @import "tailwindcss";
-@import "tw-animate-css";
 
-@custom-variant dark (&:is(.dark *));
+@theme {
+  /* Farben aus design.md — als HSL */
+  --color-background: hsl(<aus design.md>);
+  --color-foreground: hsl(<aus design.md>);
+  --color-primary: hsl(<aus design.md>);
+  --color-primary-foreground: hsl(<aus design.md>);
+  --color-accent: hsl(<aus design.md>);
+  --color-accent-foreground: hsl(<aus design.md>);
+  --color-muted: hsl(<aus design.md>);
+  --color-muted-foreground: hsl(<aus design.md>);
+  --color-border: hsl(<aus design.md>);
+  --color-ring: hsl(<aus design.md>);
 
-/* ===== DESIGN TOKENS ===== */
-:root {
-  /* Brand Colors — set from design system */
-  --primary: ...;
-  --secondary: ...;
-  --accent: ...;
-  --background: ...;
-  --foreground: ...;
+  /* Fonts (gesetzt durch next/font im layout.tsx) */
+  --font-heading: var(--font-heading);
+  --font-body: var(--font-body);
 
-  /* Spacing scale */
-  --section-padding: 4rem 1rem;
-  --section-padding-lg: 6rem 2rem;
-
-  /* Component tokens */
-  --header-height: 4rem;
-  --container-max: 1200px;
-  --radius: 0.625rem;
+  /* Radius */
+  --radius: <aus design.md>;
+  --radius-btn: <aus design.md>;
 }
 
-/* ===== BASE STYLES ===== */
-body {
-  font-family: var(--font-body);
+@layer base {
+  body { @apply bg-background text-foreground font-body antialiased; }
+  h1 { @apply <aus design.md>; }
+  h2 { @apply <aus design.md>; }
+  h3 { @apply <aus design.md>; }
+  p  { @apply <aus design.md>; }
 }
 
-h1, h2, h3 {
-  font-family: var(--font-heading);
+@layer components {
+  .section      { @apply py-16 md:py-24 lg:py-32 mx-auto max-w-7xl px-4 sm:px-6 lg:px-8; }
+  .section-full { @apply py-16 md:py-24 lg:py-32 w-full; }
+
+  .btn-primary         { @apply bg-primary text-primary-foreground font-semibold px-8 py-3 text-base md:text-lg
+                                hover:bg-primary/90 transition-all duration-200 shadow-md hover:shadow-lg;
+                         border-radius: var(--radius-btn); }
+  .btn-secondary       { @apply bg-secondary text-secondary-foreground font-medium px-6 py-2.5
+                                border-2 border-border hover:bg-accent hover:text-accent-foreground
+                                transition-all duration-200;
+                         border-radius: var(--radius-btn); }
+  .btn-outline         { @apply bg-transparent text-foreground font-medium px-6 py-2.5
+                                border-2 border-primary hover:bg-primary hover:text-primary-foreground
+                                transition-all duration-200;
+                         border-radius: var(--radius-btn); }
+  .btn-outline-on-dark { @apply bg-transparent text-white border-2 border-white px-6 py-2.5
+                                hover:bg-white hover:text-primary transition-all duration-200;
+                         border-radius: var(--radius-btn); }
 }
-
-/* ===== SECTION STYLES ===== */
-.section { ... }
-.section-hero { ... }
-.section-trust { ... }
-.section-services { ... }
-.section-testimonials { ... }
-.section-cta { ... }
-
-/* ===== COMPONENT OVERRIDES ===== */
-/* Override shadcn defaults here, not in component files */
-
-/* ===== RESPONSIVE ===== */
-@media (min-width: 768px) { ... }
-@media (min-width: 1024px) { ... }
-@media (min-width: 1440px) { ... }
 ```
 
 ### Before Any Style Change
-1. READ `globals.css` first
-2. Check if a relevant style/token already exists
-3. Extend or modify in globals.css
-4. Never create new CSS files
+1. READ `design.md` — der Ziel-Wert muss hier stehen
+2. READ `globals.css` — Token/Utility evtl. schon vorhanden
+3. Update `globals.css` (Token ergänzen / Utility anpassen)
+4. NIEMALS im Component-File hardcoded Farben oder Fonts setzen
 
 ## Component Rules
 
-### shadcn/ui Components
-Install via shadcn MCP or CLI:
-```bash
-npx shadcn@latest add button card accordion input textarea
-```
+### UI Primitives (components/ui/)
 
-Use shadcn components as building blocks:
-- `Button` for all CTAs
-- `Card` for service cards, testimonial cards
-- `Accordion` for FAQ sections
-- `Input` + `Textarea` for contact form
-- `NavigationMenu` for header navigation
+Sehr klein. Nur Button + ImagePlaceholder. Keine weiteren UI-Bibliotheken.
 
-### Custom Components
-Each section = one component file in `components/sections/`:
-- Accept content as props (text, keywords, links)
-- Use shadcn primitives internally
-- Style via Tailwind classes + globals.css custom classes
-- No inline styles ever
-
-### Component Template
 ```tsx
-import { Button } from "@/components/ui/button"
+// components/ui/button.tsx
+import { ComponentPropsWithoutRef } from "react"
+import { cn } from "@/lib/cn"
 
-interface HeroProps {
-  headline: string
-  subheadline: string
-  ctaText: string
-  ctaHref: string
+type Variant = "primary" | "secondary" | "outline" | "outline-on-dark"
+
+interface ButtonProps extends ComponentPropsWithoutRef<"button"> {
+  variant?: Variant
 }
 
-export function Hero({ headline, subheadline, ctaText, ctaHref }: HeroProps) {
+export function Button({ variant = "primary", className, ...rest }: ButtonProps) {
+  const cls = {
+    primary: "btn-primary",
+    secondary: "btn-secondary",
+    outline: "btn-outline",
+    "outline-on-dark": "btn-outline-on-dark",
+  }[variant]
+  return <button className={cn(cls, className)} {...rest} />
+}
+```
+
+```tsx
+// components/ui/image-placeholder.tsx
+export function ImagePlaceholder({ label, className = "" }: { label: string; className?: string }) {
   return (
-    <section className="section-hero">
-      <div className="container mx-auto max-w-[var(--container-max)]">
-        <h1 className="text-4xl font-bold tracking-tight md:text-5xl lg:text-6xl">
-          {headline}
-        </h1>
-        <p className="mt-4 text-lg text-muted-foreground md:text-xl">
-          {subheadline}
+    <div className={`aspect-video rounded-[var(--radius)] bg-gradient-to-br from-primary/20 to-accent/20 flex items-center justify-center ${className}`}>
+      <span className="text-muted-foreground text-sm">{label}</span>
+    </div>
+  )
+}
+```
+
+```ts
+// lib/cn.ts
+export const cn = (...parts: (string | undefined | false | null)[]) => parts.filter(Boolean).join(" ")
+```
+
+### Section Components (components/sections/variant-N/)
+
+**Pro Section ein eigenes File.** Semantisches HTML. Content aus Phase 6 hart reingeschrieben.
+
+```tsx
+// components/sections/variant-1/hero.tsx
+import Image from "next/image"
+import { Button } from "@/components/ui/button"
+import { ImagePlaceholder } from "@/components/ui/image-placeholder"
+import { siteConfig } from "@/lib/site-config"
+
+export function Hero() {
+  return (
+    <section className="section grid items-center gap-12 lg:grid-cols-[3fr_2fr]">
+      <div>
+        <h1 className="font-heading">Zahnarzt Zürich — <span className="text-primary">moderne Praxis</span></h1>
+        <p className="mt-6 max-w-xl text-lg text-muted-foreground">
+          Seit 2008 im Herzen von Zürich-Seefeld. Sanfte Behandlung, moderne Technik, persönliche Betreuung.
         </p>
-        <Button size="lg" className="mt-8" asChild>
-          <a href={ctaHref}>{ctaText}</a>
-        </Button>
+        <div className="mt-8 flex flex-wrap gap-4">
+          <Button variant="primary">Termin vereinbaren</Button>
+          <a href={`tel:${siteConfig.nap.phone}`}>
+            <Button variant="outline">{siteConfig.nap.phone}</Button>
+          </a>
+        </div>
+      </div>
+      <div>
+        <ImagePlaceholder label="Praxis-Aussenansicht" className="aspect-[4/5]" />
       </div>
     </section>
   )
 }
 ```
 
+Regeln:
+- `<section>` (oder `<header>` für Page-Top) + `<h1/h2/h3>` + `<p>` + `<ul>` — semantic
+- `.section` Utility für Zentrierung + Padding
+- Keine hardcoded Farben, kein `style={}`
+- Bilder: `next/image` ODER `<ImagePlaceholder>`
+- Buttons via `<Button variant="…" />`
+- Content hart reingeschrieben (identisch über Varianten, Layout unterscheidet sich)
+
 ## SEO in Next.js
 
-### Metadata API (per page)
+### Metadata API (per page / layout)
 ```tsx
 import type { Metadata } from "next"
 
@@ -206,11 +227,15 @@ export const metadata: Metadata = {
 ### Schema Injection
 ```tsx
 // components/seo/schema-script.tsx
-interface SchemaScriptProps {
-  schema: Record<string, unknown>
-}
+import { siteConfig } from "@/lib/site-config"
 
-export function SchemaScript({ schema }: SchemaScriptProps) {
+export function SchemaScript() {
+  const schema = {
+    "@context": "https://schema.org",
+    "@type": "<industry-specific z.B. Dentist>",
+    name: siteConfig.name,
+    // … komplett aus Phase 7
+  }
   return (
     <script
       type="application/ld+json"
@@ -220,28 +245,9 @@ export function SchemaScript({ schema }: SchemaScriptProps) {
 }
 ```
 
-Use in layout or page:
-```tsx
-import { SchemaScript } from "@/components/seo/schema-script"
-import localBusiness from "@/schema/localbusiness.json"
-
-export default function RootLayout({ children }) {
-  return (
-    <html lang="de">
-      <body>
-        <SchemaScript schema={localBusiness} />
-        <Header />
-        <main>{children}</main>
-        <Footer />
-      </body>
-    </html>
-  )
-}
-```
-
 ## Site Configuration
 
-Centralize all business data in `lib/site-config.ts`:
+Zentral in `lib/site-config.ts`:
 
 ```tsx
 export const siteConfig = {
@@ -249,7 +255,7 @@ export const siteConfig = {
   description: "Primary keyword description",
   url: "https://domain.com",
   nap: {
-    name: "Legal Business Name",
+    legalName: "Legal Business Name",
     street: "Street 123",
     postalCode: "8000",
     city: "Zurich",
@@ -259,30 +265,31 @@ export const siteConfig = {
     email: "info@domain.com",
   },
   openingHours: "Mo-Fr 08:00-18:00",
+  mapsEmbedUrl: "<vom User in Phase 2>",
   social: {
-    google: "https://g.page/...",
-    instagram: "https://instagram.com/...",
+    google: "https://g.page/…",
+    instagram: "https://instagram.com/…",
   },
-}
+} as const
 ```
 
-All components read from `siteConfig` — NAP is never hardcoded in multiple places.
+All Components lesen aus `siteConfig` — NAP niemals mehrfach hardcoden.
 
 ## Accessibility
 
-- All images: `alt` prop with keyword-relevant description
-- `next/image` for all images (automatic optimization)
-- Form inputs: `Label` component with `htmlFor`
-- Buttons: descriptive text, not just icons
-- Focus ring visible on all interactive elements (shadcn default)
-- Color contrast ≥ 4.5:1
+- All images: `alt` mit keyword-relevanter Beschreibung
+- `next/image` für alle Bilder (auto optimization)
+- Form inputs: `<label htmlFor>` + passende `<input id>`
+- Buttons: beschreibender Text, nicht nur Icons
+- Focus ring sichtbar auf allen interaktiven Elementen (via `.btn-*` Utilities / Default)
+- Color contrast ≥ 4.5:1 (Playwright-QA checkt das in Phase 10)
 - Semantic HTML: `<header>`, `<nav>`, `<main>`, `<section>`, `<footer>`
-- `aria-label` on nav landmarks
+- `aria-label` auf Nav-Landmarks und Icon-only Buttons
 
 ## Performance
 
-- `next/image` with `width`, `height`, `priority` for above-fold images
-- `loading="lazy"` handled automatically by Next.js for below-fold
-- `next/font` for Google Fonts (no external requests)
-- Dynamic imports for below-fold sections if heavy
-- No unused dependencies
+- `next/image` mit `width`, `height`, `priority` für above-fold
+- `loading="lazy"` auto für below-fold
+- `next/font` für Google Fonts (keine externen Requests)
+- Dynamic imports für schwere below-fold Sections
+- Keine unused dependencies — Projekt bleibt schlank (kein shadcn, kein blocks-Paket)

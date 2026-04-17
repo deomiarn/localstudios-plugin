@@ -10,15 +10,25 @@ Primary: [KW] — Volume: [x]/mo — Difficulty: [x]
 Secondary: [list]
 Geo: [city, district, region]
 
-HOMEPAGE SECTIONS
+HOMEPAGE SECTIONS (all 10, pro Variante)
 1. Hero ✅
 2. Trust Bar ✅
-3. Services Overview ✅
-4. About Teaser ✅
-5. Social Proof ✅
-6. Local Area ✅
-7. CTA ✅
-8. Footer ✅
+3. Featured Service 1 ✅
+4. Featured Service 2 ✅
+5. Services Grid ✅
+6. About Teaser ✅
+7. Social Proof ✅
+8. Local Area + Map ✅
+9. CTA Section ✅
+10. Footer ✅
+
+VARIANTS: [N] — [Persönlichkeits-Namen aus variant-blueprints.md]
+
+DESIGN
+Source: [A: getdesign command "___"  |  B: existierende design.md "___"]
+design.md: ✅ (alle Pflicht-Sektionen)
+globals.css: ✅ (1:1 Ableitung aus design.md)
+Playwright Visual Validation: ✅ (keine ungefixten Abweichungen)
 
 SEO
 Schema: LocalBusiness ✅

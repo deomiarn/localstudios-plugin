@@ -1,6 +1,7 @@
-# Phase 10 — Quality Check + SEO Audit
+# Phase 10 — Quality Check + Playwright Validation + SEO Audit
 
-## This phase has TWO parts: QA Checklist + SEO Audit with fixes.
+## Three parts, in order: QA Checklist → Playwright Visual Validation → SEO Audit.
+**Fix every issue immediately before moving to the next part.**
 
 ---
 
@@ -22,35 +23,37 @@
 - [ ] Opening hours present
 
 ### Content
-- [ ] All 8 sections present in correct order
+- [ ] All 10 sections present in correct order (per `page-sections.md`)
 - [ ] 1500-2500 words total
 - [ ] E-E-A-T signals present
 - [ ] No filler/placeholder text
 - [ ] Tone consistent
 
 ### Images
-- [ ] All images have alt text + title
+- [ ] Jede Section hat mindestens ein Bild oder einen ImagePlaceholder
+- [ ] Mindestens 5 Bilder pro Variante
+- [ ] All images have alt text (+ title where relevant)
 - [ ] Above-fold images have `priority`
-- [ ] No empty spaces — styled placeholders where images missing
 
-### UI Rules
-- [ ] NO hardcoded colors — all via shadcn variables
-- [ ] NO inline `style={}` props
-- [ ] Fonts via font-heading, font-body only
-- [ ] Hover states consistent
-- [ ] globals.css matches design-system.md from Phase 8
+### design.md compliance
+- [ ] `globals.css` enthält alle Tokens aus `design.md` (Farben, Typografie-Scale, Buttons, Radius, Section-Spacing)
+- [ ] Keine hardcoded Farben in Components (kein `bg-blue-600`, kein `#1E3A8A`, kein inline `style={}`)
+- [ ] Fonts kommen via `next/font` und Utilities `font-heading` / `font-body`
+- [ ] Button-Shape/Padding/Radius matchen `design.md`
+- [ ] Anti-Muster aus `design.md` eingehalten
 
-### shadcnblocks
-- [ ] Block files are the actual components (not replaced)
-- [ ] Block content replaced with Phase 6 content
-- [ ] Block structure preserved
+### Custom Components
+- [ ] Jede Section ist ein eigenes File in `components/sections/variant-N/`
+- [ ] Semantisches HTML (section/article/header/footer statt generischer divs)
+- [ ] Keine Pill-Badges für Orte/Labels
+- [ ] Keine fremden Block-Libraries importiert
 
-### Design (design-system.md compliance)
-- [ ] Style matches design-system.md (from Design Brief)
-- [ ] Colors match design-system.md palette
-- [ ] Anti-patterns from design-system.md not violated
-- [ ] /frontend-design was applied
-- [ ] Page has visual identity — not generic AI output
+### Variants
+- [ ] N Varianten rendern korrekt (`/`, `/variant-2`, `/variant-3`)
+- [ ] Kein Section-Layout wiederholt sich über Varianten
+- [ ] Content + Farben + Fonts sind identisch über Varianten
+- [ ] Variant Switcher sichtbar und funktioniert
+- [ ] Jede Variante hat eine klare visuelle Persönlichkeit (matcht Blueprint-Namen)
 
 ### Conversion
 - [ ] CTA above fold
@@ -60,35 +63,97 @@
 
 ### Technical
 - [ ] `npm run build` passes
-- [ ] lang attribute correct
-- [ ] Metadata export in page.tsx
+- [ ] `lang` attribute korrekt
+- [ ] Metadata export in layout.tsx / page.tsx
 
 ---
 
-## Part 2 — MANDATORY: /seo Audit of the NEW Homepage
+## Part 2 — Playwright Visual Validation (MANDATORY)
+
+**Playwright MCP ist für diese Phase Pflicht.** Claude führt die Screenshots selbst aus und gleicht visuell gegen `design.md` ab.
+
+### Step 1 — Dev/Build starten
+
+```bash
+# Dev-Server reicht für Screenshot-Abgleich:
+npm run dev
+# oder für produktions-ähnlichen Check:
+npm run build && npm run start
+```
+
+Warten bis Server bereit ist (Port 3000 default).
+
+### Step 2 — Screenshot-Loop pro Variante
+
+Für JEDE Variante (`/`, `/variant-2`, `/variant-3`):
+
+1. **Desktop Screenshot**
+   - Playwright MCP: navigate zu `http://localhost:3000<path>`
+   - Viewport: 1440×900
+   - Full-page Screenshot
+   - Console-Messages abfragen → Errors protokollieren
+   - Network-Requests abfragen → 404/5xx protokollieren
+
+2. **Mobile Screenshot**
+   - Viewport: 375×812
+   - Full-page Screenshot
+
+3. **Abgleich gegen `design.md`** (visuell analysieren):
+   - **Farben:** Primary/Accent/Background visuell erkennbar und konsistent mit `design.md`?
+   - **Typografie-Hierarchie:** H1 dominiert? H2 klar kleiner aber lesbar? Body-Text angenehm? Scale matcht `design.md`?
+   - **Section-Spacing:** konsistent (`py-16 md:py-24 lg:py-32`) — keine Section die zu eng wirkt?
+   - **Atmosphäre:** Whitespace/Shadows/Radius entsprechen dem was `design.md` vorgibt?
+   - **Bilder:** Jede Section hat ein Bild? Min. 5 Bilder sichtbar? Kein leerer Space?
+   - **Buttons:** Auf JEDEM Section-Hintergrund lesbar? Keine unsichtbaren oder zu kleinen Buttons?
+   - **Pill-Badges:** Keine sichtbar? Orte/Labels clean als Text?
+   - **Persönlichkeit der Variante:** matcht der Blueprint-Name die visuelle Wirkung? (Variant 1 "Editorial Boldness" sollte nicht identisch zu Variant 2 "Warm Immersion" aussehen)
+
+4. **Abweichungen fixen**
+   - Für jede Abweichung das verantwortliche File identifizieren und sofort anpassen
+   - Häufige Fixes:
+     - Buttons zu klein → `.btn-primary` padding anpassen in globals.css
+     - Heading zu wenig dominant → Scale in globals.css erhöhen (matcht dann auch `design.md`)
+     - Section fühlt sich eng → Container-Padding oder Section-Spacing erhöhen
+     - Variante sieht wie andere aus → Blueprint-Schwerpunkt stärker implementieren (andere Komposition, anderer Rhythmus)
+   - **NICHT** hardcoded Farben hinzufügen. Fixes passieren über `globals.css` (wenn System-weit) oder über Layout-Komposition (wenn varianten-spezifisch).
+
+5. **Re-Screenshot nach Fix** → bis Match.
+
+### Step 3 — Console & Network Report
+
+Am Ende pro Variante kurz auflisten:
+- Console-Errors (sollte 0 sein)
+- Failed Requests (sollte 0 sein)
+- Missing Images (404 auf Image-URLs)
+
+Wenn nicht 0 → fixen.
+
+---
+
+## Part 3 — SEO Audit
 
 **If `/seo` skill is available — YOU MUST RUN THESE. No exceptions.**
 
 ### Step 1 — Run SEO analysis
 ```
-/seo page [path to built homepage or localhost URL]
+/seo page [localhost URL oder built homepage]
 ```
 
 ### Step 2 — Run schema validation
 ```
-/seo schema [path to built homepage or localhost URL]
+/seo schema [localhost URL oder built homepage]
 ```
 
 ### Step 3 — Run content check
 ```
-/seo content [path to built homepage or localhost URL]
+/seo content [localhost URL oder built homepage]
 ```
 
 ### Step 4 — FIX EVERYTHING the audit finds
 
 **Do NOT just report issues. FIX them immediately.**
 
-For each issue found:
+For each issue:
 1. Read the issue
 2. Identify which file needs to change
 3. Edit the file to fix it
@@ -97,19 +162,19 @@ For each issue found:
 Common fixes:
 - Meta title too long → shorten in layout.tsx metadata
 - Missing alt text → add to image component
-- Schema validation error → fix in lib/schema.ts
-- Keyword density off → adjust content in block files
-- H2 missing geo-term → edit block content
+- Schema validation error → fix in `components/seo/schema-script.tsx`
+- Keyword density off → adjust content in section component files
+- H2 missing geo-term → edit content in the relevant section file
 
 ### Step 5 — Re-run audit after fixes
 
-If critical issues were found and fixed, run `/seo page` again to verify.
+If critical issues were found and fixed, re-run `/seo page` to verify.
 
 ---
 
 ## Scoring
 
-Count passed items from Part 1 + Part 2 results:
+Count passed items from Part 1 + Part 2 findings (0 Abweichungen nach Fix) + Part 3 results:
 
 `[passed] / [total] — [percentage]%`
 
@@ -117,4 +182,4 @@ Count passed items from Part 1 + Part 2 results:
 - 90-94%: GOOD — minor tweaks
 - < 90%: FIX before proceeding to Phase 11
 
-**Do NOT proceed to Phase 11 with unfixed critical issues.**
+**Do NOT proceed to Phase 11 with unfixed critical issues or with unresolved Playwright-Abweichungen.**

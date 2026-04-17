@@ -2,47 +2,51 @@
 
 ## HARD RULES — read before writing ANY code
 
-### 1. CENTERING — every section, always
+### 1. DESIGN SOURCE — design.md ist Pflicht
+Alle Farben, Fonts, Buttons, Spacing, Atmosphäre kommen aus **`design.md`** (Projekt-Root).
+`design.md` wird in Phase 8 erzeugt (via `npx getdesign@latest add <brand>`) ODER vom User als existierende Datei übergeben.
+
+**Nichts hardcoden. Niemals.** `globals.css` ist die 1:1-Umsetzung von `design.md`. Components lesen über CSS-Vars und Utility-Klassen.
+
+### 2. CENTERING — every section, always
 ```tsx
-// EVERY section component MUST have this wrapper:
-<section className="py-16 md:py-24 lg:py-32">
-  <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-    {/* content here */}
+// Jede Section entweder mit .section Utility …
+<section className="section">
+  {/* content */}
+</section>
+
+// … oder bei Full-Bleed Background mit innerem Container:
+<section className="w-full bg-primary text-primary-foreground">
+  <div className="py-16 md:py-24 lg:py-32 mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+    {/* content */}
   </div>
 </section>
 ```
-If a shadcnblocks block is not centered → add this wrapper.
-If content appears left-aligned → the wrapper is missing. Fix it.
+`.section` ist in `globals.css` definiert (`py-16 md:py-24 lg:py-32 mx-auto max-w-7xl px-4 sm:px-6 lg:px-8`).
+Wenn Content links-aligned erscheint → Container-Wrapper fehlt. Fix it.
 
-### 2. BUTTONS — visible, contrasty, generous
+### 3. BUTTONS — via Utility-Klassen, auf Kontrast geprüft
 ```tsx
-// On DARK backgrounds: light button with dark text
-<Button className="bg-white text-primary hover:bg-white/90 px-8 py-3 text-lg font-semibold">
-  044 853 22 74
-</Button>
+import { Button } from "@/components/ui/button"
 
-// On LIGHT backgrounds: dark button with light text  
-<Button className="bg-primary text-primary-foreground hover:bg-primary/90 px-8 py-3 text-lg font-semibold">
-  Termin vereinbaren
-</Button>
+// Primary auf hellen Sections
+<Button variant="primary">Termin vereinbaren</Button>
 
-// Secondary on LIGHT bg: visible border + readable text
-<Button variant="outline" className="border-2 border-primary text-primary hover:bg-primary hover:text-white px-6 py-2.5">
-  Mehr erfahren
-</Button>
+// Secondary auf hellen Sections
+<Button variant="secondary">Mehr erfahren</Button>
 
-// Secondary on DARK bg: transparent with white border — NEVER use variant="outline" as-is
-<Button className="bg-transparent border-2 border-white text-white hover:bg-white hover:text-primary px-6 py-2.5">
-  Öffnungszeiten
-</Button>
+// Outline auf hellen Sections (text-foreground + border-primary)
+<Button variant="outline">044 853 22 74</Button>
+
+// Outline auf DUNKLEN Sections — eigene Variante, damit nicht unsichtbar
+<Button variant="outline-on-dark">Öffnungszeiten</Button>
 ```
 
-**CRITICAL: shadcn Button variant="outline" sets its own bg/text colors that BREAK on dark backgrounds.**
-NEVER use `variant="outline"` on dark sections. Instead use custom classes: `bg-transparent border-2 border-white text-white`.
+Die Klassen `.btn-primary` / `.btn-secondary` / `.btn-outline` / `.btn-outline-on-dark` sind in `globals.css` definiert und nutzen die CSS-Vars aus `design.md`.
 
-**For EVERY button: check text is readable against BOTH the button bg AND the section bg.**
+**Für JEDEN Button prüfen: ist der Text gegen den Button-Background UND den Section-Background lesbar?**
 
-### 3. NO PILL BADGES / LABELS
+### 4. NO PILL BADGES / LABELS
 ```tsx
 // VERBOTEN:
 <span className="rounded-full border px-3 py-1">Regensdorf</span>
@@ -51,30 +55,38 @@ NEVER use `variant="outline"` on dark sections. Instead use custom classes: `bg-
 <p className="text-muted-foreground">Regensdorf · Steinmaur · Oberglatt</p>
 ```
 
-### 4. COLORS — only CSS variables
+### 5. COLORS — only CSS variables
 ```tsx
 // NEVER: bg-blue-600, text-gray-500, bg-[#1E3A8A], style={{color:'#333'}}
-// ALWAYS: bg-primary, text-muted-foreground, bg-accent
+// ALWAYS: bg-primary, text-muted-foreground, bg-accent, bg-primary/10
 ```
 
-### 5. FONTS — from design-system.md, not generic
-Choose distinctive fonts that match the industry. Never default Inter/Sans.
+### 6. FONTS — aus design.md, via next/font
+```tsx
+// In app/layout.tsx — next/font lädt die Fonts aus design.md
+// In Components nutze font-heading / font-body Utilities
+<h1 className="font-heading">…</h1>
+<p className="font-body text-muted-foreground">…</p>
+```
+Keine System-Defaults. Keine Inline-`font-family`.
 
-### 6. IMAGES — minimum 5, never empty spaces
-Styled placeholders where images aren't available.
+### 7. IMAGES — mindestens eins pro Section, minimum 5 pro Variante
+Jede Section bekommt ein Bild (Wärme/Leben). Wenn kein Bild verfügbar → `<ImagePlaceholder label="…" />` mit Gradient aus `--primary`/`--accent`.
+Niemals leere Spaces.
 
-### 7. SHADCNBLOCKS — vary your choices
-Do NOT always pick hero1, feature1, testimonial1.
-Search with SPECIFIC queries. Try different blocks each time.
-Read the block descriptions before choosing.
+### 8. CUSTOM COMPONENTS — keine fremden Block-Libraries
+Pro Section ein eigenes File in `components/sections/variant-N/<section>.tsx`.
+Semantisches HTML, Tailwind + Utility-Klassen, Content aus Phase 6 hart reingeschrieben.
+Keine shadcn-Blocks. Keine shadcnblocks. Keine Tailwind-UI-Kopien.
 
 ---
 
 ## Project Documentation
-- `docs/BUSINESS.md` — business facts
+- `docs/BUSINESS.md` — business facts + Design Source
 - `docs/SEO-STRATEGY.md` — keywords
 - `docs/pages/home.md` — homepage SEO
-- `design-system.md` — colors, fonts, atmosphere
+- `design.md` — colors, fonts, buttons, spacing, atmosphere (Single Source of Truth)
+- `variant-blueprints.md` — Layout-Pläne pro Variante
 
 ## NAP Data
 `lib/site-config.ts` — single source of truth.

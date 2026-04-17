@@ -2,7 +2,7 @@
 name: quality-checker
 description: >
   Final QA on the built homepage. Checks SEO, schema, content,
-  UI rules, shadcnblocks usage, and design quality.
+  UI rules, design.md compliance, and custom component quality.
 ---
 
 # Quality Checker Agent
@@ -25,11 +25,11 @@ If `/seo` skill is loaded:
 
 ### SEO On-Page
 - [ ] H1 present, contains primary keyword + city
-- [ ] H1 is unique (only one on the page)
+- [ ] H1 ist unique (only one on the page)
 - [ ] Meta Title ≤ 60 chars with primary KW
 - [ ] Meta Description ≤ 155 chars with CTA + location
 - [ ] OG Title + OG Description set
-- [ ] Primary KW + geo-term in first paragraph
+- [ ] Primary KW + geo-term im first paragraph
 - [ ] Geo-term in at least one H2
 - [ ] Keyword density 1-2% (calculate)
 - [ ] No keyword stuffing
@@ -42,61 +42,69 @@ If `/seo` skill is loaded:
 - [ ] Opening hours present
 
 ### Content Quality
-- [ ] All 8 homepage sections present in correct order
+- [ ] All 10 homepage sections present in correct order (per `references/page-sections.md`)
 - [ ] Total word count 1500-2500
 - [ ] E-E-A-T signals present (experience, credentials, local refs)
-- [ ] No filler text ("Welcome to our website", "We are a leading...")
+- [ ] No filler text ("Welcome to our website", "We are a leading…")
 - [ ] No placeholder text remaining
 - [ ] Tone consistent across all sections
 - [ ] FAQ/testimonials feel authentic, not generic
 
 ### Images
-- [ ] All images WebP (or served as WebP via next/image)
-- [ ] All images have descriptive alt text with keyword
-- [ ] All images have title attribute
-- [ ] Above-fold images have `priority` prop
-- [ ] `width` and `height` set (CLS prevention)
-- [ ] NO empty spaces where images should be
-- [ ] Placeholder images are styled (gradient/icon, not blank divs)
+- [ ] Jede Section hat ein Bild oder einen `<ImagePlaceholder>`
+- [ ] Min. 5 Bilder pro Variante
+- [ ] All Images WebP (oder via next/image served as WebP)
+- [ ] All Images with descriptive alt text (keyword + location)
+- [ ] All Images with title attribute
+- [ ] Above-fold Images with `priority`
+- [ ] `width` und `height` gesetzt (CLS prevention)
+- [ ] NO empty spaces — Placeholders sind gestylt (Gradient)
 
 ### UI Rules Compliance
-- [ ] NO hardcoded colors (hex/rgb/hsl) in components
-- [ ] ALL colors via shadcn CSS variables (--primary, --accent etc.)
-- [ ] NO `className="bg-blue-600"` or similar named Tailwind colors
-- [ ] NO inline `style={}` props anywhere
+- [ ] NO hardcoded colors (hex/rgb/hsl) in Components
+- [ ] ALL colors via CSS variables (--primary, --accent etc.) aus design.md
+- [ ] NO `className="bg-blue-600"` oder ähnliche named Tailwind Colors
+- [ ] NO inline `style={}` props
 - [ ] NO separate .module.css files
-- [ ] Fonts only via font-heading, font-body
-- [ ] Hover states consistent
-- [ ] Border radius via --radius
-- [ ] globals.css colors match Phase 8 design direction
+- [ ] Fonts nur via `font-heading` / `font-body` Utilities
+- [ ] Hover states konsistent
+- [ ] Border radius via `--radius` / `--radius-btn`
+- [ ] `globals.css` matcht `design.md` Tokens 1:1
 
-### shadcnblocks Usage
-- [ ] Blocks were installed (check components/ for block files)
-- [ ] Block files are the ACTUAL components used (not replaced by custom files)
-- [ ] Block content was replaced with Phase 6 content (no placeholder text)
-- [ ] Block layout/structure preserved (responsive grid intact)
-- [ ] No unused block files sitting in the project
+### design.md Compliance
+- [ ] `design.md` existiert im Projekt-Root
+- [ ] Alle Pflicht-Sektionen vorhanden (Farben HSL, Typografie, Buttons, Section/Layout, Atmosphäre, Anti-Muster)
+- [ ] `globals.css` spiegelt alle Tokens aus `design.md`
+- [ ] Anti-Muster aus `design.md` werden nicht verletzt
 
-### Design Quality (/frontend-design)
-- [ ] Components don't look like generic AI output
-- [ ] Typography hierarchy is intentional (not all same size)
-- [ ] Whitespace and spacing feel deliberate
-- [ ] Visual rhythm between sections is consistent
-- [ ] CTAs stand out visually (accent color, size)
-- [ ] The page has a clear visual point of view
+### Custom Components
+- [ ] Pro Section ein eigenes File in `components/sections/variant-N/`
+- [ ] Semantisches HTML (section/article/header/footer + h1-h3 + p + ul)
+- [ ] Keine fremden Block-Libraries importiert (kein shadcn/ui, kein shadcnblocks)
+- [ ] `<Button variant="…" />` statt Inline-Tailwind-Button-Classes
+- [ ] Keine Pill-Badges für Orte/Labels
+
+### Design Quality
+- [ ] Components sehen nicht generisch aus
+- [ ] Typography-Hierarchie absichtlich (nicht alles gleich gross)
+- [ ] Whitespace + Spacing fühlen sich deliberate an
+- [ ] Visual rhythm zwischen Sections konsistent
+- [ ] CTAs stehen visuell heraus (accent color, size)
+- [ ] Jede Variante hat klaren visuellen Standpunkt (matcht Blueprint-Persönlichkeit)
+- [ ] Varianten sehen voneinander UNTERSCHIEDLICH aus (verschiedene Section-Layouts)
 
 ### Conversion
-- [ ] CTA above fold (hero section)
-- [ ] CTA repeated after social proof
-- [ ] Phone number clickable (tel: link)
-- [ ] NAP visible in footer
-- [ ] NAP matches schema exactly
+- [ ] CTA above fold (Hero)
+- [ ] CTA wiederholt nach Social Proof
+- [ ] Telefonnummer clickable (tel: Link)
+- [ ] NAP sichtbar im Footer
+- [ ] NAP matcht Schema exakt
 
 ### Technical
 - [ ] `npm run build` passes
-- [ ] No TypeScript errors
-- [ ] lang="de" (or correct language) on html tag
-- [ ] Metadata export in page.tsx
+- [ ] Keine TypeScript errors
+- [ ] `lang="de"` (oder correct language) auf html-Tag
+- [ ] Metadata export in layout.tsx / page.tsx
 
 ## Scoring
 Count passed items: `[passed] / [total] — [percentage]%`

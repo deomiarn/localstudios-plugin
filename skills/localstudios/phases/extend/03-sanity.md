@@ -108,10 +108,30 @@ NEXT_PUBLIC_SANITY_PROJECT_ID=[project-id]
 SANITY_API_TOKEN=[token]
 ```
 
-## Step 5 — Populate Initial Content
-Use Sanity MCP or Studio to add:
-- Globals document with NAP from site-config.ts
-- All services from interview
-- All team members from interview
-- All regions from interview
-- Blog categories from interview
+## Step 5 — Create Empty Collections (Placeholder)
+
+Create the collection structure in Sanity with minimal placeholder content:
+- Globals document with NAP from site-config.ts (this is complete)
+- Service documents: title + slug only (content comes in Phase 7)
+- Team member documents: name + slug + role only
+- Region documents: name + slug only
+- Blog category documents: title + slug only
+
+Use Sanity MCP tools:
+```
+mcp__Sanity__create_documents_from_json — for structured data like globals
+mcp__Sanity__create_documents_from_markdown — for rich text content
+```
+
+**IMPORTANT:** Full content is written in Phase 7 (Content). After Phase 7, push the written content INTO Sanity:
+
+### Phase 7 → Sanity Push (execute AFTER Phase 7 content is written)
+
+For each content type:
+1. **Services:** Use `mcp__Sanity__patch_document_from_markdown` to add longDescription, process steps, FAQ
+2. **Team Members:** Patch with longBio, qualifications
+3. **Regions:** Patch with longDescription, servicesAvailable references
+4. **Blog Posts:** Use `mcp__Sanity__create_documents_from_markdown` for full posts with portable text content
+5. **Verify:** Use `mcp__Sanity__query_documents` to confirm all content is populated
+
+This two-step flow (Phase 3: structure → Phase 7: content → push to Sanity) ensures content quality is controlled in Phase 7 before entering the CMS.

@@ -5,19 +5,19 @@
     "name": "LocalStudios"
   },
   "metadata": {
-    "description": "LocalStudios plugin marketplace — homepage generation with shadcnblocks + frontend-design",
-    "version": "1.2.0"
+    "description": "LocalStudios plugin marketplace — homepage generation with custom components styled from design.md and validated via Playwright",
+    "version": "2.0.0"
   },
   "plugins": [
     {
       "name": "localstudios",
       "source": "./",
-      "description": "Homepage generation plugin. Scrapes, researches keywords, writes extensive SEO content, builds polished Next.js homepages with shadcnblocks + frontend-design.",
-      "version": "1.2.0",
+      "description": "Homepage generation plugin. Scrapes, researches keywords, writes extensive SEO content, builds polished Next.js homepages with custom components styled from design.md (via getdesign CLI) and validated via Playwright MCP.",
+      "version": "2.0.0",
       "author": {
         "name": "LocalStudios"
       },
-      "keywords": ["website-generator", "homepage", "seo", "shadcnblocks", "nextjs"],
+      "keywords": ["website-generator", "homepage", "seo", "nextjs", "tailwind", "design-tokens", "getdesign", "playwright"],
       "category": "productivity",
       "strict": false
     }

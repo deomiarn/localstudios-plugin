@@ -45,6 +45,11 @@ For each section, note the image and source:
 
 Show the complete outline. Ask: "Approve this homepage structure? Any changes?"
 
+**Varianten-Hinweis:** Nach Approval dem User mitteilen:
+> Diese Section-Struktur gilt für ALLE Design-Varianten.
+> Jede Variante nutzt andere Block-Styles und visuelle Behandlung für dieselben Sections.
+> Farben und Content bleiben gleich — nur das Layout und die Komposition unterscheiden sich.
+
 Do not proceed to Phase 7 until approved.
 
 ## Create docs/pages/home.md

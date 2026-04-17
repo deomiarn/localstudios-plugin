@@ -25,7 +25,7 @@ These sections are proven for SEO, GEO, conversion, and visual appeal.
 ### Wichtig für Sections:
 - **ALLE Sections zentriert** (mx-auto max-w-7xl)
 - **Featured Services**: 2-3 Hauptdienstleistungen als grosse eigene Sections mit Bild
-- **Buttons**: Grosszügig, zum Style passend (Shape wird vom Design Brief bestimmt)
+- **Buttons**: Grosszügig, zum Style passend (Shape wird in `design.md` bestimmt — pill/rounded/sharp)
 - **Keine Pill-Badges/Labels**: Orte, Kategorien etc. als clean Text oder simple Liste
 - **Google Maps**: Echte Embed URL vom User (im Interview gefragt)
 

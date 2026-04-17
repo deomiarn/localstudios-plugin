@@ -5,5 +5,5 @@ Load `../00-preflight.md` and execute it.
 
 Additionally verify:
 - Source project path exists and contains a Next.js project
-- Source has `design-system.md`, `docs/BUSINESS.md`, `globals.css`
+- Source has `design.md`, `docs/BUSINESS.md`, `app/globals.css` (und idealerweise `variant-blueprints.md`)
 - If source is missing key files → warn user, ask if they want to proceed

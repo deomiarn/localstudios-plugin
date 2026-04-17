@@ -1,7 +1,7 @@
 {
   "name": "localstudios",
-  "version": "1.2.0",
-  "description": "Homepage generation plugin by LocalStudios. Scrapes websites, researches keywords, writes extensive SEO content, builds Next.js homepages with shadcnblocks + frontend-design refinement.",
+  "version": "2.0.0",
+  "description": "Homepage generation plugin by LocalStudios. Scrapes websites, researches keywords, writes extensive SEO content, builds Next.js homepages with custom components styled from design.md (via getdesign CLI) and validated via Playwright MCP.",
   "author": {
     "name": "LocalStudios",
     "url": "https://github.com/deomiarn"
@@ -13,9 +13,10 @@
     "website-generator",
     "homepage",
     "seo",
-    "shadcnblocks",
-    "shadcn",
     "nextjs",
-    "frontend-design"
+    "tailwind",
+    "design-tokens",
+    "getdesign",
+    "playwright"
   ]
 }

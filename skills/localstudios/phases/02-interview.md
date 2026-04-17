@@ -1,15 +1,15 @@
-# Phase 2 — Interview + Design Brief
+# Phase 2 — Interview + Design Source
 
 **⚠ MANDATORY PAUSE — Do not proceed until user responds.**
 
 ## References
 - Load `./references/interview-template.md` for business checklist
-- Load `./references/design-brief-template.md` for design questions
+- Load `./references/design-brief-template.md` for design source rules
 - Load `./references/docs-structure.md` for BUSINESS.md template
 
 ## Process
 
-Present TWO checklists: Business Info + Design Brief.
+Present TWO checklists: Business Info + Design Source.
 Prefill from Phase 1 scraping where possible.
 
 ---
@@ -50,31 +50,26 @@ CONVERSION
 [ ] Main goal: Call / Form / Book / Purchase: ___
 ```
 
-## Part 2 — Design Brief (WICHTIGSTER INPUT)
+## Part 2 — Design Source (PFLICHT)
+
+Das Design kommt aus **einer** von zwei Quellen. Der User muss genau eine liefern:
 
 ```
-=== DESIGN BRIEF ===
+=== DESIGN SOURCE (PFLICHT) ===
 
-REFERENZEN (der grösste Hebel — zeig mir ein Bild)
-[ ] 1-3 Screenshots oder URLs von Websites die dir gefallen: ___
-[ ] Was genau gefällt daran? ___
+Option A — getdesign CLI Command:
+[ ] Command (z.B. "npx getdesign@latest add nike"): ___
 
-GEFÜHL
-[ ] 3-5 Adjektive: ___
-    (modern, warm, vertrauenswürdig, premium, clean, elegant, mutig...)
+Option B — Existierende design.md:
+[ ] Pfad zur vorhandenen design.md: ___
 
-FARBEN
-[ ] Primary (Hex oder "wie Referenz X" oder "AI entscheidet"): ___
-[ ] Accent/CTA (Hex oder "wie Referenz X"): ___
+(Entweder A ODER B ausfüllen. Beides leer → Phase bricht ab.)
 
-TYPOGRAFIE
-[ ] Serif / Sans-Serif / Egal: ___
+=== FEINTUNING (optional) ===
 
-BESONDERES
-[ ] Was soll auffallen? ___
-
-ANTI-MUSTER
-[ ] Was NICHT? ___
+[ ] 3-5 Adjektive für Gefühl (z.B. "modern, warm, vertrauenswürdig"): ___
+[ ] Anti-Muster — was NICHT? (z.B. "kein Dark Mode", "nicht verspielt"): ___
+[ ] Anzahl Design-Varianten (Default: 3): ___
 
 === WARTE AUF ANTWORT ===
 ```
@@ -83,17 +78,28 @@ ANTI-MUSTER
 
 ## After Response
 
-### 1. Show PROJECT BRIEF
+### 1. Validate Design Source
+- Wenn weder Option A noch B gefüllt → STOP. Freundlich nochmals fragen.
+- Wenn A: den Command roh speichern (Ausführung erst in Phase 8).
+- Wenn B: den Pfad prüfen (File existiert?). Wenn nicht → User fragen.
+
+### 2. Show PROJECT BRIEF
 ```
 === PROJECT BRIEF ===
 Business: [name] — [industry] — [city]
 Primary Keyword: [keyword]
 Services: [list]
 Goal: [call/form/booking]
-Design: [adjectives] — Referenz: [URL/description]
-Colors: [primary] + [accent]
+Design Source: [A: getdesign command "___"  |  B: design.md at "___"]
+Adjektive: [list, falls angegeben]
+Anti-Muster: [list, falls angegeben]
+Variants: [N] (default: 3)
 === END BRIEF ===
 ```
 
-### 2. Create docs/BUSINESS.md
-### 3. Update CLAUDE.md with docs references
+### 3. Create docs/BUSINESS.md
+Nutze das Template aus `./references/docs-structure.md`.
+Speichere die Design Source (Command ODER Pfad) im Abschnitt „Design" — Phase 8 liest sie dort.
+
+### 4. Update CLAUDE.md with docs references
+Stelle sicher, dass `design.md` im CLAUDE.md als Pflicht-Input-Referenz steht (wird in Phase 8 erzeugt/übernommen).

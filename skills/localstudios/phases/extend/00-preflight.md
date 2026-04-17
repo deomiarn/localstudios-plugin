@@ -19,7 +19,7 @@ Sanity CMS is needed for dynamic pages (blog, services, team, regions).
 ## Step 3 — Verify existing project
 Check that the current directory has:
 - [ ] `docs/BUSINESS.md` — from generate
-- [ ] `design-system.md` — from generate
+- [ ] `design.md` — from generate (Single Source of Truth)
 - [ ] `app/page.tsx` — homepage exists
 - [ ] `app/globals.css` — design tokens set
 - [ ] `lib/site-config.ts` — NAP data

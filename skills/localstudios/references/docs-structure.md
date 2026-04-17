@@ -83,6 +83,14 @@ The central reference for everything about the client. Scraped from website + GB
 - **Tone of Voice**: [formal / casual / professional / friendly]
 - **Language(s)**: [list]
 
+## Design
+- **Source**: [A: getdesign command  |  B: existierende design.md]
+- **Command**: [z.B. `npx getdesign@latest add nike`]  _(nur wenn Option A)_
+- **design.md Path**: [absoluter Pfad]                _(nur wenn Option B)_
+- **Adjektive**: [3-5 Adjektive aus Phase 2, falls angegeben]
+- **Anti-Muster**: [Liste aus Phase 2, falls angegeben]
+- **Variants**: [N] (default: 3)
+
 ## Certifications & Trust Signals
 - [certification/award/membership]
 
