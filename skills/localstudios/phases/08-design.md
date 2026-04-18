@@ -1,8 +1,23 @@
-# Phase 8 — Design System (design.md READ-ONLY + layout-plan.md)
+# Phase 8 — Design System (design.md READ-ONLY + frontend-design Skill + layout-plan.md)
 
 ## Outputs
 1. **`design.md`** im Projekt-Root — **UNVERÄNDERT** aus getdesign-Output ODER User-Quelle übernommen. Read-only.
-2. **`layout-plan.md`** im Projekt-Root — EIN Layout-Plan für EINE Homepage (section-für-section Komposition + Bild-Plan), abgeleitet aus design.md.
+2. **`layout-plan.md`** im Projekt-Root — EIN Layout-Plan für EINE Homepage (section-für-section Komposition + Bild-Plan), abgeleitet aus design.md **+ frontend-design Skill Prinzipien**.
+
+---
+
+## Step 0 — Beide Quellen MÜSSEN zuerst gelesen sein
+
+Bevor irgendwas geplant oder gebaut wird, müssen **beide** Quellen vollständig gelesen und verstanden sein:
+
+1. **`design.md`** im Projekt-Root (siehe Step 1 + 2)
+2. **`frontend-design` Skill** aus diesem Plugin — direkt via Skill-Tool laden:
+   ```
+   Skill: frontend-design
+   ```
+   Der Skill definiert die Design-Prinzipien (Visual Direction, Composition, Typography, Color, Motion, Anti-Patterns, Quality Gate). Die `design.md` gibt die konkreten Tokens/Atmosphäre dieser spezifischen Brand. Beide zusammen sind der einzige Input für die Layout-Planung.
+
+**Ohne dass beide Quellen geladen sind, wird nicht geplant und nicht gebaut.** Wenn die Skill-Invocation scheitert, zuerst fixen (Skill-Name stimmt? Plugin reload nötig?) und dann weiter.
 
 ---
 
@@ -98,7 +113,11 @@ Claude ergänzt **nie** selbst Werte in `design.md`.
 
 ## Step 3 — `layout-plan.md` schreiben
 
-EIN Layout-Plan für EINE Homepage. Abgeleitet aus `design.md` (Gefühl/Atmosphäre/Bild-Regeln).
+EIN Layout-Plan für EINE Homepage. Abgeleitet aus:
+- `design.md` → Gefühl, Atmosphäre, Farben, Typografie, Button-Stil, Bild-Regeln, Anti-Muster (brand-spezifisch)
+- `frontend-design` Skill → Design-Prinzipien (Visual Direction wählen + committen, Composition-Patterns, Typography-Handwerk, Color-Anwendung, Motion-Regeln, Anti-Patterns, Quality Gate)
+
+Der Skill gibt das „WIE man designed", `design.md` gibt das „WAS diese Brand aussieht". Beide fliessen in den Layout-Plan ein.
 
 ```markdown
 # Layout Plan — [Company Name]
@@ -140,10 +159,12 @@ Keine eigene Layout-Zeile in der Tabelle oben, wird als eigene Section unter 10 
 ## Step 4 — Validierung
 
 Bevor Phase 9 startet, prüfen:
+- [ ] `frontend-design` Skill wurde geladen (Prinzipien verstanden)
 - [ ] `design.md` im Projekt-Root — UNVERÄNDERT ggü. Quelle (ausser explizitem Farbwechsel aus Phase 2)
 - [ ] `design.md` wurde komplett gelesen und verstanden (Verstehens-Block wurde dem User gezeigt)
 - [ ] `layout-plan.md` im Projekt-Root
 - [ ] layout-plan.md hat alle 10 Sections mit Layout + Komposition + Bild-Plan
+- [ ] layout-plan.md Visual Strategy committet sich auf EINE Direction (kein Mischmasch — siehe frontend-design Skill)
 - [ ] Hero-Eintrag spezifiziert explizit ein above-the-fold Bild (Split oder Full-Bleed)
 - [ ] Fehlende Pflicht-Angaben in design.md wurden nicht eigenmächtig ergänzt — stattdessen beim User nachgefragt
 

@@ -2,9 +2,11 @@
 
 ## HARD RULES — read before writing ANY code
 
-### 1. DESIGN SOURCE — design.md ist Pflicht UND READ-ONLY
+### 1. DESIGN SOURCE — design.md + frontend-design Skill sind Pflicht
 Alle Farben, Fonts, Buttons, Spacing, Atmosphäre kommen aus **`design.md`** (Projekt-Root).
 `design.md` wird in Phase 8 einmal beschafft (via `npx getdesign@latest add <brand>`) ODER vom User als existierende Datei übergeben.
+
+**Vor jedem Design-Planen oder Bauen MUSS der `frontend-design` Skill aus diesem Plugin geladen sein.** Der Skill bringt die Design-Qualitäts-Prinzipien (Direction committen, intentional Composition, Typography-Handwerk, Anti-Patterns, Quality Gate). Ohne den Skill + `design.md` zusammen wird weder geplant noch gebaut.
 
 **design.md ist READ-ONLY.** Niemals editieren, niemals ergänzen, niemals umformulieren. Einzige Ausnahme: ein vom User explizit am Anfang gewünschter Farbwechsel (z.B. „primary von gelb auf blau") — dann NUR die Farb-Tokens ersetzen, alles andere bleibt 1:1.
 

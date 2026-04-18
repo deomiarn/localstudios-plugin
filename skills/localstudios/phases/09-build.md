@@ -5,6 +5,7 @@
 - Load `./references/ui-rules.md`
 - Load `design.md` (Projekt-Root — aus Phase 8, **READ-ONLY**)
 - Load `layout-plan.md` (Projekt-Root — aus Phase 8)
+- **Skill `frontend-design`** sollte aus Phase 8 noch geladen sein — falls nicht, neu laden. Prinzipien (Composition, Typography, Color, Motion, Anti-Patterns, Quality Gate) gelten beim Component-Bau.
 
 ## Architecture
 
@@ -16,11 +17,12 @@ components/sections/…  → Custom Components (flach, semantisches HTML + Tailw
 ui-rules.md        → Harte Regeln (keine hardcoded Farben, zentriert, Button-Kontrast, …)
 ```
 
-## CRITICAL: design.md + layout-plan.md sind das Rezept
+## CRITICAL: design.md + layout-plan.md + frontend-design Skill sind das Rezept
 
-Lies beide Dateien. Weiche NICHT davon ab.
-- `design.md` gibt dir WAS du verwendest (Tokens, Gefühl, Atmosphäre) — **READ-ONLY. Niemals editieren.**
-- `layout-plan.md` gibt dir WIE du die Homepage baust (Layout/Komposition pro Section).
+Lies alle drei. Weiche NICHT davon ab.
+- `design.md` gibt dir WAS diese Brand aussieht (Tokens, Gefühl, Atmosphäre) — **READ-ONLY. Niemals editieren.**
+- `layout-plan.md` gibt dir WELCHES Layout pro Section gebaut wird.
+- `frontend-design` Skill gibt dir die Design-Qualitäts-Prinzipien (Direction committen, intentional Composition, Typography-Handwerk, Anti-Patterns vermeiden, Quality Gate).
 - Keine fremden Block-Libraries. Keine vorgefertigten Template-Components. Keine Varianten.
 
 ---

@@ -81,6 +81,7 @@ Creates a **single homepage** to pitch the client (one design, no variants).
 | Tool | Phase | Role |
 |------|-------|------|
 | `npx getdesign@latest add <brand>` | 8 | Design source — erzeugt `design.md` (einmalig, danach READ-ONLY) |
+| `frontend-design` Skill (in diesem Plugin) | 8+9 | Design-Qualitäts-Prinzipien — MUSS zusammen mit `design.md` geladen sein bevor geplant/gebaut wird |
 | Playwright MCP | 10 | Visual validation — Screenshots der Homepage, Abgleich mit `design.md`, Fixes IMMER im Code |
 | `/seo page` | 10 | Audit: validates NEW homepage — must FIX all issues |
 | `/seo schema` | 10 | Audit: validates schema |
@@ -90,10 +91,11 @@ Creates a **single homepage** to pitch the client (one design, no variants).
 **Design-Prozess:**
 ```
 Phase 2 Interview → getdesign Command ODER design.md Pfad (+ optional: Farbwechsel-Wunsch)
-  → Phase 8 → design.md im Projekt-Root (READ-ONLY ab hier — nie wieder anfassen)
-             + layout-plan.md (EIN Layout-Plan für EINE Homepage, alle 10 Sections)
+  → Phase 8 → 1) frontend-design Skill laden (Design-Prinzipien)
+             + design.md beschaffen + verstehen (brand-spezifische Atmosphäre) — READ-ONLY ab hier
+             2) layout-plan.md schreiben (Skill + design.md → EIN Layout-Plan, 10 Sections)
     → Phase 9 → globals.css aus design.md (CSS-Vars + Tailwind v4 @theme inline)
-               + Custom Components flach in components/sections/
+               + Custom Components flach in components/sections/ (Skill-Prinzipien beim Bau anwenden)
                + Hero MUSS above-the-fold Bild haben
       → Phase 10 → Playwright Screenshots vs. design.md
                   + /seo audits
