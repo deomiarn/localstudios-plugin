@@ -1,0 +1,11 @@
+# User-lokale Artefakte (z.B. durch claude-code-templates installierte Skills)
+.agents/
+.claude/
+skills-lock.json
+
+# OS
+.DS_Store
+
+# Node
+node_modules/
+npm-debug.log*
