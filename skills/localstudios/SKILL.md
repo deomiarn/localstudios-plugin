@@ -117,12 +117,13 @@ Phase 2 Interview → getdesign Command ODER design.md Pfad (+ optional: Farbwec
 
 ### Dependencies
 
-| Tool | Check | Fallback |
-|------|-------|----------|
-| Playwright MCP | `mcp__playwright__*` | WebFetch (eingeschränkt — Playwright ist für Phase 10 de facto Pflicht) |
-| Semrush MCP | `mcp__semrush__*` | Manual keywords |
-| `npx getdesign@latest` | CLI via `npx` verfügbar | User liefert fertige `design.md` im Projekt |
-| claude-seo | `/seo` skill loaded | Skip audit (nicht empfohlen) |
+| Tool | Check | Status |
+|------|-------|--------|
+| Playwright MCP | `mcp__playwright__*` | PFLICHT für Phase 10 Visual Validation |
+| Semrush MCP | `mcp__semrush__*` | PFLICHT für Phase 3 Keyword-Research (Fallback: manuelle Keywords) |
+| claude-seo | `/seo` skill loaded | **PFLICHT** für Phase 10 SEO Audit |
+| `frontend-design` Skill | in `skills/frontend-design/` (Plugin) | PFLICHT — wird in Phase 8 geladen |
+| `npx getdesign@latest` | CLI via `npx` verfügbar | PFLICHT falls Design-Source A gewählt (Fallback: User liefert fertige `design.md`) |
 
 ### Tech Stack
 - **Next.js** App Router (`npx create-next-app@latest . --typescript --tailwind --app`)

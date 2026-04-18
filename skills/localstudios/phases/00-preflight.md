@@ -24,14 +24,21 @@ claude mcp add semrush https://mcp.semrush.com/v1/mcp -t http
 ```
 Requires one-time OAuth: `/mcp` → Semrush → Authenticate
 
-### 1c. getdesign CLI (wird in Phase 8 aufgerufen)
+### 1c. claude-seo (Pflicht für Phase 10 SEO Audit)
+Prüfen ob `/seo` als Skill bereits verfügbar ist. Wenn nicht:
+```bash
+curl -fsSL https://raw.githubusercontent.com/AgriciDaniel/claude-seo/main/install.sh | bash
+```
+Nach dem Install ist ein Restart nötig (`/exit` + `claude`).
+
+### 1d. getdesign CLI (wird in Phase 8 aufgerufen)
 Kein globaler Install nötig — wird via `npx getdesign@latest add <brand>` on-demand ausgeführt.
 Nur sicherstellen, dass `npx` (Node.js) verfügbar ist:
 ```bash
 node --version && npx --version
 ```
 
-### 1d. Create CLAUDE.md
+### 1e. Create CLAUDE.md
 
 ```markdown
 # [Project Name]
@@ -83,13 +90,17 @@ PROJECT
   Directory .......... [cwd]
   CLAUDE.md .......... ✅
 
-INSTALLED
+INSTALLED (alle Pflicht)
   Playwright MCP ..... ✅ / 🔧 Restart needed
   Semrush MCP ........ ✅ / 🔧 Restart needed
+  claude-seo ......... ✅ / 🔧 Install needed   (für Phase 10 SEO Audit)
   Node.js / npx ...... ✅ (getdesign läuft on-demand via npx)
-
-OPTIONAL
-  claude-seo ......... ✅ / ❌   (für Phase 10 SEO Audit)
 
 === READY ===
 ```
+
+Wenn `claude-seo` fehlt:
+```bash
+curl -fsSL https://raw.githubusercontent.com/AgriciDaniel/claude-seo/main/install.sh | bash
+```
+Danach `/exit` + `claude` neu starten.
