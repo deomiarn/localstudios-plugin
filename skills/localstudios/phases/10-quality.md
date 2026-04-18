@@ -72,7 +72,11 @@
 
 ## Part 2 — Playwright Visual Validation (MANDATORY)
 
-**Playwright MCP ist für diese Phase Pflicht.** Claude führt die Screenshots selbst aus und gleicht visuell gegen `design.md` ab.
+**Playwright MCP ist für diese Phase Pflicht.** Claude führt Screenshots selbst aus und prüft ZWEI Dinge:
+1. **Compliance**: Stimmen Farben/Typo/Spacing mit `design.md` überein?
+2. **Design-Qualität**: Ist jede Section harmonisch, proportional, visuell stark — gemessen an den Prinzipien aus dem `frontend-design` Skill?
+
+Beide müssen passen. Wenn die Seite zwar Token-korrekt aber design-technisch schwach wirkt, wird trotzdem gefixt.
 
 ### Step 1 — Dev/Build starten
 
@@ -85,51 +89,112 @@ npm run build && npm run start
 
 Warten bis Server bereit ist (Port 3000 default).
 
-### Step 2 — Screenshot-Loop für die Homepage
+### Step 2 — frontend-design Skill aktivieren
+
+Falls nicht mehr aus Phase 8 geladen → jetzt laden. Die Quality-Gate-Kriterien (klarer visual point of view, intentional Typography + Spacing, Color/Motion supporting statt dekorierend, nicht AI-generic, production-grade) sind die Mess-Latte für Step 4.
+
+### Step 3 — Screenshots sammeln
 
 Für die Homepage (`/`):
 
-1. **Desktop Screenshot**
-   - Playwright MCP: navigate zu `http://localhost:3000/`
-   - Viewport: 1440×900
-   - Full-page Screenshot
-   - Console-Messages abfragen → Errors protokollieren
-   - Network-Requests abfragen → 404/5xx protokollieren
+1. **Desktop Full-Page** — Viewport 1440×900, full-page Screenshot
+2. **Desktop Above-the-Fold** — Viewport 1440×900, nur sichtbarer Bereich (Hero-Check)
+3. **Mobile Full-Page** — Viewport 375×812, full-page
+4. **Mobile Above-the-Fold** — Viewport 375×812, nur sichtbarer Bereich
+5. **Section-by-Section** — für jede der 10 Sections einen engen Screenshot (Section-Bereich durch `section[data-section="…"]` oder via Scroll-Position). Dadurch kann jede Section isoliert auf Design-Qualität beurteilt werden.
 
-2. **Above-the-fold Screenshot** (zusätzlich ohne Scroll)
-   - Viewport: 1440×900 — **nur der sichtbare Bereich**
-   - Zweck: Hero-Bild muss darauf sichtbar sein
+Console-Messages + Network-Requests parallel abfragen → 404/5xx protokollieren.
 
-3. **Mobile Screenshot**
-   - Viewport: 375×812
-   - Full-page Screenshot
-   - Above-the-fold Check auch auf Mobile: Hero-Bild sichtbar?
+### Step 4 — Zwei-Schicht-Review
 
-4. **Abgleich gegen `design.md`** (visuell analysieren):
-   - **Farben:** Primary/Accent/Background visuell erkennbar und konsistent mit `design.md`?
-   - **Typografie-Hierarchie:** H1 dominiert? H2 klar kleiner aber lesbar? Body-Text angenehm? Scale matcht `design.md`?
-   - **Section-Spacing:** konsistent — keine Section die zu eng wirkt?
-   - **Atmosphäre:** Whitespace/Shadows/Radius entsprechen dem was `design.md` vorgibt?
-   - **Hero:** Bild above-the-fold sichtbar? Proportion (`aspect-[4/5]` / `aspect-[3/4]`) ok? Keine `[Image …]`-Text-Platzhalter im DOM?
-   - **Bilder:** Jede Section hat ein Bild? Min. 5 Bilder auf der Homepage sichtbar? Kein leerer Space?
-   - **Buttons:** Auf JEDEM Section-Hintergrund lesbar? Keine unsichtbaren oder zu kleinen Buttons?
-   - **Pill-Badges:** Keine sichtbar? Orte/Labels clean als Text?
-   - **Content-Menge:** Fühlt sich eine Section zu text-lastig an (Ziel 1500-2000 Wörter total)?
+#### 4a. Compliance-Review (Token-Match gegen `design.md`)
 
-5. **Abweichungen fixen — IMMER im Code, NIEMALS in `design.md`**
-   - Für jede Abweichung das verantwortliche File identifizieren und sofort anpassen
-   - Häufige Fixes:
-     - Buttons zu klein → Button-Component variants anpassen (`px-8 py-3` → grösser)
-     - Heading zu wenig dominant → Scale-Utilities in der Component erhöhen
-     - Section fühlt sich eng → Container-Padding oder Section-Spacing erhöhen
-     - Hero hat kein above-the-fold Bild → Hero-Komponente auf Split- oder Full-Bleed-Layout umbauen
-     - `[Image …]` Text im DOM → Content von Phase 6 bereinigen, Image-Metadaten gehören in `docs/pages/home.md`
-   - **NICHT** hardcoded Farben hinzufügen.
-   - **NICHT** `design.md` anpassen — wenn der Code vom Design abweicht, ist der Code falsch, nicht die Vorlage.
+- **Farben:** Primary/Accent/Background visuell erkennbar und konsistent mit `design.md`?
+- **Typografie:** H1 dominiert? H2 klar kleiner aber lesbar? Body-Text angenehm? Scale matcht `design.md`?
+- **Section-Spacing:** `py-16 md:py-24 lg:py-32` konsistent?
+- **Atmosphäre-Tokens:** Whitespace/Shadows/Radius entsprechen `design.md`?
+- **Buttons:** Auf JEDEM Section-Hintergrund lesbar? Shape matcht `design.md`?
+- **Anti-Muster aus `design.md`:** nichts verletzt?
 
-6. **Re-Screenshot nach Fix** → bis Match.
+#### 4b. Design-Qualität-Review (pro Section — Mess-Latte: `frontend-design` Skill)
 
-### Step 3 — Console & Network Report
+Jede Section einzeln durchgehen und bewerten:
+
+**Hero**
+- Above-the-fold-Bild sichtbar? Proportion (`aspect-[4/5]`/`aspect-[3/4]`) wirkt nicht zu flach?
+- Composition: asymmetrisch-stark oder nur zentriert-langweilig?
+- Headline hat visuelle Dominanz (Scale + Weight + Tracking)?
+- Hero wirkt wie ein **intentional gestalteter** Opener, nicht wie ein SaaS-Template?
+
+**Trust Bar**
+- Zahlen haben hierarchische Dominanz (gross) vs. Labels (klein)?
+- Rhythmus harmonisch (3-4 Elemente, gleicher Abstand)?
+- Fühlt sich die Section nicht zu dünn/zu schwer an?
+
+**Featured Service 1 + 2**
+- Alternierender Rhythmus Bild/Text wirkt bewusst?
+- Bild-Proportionen stimmen mit dem Text-Block zusammen?
+- CTA sitzt richtig (nicht verloren, nicht zu laut)?
+
+**Services Grid**
+- Card-Rhythmus harmonisch (gleiche Höhe, gleicher Content-Flow)?
+- Nicht zu dense, nicht zu luftig — passt zum `design.md` Gefühl?
+- Hierarchie pro Card klar (Icon/Bild → Name → Beschreibung)?
+
+**About Teaser**
+- Portrait + Text balanciert?
+- Story-Text nicht zu lang (max. 2-3 kompakte Absätze)?
+- Persönliches Gefühl spürbar — nicht generisch corporate?
+
+**Social Proof**
+- Testimonials lesbar, nicht zu kompakt?
+- Quote-Hierarchie (Zitat > Name > Ort) klar?
+- Keine AI-Generic-Karten-Optik?
+
+**Local Area + Map**
+- Map-Embed hat richtige Höhe (nicht winzig, nicht übergross)?
+- Ort-Liste clean (kein Pill-Badge)?
+- Section wirkt als lokaler Anker, nicht als Footer-Vorgänger?
+
+**CTA Section**
+- CTA visuell dominierend — der Fokus-Punkt der Section?
+- Kontrast auf Section-Background stimmt?
+- Kein Informations-Overload — nur 1 klare Aktion?
+
+**Footer**
+- Mehrspaltiger Rhythmus ausgewogen?
+- NAP auffindbar (nicht versteckt)?
+- Typografie-Hierarchie gedämpft aber lesbar?
+
+**Gesamt-Harmonie (ganze Homepage)**
+- Alternierender Rhythmus zwischen Sections (breit/schmal, hell/dunkel, dicht/luftig) vorhanden?
+- Keine zwei aufeinanderfolgenden Sections die visuell identisch wirken?
+- Vertical Rhythm konsistent (Section-Padding, Headline-zu-Body-Abstand)?
+- Gesamte Seite hat einen klaren visuellen Standpunkt — nicht „safe average"?
+- Quality Gate aus `frontend-design` erfüllt: intentional, nicht generic, production-grade?
+
+### Step 5 — Fixen
+
+**Für jede Abweichung (Compliance ODER Design-Qualität) → SOFORT im Code fixen.**
+
+Beispiele für Design-Qualitäts-Fixes:
+- Hero wirkt zentriert-langweilig → auf Split-Layout mit grösserem Bild umbauen
+- Trust Bar Zahlen zu klein → Scale der Zahlen erhöhen
+- Services Grid Cards uneinheitlich → `grid-auto-rows: 1fr` oder feste Card-Höhe
+- About Portrait zu klein → aspect-ratio + min-size anheben
+- CTA Section fühlt sich flach → Background-Intensität (primary statt muted) erhöhen oder padding aufblasen
+- Zwei aufeinanderfolgende Sections sehen gleich aus → Background-Alternation einführen (`bg-secondary/30`)
+- Section-Rhythmus bricht ab → vertikales Padding auf eine Section anpassen
+- Page wirkt generic → stärkere Typo-Hierarchie (grössere H1, tighter Tracking), Atmosphäre-Akzent aus `design.md` herausarbeiten (Shadows, Radius, Textur)
+
+**Nie:**
+- Hardcoded Farben einführen
+- `design.md` anpassen — wenn der Code vom Design abweicht, ist der Code falsch, nicht die Vorlage
+- Komplette Sections löschen wenn sie schwach wirken — stattdessen umbauen
+
+### Step 6 — Re-Screenshot → bis beide Reviews (Compliance + Design-Qualität) sauber sind
+
+### Step 7 — Console & Network Report
 
 Am Ende kurz auflisten:
 - Console-Errors (sollte 0 sein)
