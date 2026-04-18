@@ -21,23 +21,27 @@ Ergebnis: Next.js + Tailwind CSS. Keine weiteren UI-Libraries installieren.
 project/
 ├── app/
 │   ├── layout.tsx                # Root layout (metadata, fonts, header/footer, schema)
-│   ├── page.tsx                  # Home — Variant 1
-│   ├── variant-2/page.tsx        # Variant 2
-│   ├── variant-3/page.tsx        # Variant 3
-│   ├── globals.css               # ALL styles — single source of truth, abgeleitet aus design.md
+│   ├── page.tsx                  # EINZIGE Homepage
+│   ├── globals.css               # CSS-Vars aus design.md + Tailwind v4 @theme inline
 │   └── <andere Seiten bei Extend>
 ├── components/
 │   ├── ui/
 │   │   ├── button.tsx            # Komponiert Tailwind-Utilities per Variant
 │   │   └── image-placeholder.tsx # Gradient-Placeholder für fehlende Bilder
 │   ├── layout/
-│   │   ├── header.tsx            # Shared
-│   │   ├── footer.tsx            # Shared
-│   │   └── variant-switcher.tsx  # Vergleichs-Nav (wird vor Delivery entfernt)
-│   ├── sections/
-│   │   ├── variant-1/            # Custom Components für Variante 1 (10 Files)
-│   │   ├── variant-2/            # Custom Components für Variante 2
-│   │   └── variant-3/            # Custom Components für Variante 3
+│   │   ├── header.tsx
+│   │   └── footer.tsx
+│   ├── sections/                 # FLACH — 10 Section-Files, keine variant-N Ordner
+│   │   ├── hero.tsx
+│   │   ├── trust-bar.tsx
+│   │   ├── featured-service-1.tsx
+│   │   ├── featured-service-2.tsx
+│   │   ├── services-grid.tsx
+│   │   ├── about-teaser.tsx
+│   │   ├── social-proof.tsx
+│   │   ├── local-area.tsx
+│   │   ├── cta-section.tsx
+│   │   └── faq.tsx               # optional
 │   └── seo/
 │       └── schema-script.tsx     # JSON-LD Injection
 ├── lib/
@@ -45,8 +49,8 @@ project/
 │   └── site-config.ts            # NAP, Phone, Email, Maps URL, Social
 ├── public/
 │   └── images/
-├── design.md                     # Single Source of Truth — aus Phase 8
-└── variant-blueprints.md         # Layout-Pläne pro Variante — aus Phase 8
+├── design.md                     # READ-ONLY Source of Truth — aus Phase 8
+└── layout-plan.md                # Layout-Plan für die Homepage — aus Phase 8
 ```
 
 ## Styling Rules — schlank, Tailwind-first
@@ -178,7 +182,7 @@ export const cn = (...parts: (string | undefined | false | null)[]) => parts.fil
 **Pro Section ein eigenes File.** Semantisches HTML. Content aus Phase 6 hart reingeschrieben.
 
 ```tsx
-// components/sections/variant-1/hero.tsx — reine Tailwind-Utilities
+// components/sections/hero.tsx — reine Tailwind-Utilities, Bild above-the-fold
 import Image from "next/image"
 import { Button } from "@/components/ui/button"
 import { ImagePlaceholder } from "@/components/ui/image-placeholder"
@@ -216,7 +220,8 @@ Regeln:
 - Keine hardcoded Farben, kein `style={}`, keine Custom-CSS-Klassen in Components
 - Bilder: `next/image` ODER `<ImagePlaceholder>`
 - Buttons via `<Button variant="…" />`
-- Content hart reingeschrieben (identisch über Varianten, Layout unterscheidet sich)
+- Content hart reingeschrieben — Phase 6 Content landet 1:1 im JSX. Keine `[Image …]`-Text-Platzhalter.
+- **Hero MUSS ein Bild above-the-fold haben** (Split oder Full-Bleed), `aspect-[4/5]`/`aspect-[3/4]`, nie `aspect-video`
 
 ## SEO in Next.js
 

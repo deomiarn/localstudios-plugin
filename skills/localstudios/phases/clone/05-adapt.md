@@ -23,32 +23,35 @@ rm -rf .git node_modules .next
 Lies die Design-Änderungs-Entscheidung aus `docs/BUSINESS.md` / Clone Brief.
 
 #### Fall „Keep" (Style vom Source übernehmen)
-- `design.md` aus Source bleibt unverändert.
+- `design.md` aus Source bleibt **unverändert** (READ-ONLY).
 - `globals.css` bleibt unverändert.
 - Kein getdesign-Call.
+
+#### Fall „Nur Farbwechsel"
+- `design.md` bleibt strukturell identisch.
+- **Nur** die explizit genannten Farb-Tokens in `design.md` ersetzen (z.B. `--primary` Wert).
+- Danach ist `design.md` wieder READ-ONLY.
 
 #### Fall „Anpassen" oder „Neu"
 - Lies die Design Source (Command ODER Pfad) aus `docs/BUSINESS.md`.
 - **Wenn getdesign Command:**
   ```bash
-  # im Projekt-Root ausführen
   <exakter command aus Phase 3>
   ```
-  Output konsolidieren → `design.md` im Projekt-Root überschreiben.
+  Das von getdesign erzeugte File als `design.md` im Projekt-Root ablegen — **unverändert**.
 - **Wenn bestehende design.md Pfad:**
   ```bash
   cp "<Pfad>" ./design.md
   ```
-- `design.md` normalisieren — muss alle Pflicht-Sektionen enthalten (Farben HSL, Typografie, Buttons, Section/Layout, Atmosphäre, Anti-Muster). Siehe `generate/phases/08-design.md` Step 2 als Referenz.
+- **design.md NICHT normalisieren.** Keine Ergänzung, keine Umformulierung. Fehlt eine Pflicht-Angabe → User fragen.
+- Ab jetzt: `design.md` ist READ-ONLY.
 
 ### Step 3 — globals.css regenerieren (nur falls Style geändert)
 
 Alle Tokens aus neuer `design.md` in `app/globals.css` übertragen:
-- CSS-Vars (`@theme`)
+- CSS-Vars in `@layer base :root`
+- Tailwind v4 `@theme inline` Mapping
 - Fonts via `next/font` im layout.tsx
-- Typografie-Scale in `@layer base`
-- Button-Utility-Klassen in `@layer components`
-- Section-Spacing
 
 Struktur aus `references/code-standards.md` folgen.
 
@@ -74,7 +77,7 @@ Für JEDES Section-Component-File in `components/sections/variant-N/*.tsx`:
 5. CHECK Buttons: auf dem Section-Hintergrund lesbar?
 6. CHECK Zentrierung: `mx-auto max-w-7xl` Container vorhanden (via Tailwind-Utilities)?
 
-**Write 1500-2500 Wörter total über alle 10 Sections.**
+**Write 1500-2000 Wörter total über alle 10 Sections** (+ optional FAQ 200-300).
 
 **Section-Wörterzahlen (gleich wie generate, siehe page-sections.md):**
 - Hero: 150-250 Wörter — H1 mit primary KW + city
@@ -137,7 +140,7 @@ Edit `app/layout.tsx`:
 2. Scrape von Google Business Profile (wenn GBP URL vorhanden)
 3. AI Generation via /banana (letzter Ausweg — nur für Hero/Backgrounds)
 
-**Minimum 5 Bilder auf der Homepage pro Variante** (siehe image-strategy.md):
+**Minimum 5 Bilder auf der Homepage** (siehe image-strategy.md):
 - Hero: 1x hero (full-width oder split)
 - Featured Services: 1x pro Featured Service
 - Services Grid: 1x pro Card wenn möglich
@@ -187,7 +190,7 @@ Muss passen bevor QA.
 
 ### Checks After Adaptation
 - [ ] ALL text ist neuer Client-Content (kein alter Client-Text übrig)
-- [ ] Content 1500-2500 Wörter (nicht dünn / generisch)
+- [ ] Content 1500-2000 Wörter (nicht dünn / generisch; FAQ mit 6 Fragen extra erlaubt)
 - [ ] Ton matcht Interview-Spezifikation
 - [ ] Keywords in den richtigen Sections laut SEO-STRATEGY.md
 - [ ] site-config.ts hat neue NAP
@@ -198,7 +201,9 @@ Muss passen bevor QA.
 - [ ] Buttons auf allen Backgrounds lesbar (kein Tailwind-Default-Outline auf dunkel)
 - [ ] Sections zentriert (mx-auto max-w-7xl Container via Tailwind)
 - [ ] Kein alter Client-Name irgendwo im Code
-- [ ] Min 5 Bilder pro Variante (scraped oder `<ImagePlaceholder>`)
+- [ ] Min 5 Bilder auf der Homepage (scraped oder `<ImagePlaceholder>`)
+- [ ] Hero hat Bild above-the-fold
+- [ ] Keine `[Image …]` Text-Platzhalter im JSX
 - [ ] Alle Bilder mit alt + title
 - [ ] Image Sources in docs/pages/home.md dokumentiert
 - [ ] Keine hardcoded Farben in Components

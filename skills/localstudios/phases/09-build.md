@@ -1,27 +1,27 @@
-# Phase 9 — Build Homepage Variants (Custom Components)
+# Phase 9 — Build Homepage (Custom Components)
 
 ## References
 - Load `./references/code-standards.md`
 - Load `./references/ui-rules.md`
-- Load `design.md` (Projekt-Root — aus Phase 8)
-- Load `variant-blueprints.md` (Projekt-Root — aus Phase 8)
+- Load `design.md` (Projekt-Root — aus Phase 8, **READ-ONLY**)
+- Load `layout-plan.md` (Projekt-Root — aus Phase 8)
 
 ## Architecture
 
 ```
-design.md              → Single Source of Truth (Farben, Fonts, Buttons, Spacing, Atmosphäre, Anti-Muster)
-variant-blueprints.md  → N Layout-Strategien pro Section (Blueprint — kein Code)
-globals.css            → Ableitung 1:1 aus design.md (CSS Vars, Utility-Klassen, Typografie)
-components/sections/…  → Custom Components pro Section pro Variante (semantisches HTML + Tailwind)
-ui-rules.md            → Harte Regeln (keine hardcoded Farben, zentriert, Button-Kontrast, …)
+design.md          → Single Source of Truth (Farben, Fonts, Buttons, Spacing, Atmosphäre, Anti-Muster) — READ-ONLY
+layout-plan.md     → Layout-Strategie pro Section (EIN Plan für EINE Homepage)
+globals.css        → CSS-Vars aus design.md + Tailwind v4 @theme inline Mapping
+components/sections/…  → Custom Components (flach, semantisches HTML + Tailwind-Utilities)
+ui-rules.md        → Harte Regeln (keine hardcoded Farben, zentriert, Button-Kontrast, …)
 ```
 
-## CRITICAL: design.md + variant-blueprints.md sind das Rezept
+## CRITICAL: design.md + layout-plan.md sind das Rezept
 
 Lies beide Dateien. Weiche NICHT davon ab.
-- `design.md` gibt dir WAS du verwendest (Tokens).
-- `variant-blueprints.md` gibt dir WIE du es pro Variante anwendest (Layout/Komposition).
-- Keine fremden Block-Libraries. Keine vorgefertigten Template-Components.
+- `design.md` gibt dir WAS du verwendest (Tokens, Gefühl, Atmosphäre) — **READ-ONLY. Niemals editieren.**
+- `layout-plan.md` gibt dir WIE du die Homepage baust (Layout/Komposition pro Section).
+- Keine fremden Block-Libraries. Keine vorgefertigten Template-Components. Keine Varianten.
 
 ---
 
@@ -154,48 +154,41 @@ export const siteConfig = {
 
 ---
 
-### Step 5 — Dateistruktur
+### Step 5 — Dateistruktur (flach, EINE Homepage)
 
 ```
 app/
-  page.tsx                      → Variant 1 (default)
-  variant-2/page.tsx            → Variant 2
-  variant-3/page.tsx            → Variant 3
-  layout.tsx                    → Shared (Header, Footer, Schema, Fonts)
-  globals.css                   → aus design.md
+  page.tsx                → EINZIGE Homepage (alle Sections assembled)
+  layout.tsx              → Header, Footer, Schema, Fonts
+  globals.css             → aus design.md abgeleitet (CSS-Vars + @theme inline)
 components/
   sections/
-    variant-1/                  → Custom Components für Variante 1
-      hero.tsx
-      trust-bar.tsx
-      featured-service-1.tsx
-      featured-service-2.tsx
-      services-grid.tsx
-      about-teaser.tsx
-      social-proof.tsx
-      local-area.tsx
-      cta-section.tsx
-    variant-2/                  → Custom Components für Variante 2
-      …
-    variant-3/
-      …
+    hero.tsx
+    trust-bar.tsx
+    featured-service-1.tsx
+    featured-service-2.tsx
+    services-grid.tsx
+    about-teaser.tsx
+    social-proof.tsx
+    local-area.tsx
+    cta-section.tsx
+    faq.tsx                 → optional (wenn im Content-Outline vorhanden)
   layout/
-    header.tsx                  → Shared
-    footer.tsx                  → Shared
-    variant-switcher.tsx        → Vergleichs-Nav
+    header.tsx
+    footer.tsx
   ui/
-    button.tsx                  → komponiert Tailwind-Utilities per Variant, nutzt CSS-Vars aus globals.css
-    image-placeholder.tsx       → Gradient-Placeholder für fehlende Bilder
+    button.tsx              → komponiert Tailwind-Utilities per Variant, nutzt CSS-Vars
+    image-placeholder.tsx   → Gradient-Placeholder für fehlende Bilder
   seo/
-    schema-script.tsx           → Shared
+    schema-script.tsx
 lib/
+  cn.ts
   site-config.ts
-design.md
-variant-blueprints.md
+design.md                   → READ-ONLY (ab Phase 8)
+layout-plan.md              → READ-ONLY (ab Phase 8)
 ```
 
-**Shared über Varianten:** layout.tsx, header, footer, schema, globals.css, site-config, ui/*
-**Verschieden pro Variante:** Section-Components, page.tsx Assembly
+Kein `variant-N/` Ordner. Kein `app/variant-2/`. Kein `variant-switcher.tsx`. Eine Homepage-Route: `/`.
 
 ---
 
@@ -251,53 +244,19 @@ Keine weiteren UI-Libraries. Cards, Accordions, etc. als Custom Component in der
 
 ---
 
-### Step 7 — Variant Switcher (Vergleichs-Tool)
+### Step 7 — Sections bauen (einmalig für alle 10 Sections)
 
-`components/layout/variant-switcher.tsx`:
+Lies `layout-plan.md` für die Section-Layout-Strategie. Alle Tokens/Farben/Fonts kommen aus `design.md` (via globals.css).
 
-```tsx
-"use client"
-import Link from "next/link"
-import { usePathname } from "next/navigation"
+#### 7a. Layout-Plan lesen
+Für jede der 10 Sections:
+- Layout-Ansatz (Split / Full-Bleed / Grid / Zentriert)
+- Komposition (was wo)
+- Bild-Plan (scraped URL ODER ImagePlaceholder mit welchem Aspect)
 
-export function VariantSwitcher({ variants }: { variants: { href: string; label: string; name: string }[] }) {
-  const pathname = usePathname()
-  return (
-    <div className="fixed bottom-4 left-1/2 -translate-x-1/2 z-50 bg-background/80 backdrop-blur border border-border rounded-full px-4 py-2 flex gap-3 shadow-lg">
-      {variants.map((v) => (
-        <Link
-          key={v.href}
-          href={v.href}
-          className={`text-sm px-3 py-1 rounded-full transition-colors ${
-            pathname === v.href ? "bg-primary text-primary-foreground" : "text-muted-foreground hover:text-foreground"
-          }`}
-        >
-          {v.label}
-        </Link>
-      ))}
-    </div>
-  )
-}
-```
+#### 7b. Custom Components schreiben (Section für Section)
 
-Variants-Array wird in `app/layout.tsx` aus `variant-blueprints.md` (hart) gesetzt. Der Switcher wird vor Delivery entfernt.
-
----
-
-### Step 8 — Varianten bauen (FÜR JEDE VARIANTE WIEDERHOLEN)
-
-Für jede Variante (1 bis N) aus `variant-blueprints.md`:
-
-#### 8a. Blueprint lesen
-Notiere für die aktuelle Variante:
-- Persönlichkeits-Name
-- Visual Strategy (Rhythmus, Schwerpunkt, Atmosphäre-Akzent)
-- Section Layout Plan (welches Layout pro Section)
-- Bild-Zuweisung pro Section
-
-#### 8b. Custom Components schreiben (Section für Section)
-
-**Für jede Section ein eigenes File** in `components/sections/variant-N/<section>.tsx`.
+**Für jede Section ein eigenes File** in `components/sections/<section>.tsx` (flach, ohne variant-Unterordner).
 
 Regeln:
 1. **Semantisches HTML.** `<section>`, `<article>`, `<header>`, `<footer>`, `<h2>`, `<p>`. Keine anonymen `<div>`-Wrapper wo ein Semantic passt.
@@ -308,19 +267,23 @@ Regeln:
    </section>
    ```
    Bei Full-Bleed Background das äussere `<section>` mit `bg-primary` o.ä., den inneren Container aber zentriert lassen.
-3. **Keine hardcoded Farben.** Nur `bg-primary`, `text-foreground`, `bg-muted/40`, `text-accent-foreground` — also Tailwind-Utilities die aus den CSS-Vars in `globals.css` gemappt sind.
+3. **Keine hardcoded Farben.** Nur `bg-primary`, `text-foreground`, `bg-muted/40`, `text-accent-foreground` — Tailwind-Utilities die aus den CSS-Vars in `globals.css` gemappt sind.
 4. **Keine pill-badges für Orte/Labels.** Clean Text / einfache Liste.
 5. **Buttons via `<Button variant="…">`.** Auf dunklem Section-Background → `variant="outline-on-dark"`, niemals generische Tailwind-Outline.
-6. **Content aus Phase 6 einsetzen** (Text ist identisch über Varianten — nur das Layout ändert sich).
+6. **Content aus Phase 6 einsetzen** — Text hart reingeschrieben.
 7. **Bild:** Jede Section bekommt ein Bild. Wenn scraped → `next/image`. Wenn nicht → `<ImagePlaceholder label="…" />`.
-8. **Clean Code:** Eine Section = eine Component. Keine Inline-Komplex-Logik. Kleine lokale Helper als `function` im selben File, keine neue Files für Trivialitäten.
+8. **Clean Code:** Eine Section = eine Component. Keine Inline-Komplex-Logik.
 9. **Accessibility:** `alt` auf Images, `aria-label` auf Icon-only Buttons, `tel:` Links für Telefonnummern.
-10. **Keine eigenen Custom-Classes definieren** — wenn du merkst du willst eine schreiben, prüf ob Tailwind-Utilities reichen. Wenn nicht (sehr selten), dokumentiere die Eigenart in `design.md` + füge eine schmale Utility in globals.css hinzu.
+10. **Keine eigenen Custom-Classes definieren** — wenn du merkst du willst eine schreiben, prüf ob Tailwind-Utilities reichen.
+11. **Keine `[Image #N]`, `[IMG]`, `[Foto]` Platzhalter-Syntax im JSX-Text.** Image-Metadaten gehören in `docs/pages/home.md`, niemals ins JSX-Content. Im JSX: entweder `<Image src="…" alt="…" />` oder `<ImagePlaceholder label="…" />`.
 
-Beispiel (Hero für Variant 1) — **reine Tailwind-Utilities**, keine `.section`-Klasse:
+#### 7c. Hero — PFLICHT: Bild above-the-fold
 
+**Der Hero MUSS ein Bild above-the-fold haben.** Text-only Hero ist verboten. Zwei zulässige Layouts:
+
+**Layout A — Split (empfohlen default):**
 ```tsx
-// components/sections/variant-1/hero.tsx
+// components/sections/hero.tsx
 import Image from "next/image"
 import { Button } from "@/components/ui/button"
 import { ImagePlaceholder } from "@/components/ui/image-placeholder"
@@ -328,8 +291,8 @@ import { siteConfig } from "@/lib/site-config"
 
 export function Hero() {
   return (
-    <section className="py-16 md:py-24 lg:py-32">
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 grid items-center gap-12 lg:grid-cols-[3fr_2fr]">
+    <section className="py-12 md:py-16 lg:py-20">
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 grid items-center gap-8 lg:gap-12 lg:grid-cols-[1.1fr_1fr]">
         <div>
           <h1 className="text-4xl md:text-5xl lg:text-6xl font-extrabold tracking-tight">
             {/* Primary KW + City aus Phase 6 Content */}
@@ -344,6 +307,9 @@ export function Hero() {
             </a>
           </div>
         </div>
+
+        {/* Bild-Proportion: aspect-[4/5] oder aspect-[3/4]. NIE aspect-video (zu flach für Hero). */}
+        {/* Mit scraped Bild: <Image src="..." alt="..." width={960} height={1200} priority className="rounded-[var(--radius)] object-cover w-full h-full" /> */}
         <ImagePlaceholder label="Praxis-Aussenansicht" className="aspect-[4/5]" />
       </div>
     </section>
@@ -351,7 +317,39 @@ export function Hero() {
 }
 ```
 
-#### 8c. Section Checks (nach jeder Section)
+**Layout B — Full-Bleed Background-Image mit Overlay-Text:**
+```tsx
+// components/sections/hero.tsx (Alternative, wenn layout-plan.md das vorgibt)
+import Image from "next/image"
+
+export function Hero() {
+  return (
+    <section className="relative isolate overflow-hidden">
+      {/* Background Image — MUSS above-the-fold sichtbar sein */}
+      <Image
+        src="/images/home-hero.webp"
+        alt="Praxis-Aussenansicht"
+        fill
+        priority
+        className="object-cover -z-10"
+      />
+      <div className="absolute inset-0 bg-foreground/50 -z-10" />
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-20 md:py-32 lg:py-40 text-white">
+        <h1 className="text-4xl md:text-5xl lg:text-6xl font-extrabold tracking-tight max-w-3xl">
+          {/* Primary KW + City */}
+        </h1>
+        <p className="mt-6 max-w-xl text-lg text-white/80">{/* Subheadline */}</p>
+        {/* CTAs via Button-Component */}
+      </div>
+    </section>
+  )
+}
+```
+
+Wenn Phase 1 ein Bild scraped hat → echtes `next/image` mit `priority`.
+Wenn nicht → `<ImagePlaceholder>` mit **mindestens `aspect-[4/5]` oder `aspect-[3/4]`**. NICHT `aspect-video` — der ist zu flach, das Bild wirkt nicht.
+
+#### 7d. Section Checks (nach jeder Section)
 
 **CHECK 1 — Zentriert?** Innerer Container mit `mx-auto max-w-7xl px-4 sm:px-6 lg:px-8` vorhanden?
 
@@ -362,19 +360,21 @@ export function Hero() {
 
 **CHECK 3 — Keine Pill-Badges?** Orte/Kategorien → inline Text oder Liste.
 
-**CHECK 4 — Bild vorhanden?** Kein leerer Space.
+**CHECK 4 — Bild vorhanden?** Kein leerer Space. Für Hero: Bild MUSS above-the-fold sichtbar sein.
 
-**CHECK 5 — Anti-Muster aus `design.md` nicht verletzt?**
+**CHECK 5 — Keine `[Image …]`-Platzhalter-Text-Syntax im JSX?**
 
-#### 8d. Keine fremden Blocks, kein `/frontend-design`
+**CHECK 6 — Anti-Muster aus `design.md` nicht verletzt?**
 
-Das Feintuning (Typografie-Scale, Spacing, Hover, Atmosphäre) kommt aus den Tokens in `design.md` und den Varianten-Schwerpunkten im Blueprint. Keine externe Skill-Invocation.
+#### 7e. Keine fremden Blocks, kein `/frontend-design`
 
-Wenn eine Variante „flach" wirkt → die Anpassungen passieren im Component-Code mit den design.md-Tokens (z.B. stärkere Schatten aus der Atmosphäre-Sektion, tighter Typo aus dem Scale).
+Das Feintuning (Typografie-Scale, Spacing, Hover, Atmosphäre) kommt aus den Tokens in `design.md` und dem Layout-Plan. Keine externe Skill-Invocation.
+
+Wenn die Homepage „flach" wirkt → die Anpassungen passieren im Component-Code mit den design.md-Tokens (z.B. stärkere Schatten, tighter Typo). **Niemals design.md ändern.**
 
 ---
 
-### Step 9 — Layout (SHARED)
+### Step 8 — Layout
 
 `app/layout.tsx`:
 
@@ -382,7 +382,6 @@ Wenn eine Variante „flach" wirkt → die Anpassungen passieren im Component-Co
 import "./globals.css"
 import { Header } from "@/components/layout/header"
 import { Footer } from "@/components/layout/footer"
-import { VariantSwitcher } from "@/components/layout/variant-switcher"
 import { SchemaScript } from "@/components/seo/schema-script"
 import { siteConfig } from "@/lib/site-config"
 import { <HeadingFont>, <BodyFont> } from "next/font/google"
@@ -396,12 +395,6 @@ export const metadata = {
   openGraph: { title: "…", description: "…" },
 }
 
-const VARIANTS = [
-  { href: "/", label: "Design 1", name: "<Persönlichkeit 1>" },
-  { href: "/variant-2", label: "Design 2", name: "<Persönlichkeit 2>" },
-  { href: "/variant-3", label: "Design 3", name: "<Persönlichkeit 3>" },
-]
-
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="de" className={`${heading.variable} ${body.variable}`}>
@@ -409,7 +402,6 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <Header />
         {children}
         <Footer />
-        <VariantSwitcher variants={VARIANTS} />
         <SchemaScript />
       </body>
     </html>
@@ -417,19 +409,21 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
 }
 ```
 
-### Step 10 — page.tsx Assembly pro Variante
+### Step 9 — page.tsx Assembly (einmalig)
 
 ```tsx
-// app/page.tsx (Variant 1)
-import { Hero } from "@/components/sections/variant-1/hero"
-import { TrustBar } from "@/components/sections/variant-1/trust-bar"
-import { FeaturedService1 } from "@/components/sections/variant-1/featured-service-1"
-import { FeaturedService2 } from "@/components/sections/variant-1/featured-service-2"
-import { ServicesGrid } from "@/components/sections/variant-1/services-grid"
-import { AboutTeaser } from "@/components/sections/variant-1/about-teaser"
-import { SocialProof } from "@/components/sections/variant-1/social-proof"
-import { LocalArea } from "@/components/sections/variant-1/local-area"
-import { CtaSection } from "@/components/sections/variant-1/cta-section"
+// app/page.tsx — EINZIGE Homepage
+import { Hero } from "@/components/sections/hero"
+import { TrustBar } from "@/components/sections/trust-bar"
+import { FeaturedService1 } from "@/components/sections/featured-service-1"
+import { FeaturedService2 } from "@/components/sections/featured-service-2"
+import { ServicesGrid } from "@/components/sections/services-grid"
+import { AboutTeaser } from "@/components/sections/about-teaser"
+import { SocialProof } from "@/components/sections/social-proof"
+import { LocalArea } from "@/components/sections/local-area"
+import { CtaSection } from "@/components/sections/cta-section"
+// FAQ optional (wenn im Content-Outline)
+// import { Faq } from "@/components/sections/faq"
 
 export default function Home() {
   return (
@@ -443,37 +437,36 @@ export default function Home() {
       <SocialProof />
       <LocalArea />
       <CtaSection />
+      {/* <Faq /> */}
     </main>
   )
 }
 ```
 
-`app/variant-2/page.tsx` + `app/variant-3/page.tsx` importieren aus den jeweiligen `variant-2/` bzw. `variant-3/` Ordnern.
+### Step 10 — Schema
 
-Metadata ist IDENTISCH über Varianten-Pages (gleicher SEO Content).
+`components/seo/schema-script.tsx` — LocalBusiness JSON-LD aus Phase 7. Wird in `layout.tsx` eingebunden.
 
-### Step 11 — Schema
-
-`components/seo/schema-script.tsx` — shared LocalBusiness JSON-LD aus Phase 7. Wird in `layout.tsx` eingebunden.
-
-### Step 12 — Final Check (vor Phase 10)
+### Step 11 — Final Check (vor Phase 10)
 
 **Tokens:**
-- [ ] globals.css spiegelt alle Tokens aus `design.md`
+- [ ] globals.css spiegelt alle Tokens aus `design.md` (READ-ONLY geblieben)
 - [ ] Keine hardcoded Farben in irgendeiner Component
 - [ ] Keine `style={}` props
 - [ ] Fonts via `next/font`, Utility via `font-heading` / `font-body`
 
-**Varianten:**
-- [ ] N Varianten fertig, jede mit Persönlichkeits-Namen aus Blueprint
-- [ ] Kein Section-Layout wiederholt sich über Varianten (Hero von V1 ≠ Hero von V2 ≠ Hero von V3)
-- [ ] Content identisch über Varianten
-- [ ] Jede Section hat ein Bild (Placeholder wenn nötig) — mind. 5 Bilder pro Variante
+**Homepage:**
+- [ ] Alle 10 Sections vorhanden und rendern sauber auf `/`
+- [ ] **Hero hat above-the-fold Bild** (scraped next/image ODER ImagePlaceholder mit mindestens `aspect-[4/5]`)
+- [ ] Keine `[Image …]`-Platzhalter-Strings im JSX
+- [ ] Jede Section hat ein Bild — min. 5 Bilder auf der Homepage
+- [ ] Keine Anti-Muster aus `design.md` verletzt
+
+**design.md Integrität:**
+- [ ] `design.md` unverändert ggü. Phase 8 (nur Farbtoken-Ersetzung falls Farbwechsel aus Phase 2)
 
 **Build:**
 - [ ] `npm run build` passes
-- [ ] Variant Switcher zeigt alle N Varianten
-- [ ] Keine Anti-Muster aus `design.md` verletzt
 
 ---
 
@@ -481,20 +474,13 @@ Metadata ist IDENTISCH über Varianten-Pages (gleicher SEO Content).
 
 Nach dem Build:
 ```
-=== N DESIGN VARIANTS READY ===
+=== HOMEPAGE READY ===
 
-Starte den Dev-Server mit `npm run dev` und vergleiche:
-
-/ .............. Variant 1: [Persönlichkeits-Name]
-/variant-2 ..... Variant 2: [Persönlichkeits-Name]
-/variant-3 ..... Variant 3: [Persönlichkeits-Name]
-
-Nutze den Variant-Switcher am unteren Rand zum Wechseln.
+Starte den Dev-Server mit `npm run dev` und schau's dir an:
+→ http://localhost:3000/
 
 Sag mir:
-- Welche Variante gefällt dir am besten?
-- Willst du Elemente mixen? (z.B. "Hero von Variant 2, Services von Variant 1")
-- Spezifische Tweaks?
-
-Nach der Wahl werden die anderen Varianten entfernt.
+- Passt das Layout zur `design.md` Vorlage?
+- Spezifische Tweaks (z.B. Section-Reihenfolge, Hero-Komposition, mehr Whitespace)?
+- Fehlende Bilder die ich ergänzen soll?
 ```

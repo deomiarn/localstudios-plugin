@@ -61,6 +61,10 @@ Falls "Anpassen" oder "Komplett neu" → NEUE DESIGN SOURCE erforderlich (genau 
   FEINTUNING (optional)
   [ ] 3-5 Adjektive für Gefühl: ___
   [ ] Anti-Muster — was NICHT?: ___
+  [ ] Farbwechsel gegenüber Brand-Default? (NUR Farb-Tokens): ___
+
+Falls "Ja, aber nur Farbwechsel" → Design bleibt, NUR Farb-Tokens in der übernommenen design.md werden ersetzt:
+  [ ] Farbwechsel (z.B. "primary: gelb → blau"): ___
 
 === WARTE AUF ANTWORT ===
 ```
@@ -105,6 +109,6 @@ Sections: [kept from source — list all 10]
 Design: [keep / changes: neue design.md aus "___"]
 Keywords: [primary] → Hero, [secondary] → Sections
 Images: [x from scrape, x placeholders needed]
-Content: Fresh — 1500-2500 words
+Content: Fresh — 1500-2000 words (+ optional FAQ 200-300)
 === Bestätigen? ===
 ```

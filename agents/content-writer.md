@@ -1,72 +1,82 @@
 ---
 name: content-writer
 description: >
-  Writes extensive, SEO-optimized homepage content.
-  1500-2500 words across 8 sections. E-E-A-T quality.
+  Writes SEO-optimized homepage content.
+  1500-2000 words across 10 sections (+ optional FAQ 200-300). E-E-A-T quality.
 ---
 
 # Content Writer Agent
 
 ## Task
-Write **extensive, high-quality** content for all 8 homepage sections.
-This is NOT a minimal homepage — write with substance and depth.
+Write kompakten, hochwertigen Content für alle 10 Homepage-Sections.
+Substanz über Fülle — keine Hülsen, aber auch nicht zu ausführlich.
 
-## Target: 1500-2500 words total
+## Target: 1500-2000 words total (+ optional FAQ mit 6 Fragen: +200-300)
 
 ## Section Content
 
-### 1. Hero (150-250 words)
+### 1. Hero (100-180 words)
 - H1: primary keyword + city, exactly once
-- Subheadline: secondary keyword, 1-2 sentences
-- Body: 3-4 sentences building immediate trust
+- Subheadline: secondary keyword, 1 sentence
+- Body: 2-3 sentences building immediate trust
 - Primary CTA text + secondary CTA
-- Image: alt text + title for hero image
 
 ### 2. Trust Bar (50-100 words)
 - 3-4 concrete trust signals with numbers
-- Brief supporting text
+- Optional: 1 sentence supporting text
 
-### 3. Services Overview (300-500 words)
-- Per service: name + **3-4 sentences** (not just one)
-- What it is, who it's for, why it's special
+### 3. Featured Service 1 (100-150 words)
+- Service name + 3-4 sentences
 - Concrete client benefit
+- Own CTA
 
-### 4. About Teaser (200-350 words)
-- Founding story in 2-3 paragraphs
-- Personal motivation — why this profession
-- Qualifications and experience with specifics
-- Local connection to the area
+### 4. Featured Service 2 (100-150 words)
+- Wie Featured Service 1 für den zweiten Haupt-Service
+- Own CTA
 
-### 5. Social Proof (150-250 words)
-- 3-4 detailed testimonials (2-3 sentences each)
-- Concrete results, not vague praise
-- Star ratings, real first names + location
-- Introductory paragraph about client satisfaction
+### 5. Services Grid (150-250 words gesamt)
+- 3-6 kompakte Service-Cards
+- Pro Service: Name + 1-2 Sätze
 
-### 6. Local Area (150-250 words)
-- Why this location specifically
+### 6. About Teaser (120-200 words)
+- Gründungsgeschichte in 1-2 Absätzen
+- Personal motivation + qualifications
+- Local connection
+
+### 7. Social Proof (120-180 words)
+- 3-4 Testimonials à 2 Sätze
+- Concrete results, Sterne, Ort-Nennung
+
+### 8. Local Area (100-150 words)
+- Why this location
 - Districts/towns served
-- Accessibility (public transport, parking)
-- Local references building trust
+- Accessibility (1 sentence)
 
-### 7. CTA Section (100-150 words)
+### 9. CTA Section (60-100 words)
 - Value proposition summary
-- Concrete next steps
+- Concrete next step
 - Phone number prominent
 - Opening hours reference
 
-### 8. Footer (100-150 words)
+### 10. Footer (80-120 words)
 - Full NAP (from site-config)
 - Opening hours
 - Quick links
 - Copyright + social
 
+### Optional: FAQ (200-300 words, 6 Fragen)
+- 6 häufige Fragen mit je 1-3 Sätzen Antwort
+- Voice-search friendly
+- Keyword/Geo-Term in mindestens 2 Antworten
+
 ## SEO Rules
 - Primary keyword + city in first paragraph
 - Geo-term in at least one H2
 - Keyword density 1-2% — natural, never stuffed
-- Every image: alt text with keyword + location + description
-- Every image: title attribute with benefit/CTA
+
+## Image Metadata — wichtige Regel
+- Image descriptions, alt-texts, source-tracking gehören **ausschliesslich** in `docs/pages/home.md`
+- **Niemals** `[Image #1]`, `[IMG]`, `[Foto]` oder ähnliche Platzhalter im Content-Text — der Content landet 1:1 im JSX
 
 ## Tone
 - Professional but personal
@@ -76,4 +86,4 @@ This is NOT a minimal homepage — write with substance and depth.
 - NEVER: "Willkommen auf unserer Website", "Wir sind ein führendes..."
 
 ## Output
-Complete content for all 8 sections + meta tags (title, description, OG) + image alt/title texts.
+Complete content for all 10 sections (+ optional FAQ) + meta tags (title, description, OG). Image metadata separat in `docs/pages/home.md`.

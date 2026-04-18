@@ -24,36 +24,38 @@
 
 ### Content
 - [ ] All 10 sections present in correct order (per `page-sections.md`)
-- [ ] 1500-2500 words total
+- [ ] **1500-2000 words total** (FAQ mit 6 Fragen extra erlaubt)
 - [ ] E-E-A-T signals present
 - [ ] No filler/placeholder text
+- [ ] **Keine `[Image …]`-Platzhalter-Strings im gerenderten DOM**
 - [ ] Tone consistent
 
 ### Images
 - [ ] Jede Section hat mindestens ein Bild oder einen ImagePlaceholder
-- [ ] Mindestens 5 Bilder pro Variante
+- [ ] **Hero hat sichtbares Bild above-the-fold** (scraped next/image mit `priority` ODER ImagePlaceholder mit mindestens `aspect-[4/5]`)
+- [ ] Mindestens 5 Bilder auf der Homepage
 - [ ] All images have alt text (+ title where relevant)
 - [ ] Above-fold images have `priority`
 
-### design.md compliance
-- [ ] `globals.css` enthält alle Tokens aus `design.md` (Farben, Typografie-Scale, Buttons, Radius, Section-Spacing)
+### design.md compliance (READ-ONLY)
+- [ ] **`design.md` unverändert ggü. Phase 8** (einzige Ausnahme: Farbtoken-Ersetzung falls Farbwechsel aus Phase 2)
+- [ ] `globals.css` enthält alle Tokens aus `design.md` (Farben, Typografie-Scale, Radius)
 - [ ] Keine hardcoded Farben in Components (kein `bg-blue-600`, kein `#1E3A8A`, kein inline `style={}`)
 - [ ] Fonts kommen via `next/font` und Utilities `font-heading` / `font-body`
 - [ ] Button-Shape/Padding/Radius matchen `design.md`
 - [ ] Anti-Muster aus `design.md` eingehalten
 
 ### Custom Components
-- [ ] Jede Section ist ein eigenes File in `components/sections/variant-N/`
+- [ ] Jede Section ist ein eigenes File in `components/sections/` (flach, kein variant-N)
 - [ ] Semantisches HTML (section/article/header/footer statt generischer divs)
 - [ ] Keine Pill-Badges für Orte/Labels
 - [ ] Keine fremden Block-Libraries importiert
 
-### Variants
-- [ ] N Varianten rendern korrekt (`/`, `/variant-2`, `/variant-3`)
-- [ ] Kein Section-Layout wiederholt sich über Varianten
-- [ ] Content + Farben + Fonts sind identisch über Varianten
-- [ ] Variant Switcher sichtbar und funktioniert
-- [ ] Jede Variante hat eine klare visuelle Persönlichkeit (matcht Blueprint-Namen)
+### Homepage
+- [ ] Homepage rendert sauber auf `/`
+- [ ] Alle 10 Sections in richtiger Reihenfolge
+- [ ] Keine variant-2 / variant-3 Routen
+- [ ] Kein VariantSwitcher
 
 ### Conversion
 - [ ] CTA above fold
@@ -83,45 +85,53 @@ npm run build && npm run start
 
 Warten bis Server bereit ist (Port 3000 default).
 
-### Step 2 — Screenshot-Loop pro Variante
+### Step 2 — Screenshot-Loop für die Homepage
 
-Für JEDE Variante (`/`, `/variant-2`, `/variant-3`):
+Für die Homepage (`/`):
 
 1. **Desktop Screenshot**
-   - Playwright MCP: navigate zu `http://localhost:3000<path>`
+   - Playwright MCP: navigate zu `http://localhost:3000/`
    - Viewport: 1440×900
    - Full-page Screenshot
    - Console-Messages abfragen → Errors protokollieren
    - Network-Requests abfragen → 404/5xx protokollieren
 
-2. **Mobile Screenshot**
+2. **Above-the-fold Screenshot** (zusätzlich ohne Scroll)
+   - Viewport: 1440×900 — **nur der sichtbare Bereich**
+   - Zweck: Hero-Bild muss darauf sichtbar sein
+
+3. **Mobile Screenshot**
    - Viewport: 375×812
    - Full-page Screenshot
+   - Above-the-fold Check auch auf Mobile: Hero-Bild sichtbar?
 
-3. **Abgleich gegen `design.md`** (visuell analysieren):
+4. **Abgleich gegen `design.md`** (visuell analysieren):
    - **Farben:** Primary/Accent/Background visuell erkennbar und konsistent mit `design.md`?
    - **Typografie-Hierarchie:** H1 dominiert? H2 klar kleiner aber lesbar? Body-Text angenehm? Scale matcht `design.md`?
-   - **Section-Spacing:** konsistent (`py-16 md:py-24 lg:py-32`) — keine Section die zu eng wirkt?
+   - **Section-Spacing:** konsistent — keine Section die zu eng wirkt?
    - **Atmosphäre:** Whitespace/Shadows/Radius entsprechen dem was `design.md` vorgibt?
-   - **Bilder:** Jede Section hat ein Bild? Min. 5 Bilder sichtbar? Kein leerer Space?
+   - **Hero:** Bild above-the-fold sichtbar? Proportion (`aspect-[4/5]` / `aspect-[3/4]`) ok? Keine `[Image …]`-Text-Platzhalter im DOM?
+   - **Bilder:** Jede Section hat ein Bild? Min. 5 Bilder auf der Homepage sichtbar? Kein leerer Space?
    - **Buttons:** Auf JEDEM Section-Hintergrund lesbar? Keine unsichtbaren oder zu kleinen Buttons?
    - **Pill-Badges:** Keine sichtbar? Orte/Labels clean als Text?
-   - **Persönlichkeit der Variante:** matcht der Blueprint-Name die visuelle Wirkung? (Variant 1 "Editorial Boldness" sollte nicht identisch zu Variant 2 "Warm Immersion" aussehen)
+   - **Content-Menge:** Fühlt sich eine Section zu text-lastig an (Ziel 1500-2000 Wörter total)?
 
-4. **Abweichungen fixen**
+5. **Abweichungen fixen — IMMER im Code, NIEMALS in `design.md`**
    - Für jede Abweichung das verantwortliche File identifizieren und sofort anpassen
    - Häufige Fixes:
      - Buttons zu klein → Button-Component variants anpassen (`px-8 py-3` → grösser)
-     - Heading zu wenig dominant → Scale in globals.css erhöhen (matcht dann auch `design.md`)
+     - Heading zu wenig dominant → Scale-Utilities in der Component erhöhen
      - Section fühlt sich eng → Container-Padding oder Section-Spacing erhöhen
-     - Variante sieht wie andere aus → Blueprint-Schwerpunkt stärker implementieren (andere Komposition, anderer Rhythmus)
-   - **NICHT** hardcoded Farben hinzufügen. Fixes passieren über `globals.css` (wenn System-weit) oder über Layout-Komposition (wenn varianten-spezifisch).
+     - Hero hat kein above-the-fold Bild → Hero-Komponente auf Split- oder Full-Bleed-Layout umbauen
+     - `[Image …]` Text im DOM → Content von Phase 6 bereinigen, Image-Metadaten gehören in `docs/pages/home.md`
+   - **NICHT** hardcoded Farben hinzufügen.
+   - **NICHT** `design.md` anpassen — wenn der Code vom Design abweicht, ist der Code falsch, nicht die Vorlage.
 
-5. **Re-Screenshot nach Fix** → bis Match.
+6. **Re-Screenshot nach Fix** → bis Match.
 
 ### Step 3 — Console & Network Report
 
-Am Ende pro Variante kurz auflisten:
+Am Ende kurz auflisten:
 - Console-Errors (sollte 0 sein)
 - Failed Requests (sollte 0 sein)
 - Missing Images (404 auf Image-URLs)

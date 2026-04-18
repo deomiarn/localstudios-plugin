@@ -69,7 +69,7 @@ Option B — Existierende design.md:
 
 [ ] 3-5 Adjektive für Gefühl (z.B. "modern, warm, vertrauenswürdig"): ___
 [ ] Anti-Muster — was NICHT? (z.B. "kein Dark Mode", "nicht verspielt"): ___
-[ ] Anzahl Design-Varianten (Default: 3): ___
+[ ] Farbwechsel gegenüber Brand-Default? (NUR Farb-Tokens, z.B. "primary von gelb auf blau" — sonst nichts): ___
 
 === WARTE AUF ANTWORT ===
 ```
@@ -82,6 +82,7 @@ Option B — Existierende design.md:
 - Wenn weder Option A noch B gefüllt → STOP. Freundlich nochmals fragen.
 - Wenn A: den Command roh speichern (Ausführung erst in Phase 8).
 - Wenn B: den Pfad prüfen (File existiert?). Wenn nicht → User fragen.
+- **design.md ist READ-ONLY** — nach Phase 8 wird sie nicht mehr angefasst. Falls der User einen Farbwechsel genannt hat, wird NUR der entsprechende Farb-Token ersetzt. Alle anderen Inhalte (Gefühl, Typografie, Anti-Muster, Wording) bleiben 1:1.
 
 ### 2. Show PROJECT BRIEF
 ```
@@ -93,7 +94,7 @@ Goal: [call/form/booking]
 Design Source: [A: getdesign command "___"  |  B: design.md at "___"]
 Adjektive: [list, falls angegeben]
 Anti-Muster: [list, falls angegeben]
-Variants: [N] (default: 3)
+Farbwechsel: [none | z.B. "primary: gelb → blau"]
 === END BRIEF ===
 ```
 

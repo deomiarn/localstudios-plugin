@@ -39,15 +39,19 @@ node --version && npx --version
 ## Project Documentation — READ FIRST
 - **`docs/BUSINESS.md`** — all business facts + Design Source (getdesign command ODER design.md Pfad)
 - **`docs/SEO-STRATEGY.md`** — keyword targets
-- **`docs/pages/home.md`** — homepage: keywords, SEO, GEO
-- **`design.md`** — Single Source of Truth für Farben, Fonts, Buttons, Spacing, Atmosphäre (aus Phase 8)
+- **`docs/pages/home.md`** — homepage SEO + Image-Source-Tracking pro Section
+- **`design.md`** — **READ-ONLY** Single Source of Truth für Farben, Fonts, Buttons, Spacing, Atmosphäre (aus Phase 8)
+- **`layout-plan.md`** — Layout-Plan für die Homepage (Phase 8)
 
 ## Build-Regeln
-- **ALLE Styles in `app/globals.css`** — einzige Source of Truth, abgeleitet aus `design.md`
-- **Custom Components** in `components/sections/variant-N/*.tsx` — keine Block-Libraries, keine shadcn-Blocks
-- **Keine hardcoded Farben** in Components (keine hex/rgb, kein `bg-blue-600`) — immer CSS Vars aus globals.css
+- **`design.md` ist READ-ONLY** — NIE editieren. Nur lesen und in `globals.css` / Tailwind-Utilities umsetzen. Einzige Ausnahme: wenn der User am Anfang einen Farbwechsel angefragt hat, ersetze NUR die betroffenen Farb-Tokens. Alle anderen Inhalte (Gefühl, Typografie-Regeln, Button-Stil, Atmosphäre, Anti-Muster) bleiben 1:1.
+- **`globals.css`** bleibt schlank — nur CSS-Vars aus `design.md` + Tailwind v4 `@theme inline` Mapping + minimale Base-Styles
+- **Custom Components** flach in `components/sections/*.tsx` — keine Block-Libraries, keine shadcn-Blocks, keine Varianten
+- **Keine hardcoded Farben** in Components (keine hex/rgb, kein `bg-blue-600`) — immer CSS Vars via Tailwind-Utilities
 - **Kein `style={}`** inline
-- **Jede Section braucht ein Bild** (scraped oder `<ImagePlaceholder>`) — mindestens 5 Bilder pro Variante
+- **Hero MUSS ein Bild above-the-fold haben** — Split oder Full-Bleed Background; Proportion `aspect-[4/5]` oder `aspect-[3/4]`, nie `aspect-video`
+- **Keine `[Image …]`-Text-Platzhalter im JSX** — Image-Metadaten gehören in `docs/pages/home.md`; im JSX nur `next/image` oder `<ImagePlaceholder>`
+- **Jede Section braucht ein Bild** — min. 5 Bilder auf der Homepage
 - **Buttons:** via `<Button variant="primary|secondary|outline|outline-on-dark" />` — auf dunklen Sections NIE generische Tailwind-Outline
 
 ## NAP Data

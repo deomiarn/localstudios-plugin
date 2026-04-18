@@ -226,7 +226,7 @@ Die Component nutzt Gradient aus `--primary` / `--accent` mit `--radius` — gle
 
 1. **Pro Section ein eigenes File** in `components/sections/variant-N/<section>.tsx`.
 2. **Semantisches HTML** — `<section>`, `<article>`, `<header>`, `<footer>`, `<h1>`-`<h3>`, `<p>`, `<ul>`. Keine div-Suppe.
-3. **Content als Props oder direkt inline** — Phase 6 Content hart reingeschrieben (identisch über Varianten).
+3. **Content direkt inline** — Phase 6 Content hart reingeschrieben. Niemals `[Image …]` / `[Foto]` Platzhalter im Content-Text.
 4. **Kein style={}** — niemals.
 5. **Keine hardcoded Farben** — niemals.
 6. **Keine fremden Block-Libraries** — keine shadcn-Blocks, keine getemplateten Sections aus externen Registries.

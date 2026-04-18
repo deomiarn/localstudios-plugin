@@ -43,16 +43,18 @@ If `/seo` skill is loaded:
 
 ### Content Quality
 - [ ] All 10 homepage sections present in correct order (per `references/page-sections.md`)
-- [ ] Total word count 1500-2500
+- [ ] **Total word count 1500-2000** (+ optional FAQ mit 6 Fragen: +200-300)
 - [ ] E-E-A-T signals present (experience, credentials, local refs)
 - [ ] No filler text ("Welcome to our website", "We are a leading…")
 - [ ] No placeholder text remaining
+- [ ] **Keine `[Image …]` / `[Foto]` / `[IMG]` Text-Platzhalter im gerenderten DOM**
 - [ ] Tone consistent across all sections
 - [ ] FAQ/testimonials feel authentic, not generic
 
 ### Images
 - [ ] Jede Section hat ein Bild oder einen `<ImagePlaceholder>`
-- [ ] Min. 5 Bilder pro Variante
+- [ ] **Hero hat sichtbares Bild above-the-fold** (scraped next/image mit `priority` ODER ImagePlaceholder mit mindestens `aspect-[4/5]` / `aspect-[3/4]`)
+- [ ] Min. 5 Bilder auf der Homepage
 - [ ] All Images WebP (oder via next/image served as WebP)
 - [ ] All Images with descriptive alt text (keyword + location)
 - [ ] All Images with title attribute
@@ -71,14 +73,14 @@ If `/seo` skill is loaded:
 - [ ] Border radius via `--radius` (Tailwind `rounded-lg` / `rounded-[var(--radius)]`)
 - [ ] `globals.css` matcht `design.md` Tokens 1:1
 
-### design.md Compliance
+### design.md Compliance (READ-ONLY)
 - [ ] `design.md` existiert im Projekt-Root
-- [ ] Alle Pflicht-Sektionen vorhanden (Farben HSL, Typografie, Buttons, Section/Layout, Atmosphäre, Anti-Muster)
+- [ ] **`design.md` unverändert gegenüber dem Original-Import** (einzige Ausnahme: Farbtoken-Ersetzung bei explizitem Farbwechsel aus Phase 2)
 - [ ] `globals.css` spiegelt alle Tokens aus `design.md`
 - [ ] Anti-Muster aus `design.md` werden nicht verletzt
 
 ### Custom Components
-- [ ] Pro Section ein eigenes File in `components/sections/variant-N/`
+- [ ] Pro Section ein eigenes File in `components/sections/` (flach, KEIN variant-N)
 - [ ] Semantisches HTML (section/article/header/footer + h1-h3 + p + ul)
 - [ ] Keine fremden Block-Libraries importiert (kein shadcn/ui, kein shadcnblocks)
 - [ ] `<Button variant="…" />` statt Inline-Tailwind-Button-Classes
@@ -90,8 +92,7 @@ If `/seo` skill is loaded:
 - [ ] Whitespace + Spacing fühlen sich deliberate an
 - [ ] Visual rhythm zwischen Sections konsistent
 - [ ] CTAs stehen visuell heraus (accent color, size)
-- [ ] Jede Variante hat klaren visuellen Standpunkt (matcht Blueprint-Persönlichkeit)
-- [ ] Varianten sehen voneinander UNTERSCHIEDLICH aus (verschiedene Section-Layouts)
+- [ ] Homepage matcht das Gefühl aus `design.md` (nicht generisch)
 
 ### Conversion
 - [ ] CTA above fold (Hero)

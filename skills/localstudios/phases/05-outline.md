@@ -1,17 +1,17 @@
-# Phase 6 — Homepage Outline
+# Phase 5 — Homepage Outline
 
 **⚠ MANDATORY PAUSE — Do not proceed until user approves.**
 
 ## References
-- Load `./references/page-sections.md` for mandatory sections
+- Load `./references/page-sections.md` for mandatory sections (10 Sections, fixe Reihenfolge)
 - Load `./references/image-strategy.md` for image placement
 
 ## Process
 
-Create the homepage outline BEFORE any content is written.
-This is a **single page** — all 8 mandatory homepage sections.
+Erstelle die Homepage-Outline BEVOR irgendein Content geschrieben wird.
+Das ist **eine** Homepage — alle 10 mandatory Sections aus `references/page-sections.md`.
 
-## Homepage Sections (fixed order)
+## Homepage Sections (fixe Reihenfolge)
 
 ```
 HOMEPAGE: [Company Name]
@@ -21,41 +21,54 @@ Meta Title: [Primary KW — Company — City] (max 60 chars)
 Meta Description: [Benefit + CTA + Location] (max 155 chars)
 
 Sections:
-  1. Hero — H1, subheadline with secondary KW, primary CTA, hero image
-  2. Trust Bar — 3-4 numbers (years, clients, rating)
-  3. Services Overview — cards per service, brief descriptions
-  4. About Teaser — 2-3 sentences, team/owner photo, link potential
-  5. Social Proof — 2-3 testimonials/reviews, star ratings
-  6. Local Area — city/district mention, map reference, "since [year]"
-  7. CTA Section — repeat primary action, phone number
-  8. Footer — full NAP, social links, opening hours
+  1. Hero — H1, Subheadline mit secondary KW, Primary + Sekundär CTA
+         → PFLICHT: sichtbares Bild above-the-fold (Split oder Full-Bleed Background)
+  2. Trust Bar — 3-4 Zahlen (Jahre, Kunden, Rating, Zertifikate)
+  3. Featured Service 1 — alternierend, Bild + Text + eigener CTA
+  4. Featured Service 2 — alternierend, Text + Bild + eigener CTA
+  5. Services Grid — 3-6 kompakte Service-Cards
+  6. About Teaser — 2-3 kompakte Absätze, Owner/Team-Foto
+  7. Social Proof — 3-4 Testimonials mit Sternen
+  8. Local Area + Map — Stadt/Stadtteile, "seit [Jahr]", Google Maps Embed
+  9. CTA Section — Werteversprechen + Telefon
+  10. Footer — NAP, Öffnungszeiten, Links
 
-Keywords: [cluster from Phase 4]
-Images: [which image per section, source: scraped/GBP/generate/placeholder]
+Optional: FAQ (6 Fragen) — voice-search friendly
+
+Keywords: [Cluster aus Phase 4]
+Images: [welches Bild pro Section, Source: scraped/GBP/generate/placeholder]
 ```
 
+## Hero-Regel (KRITISCH)
+
+Der Hero MUSS ein Bild above-the-fold haben. Text-only Hero ist verboten.
+
+Zwei Layouts sind zulässig:
+- **Split** — Text 55–60%, Bild 40–45%, Bild rechts oder links
+- **Full-Bleed Background** — Bild als `<Image fill>` im Hintergrund, Text als Overlay
+
+Bild-Proportion: `aspect-[4/5]` oder `aspect-[3/4]`. Niemals `aspect-video` (zu flach).
+
+Wenn kein scraped Bild verfügbar → `<ImagePlaceholder>` mit passendem Aspect + sprechendem Label (z.B. „Praxis-Aussenansicht"). Keinen leeren Platz, keine Text-Platzhalter wie `[Image #1]`.
+
 ## Image Placement
-For each section, note the image and source:
-- `[SCRAPED]` — from old website
-- `[GBP]` — from Google Business Profile
-- `[GENERATE]` — needs AI generation
-- `[PLACEHOLDER]` — no image yet
+Pro Section das Bild und die Quelle notieren:
+- `[SCRAPED]` — vom alten Website
+- `[GBP]` — aus Google Business Profile
+- `[GENERATE]` — Banana/AI nötig
+- `[PLACEHOLDER]` — noch keins, `<ImagePlaceholder>` verwenden
 
 ## Present to User
 
-Show the complete outline. Ask: "Approve this homepage structure? Any changes?"
+Zeige die komplette Outline. Frage: „Approve this homepage structure? Any changes?"
 
-**Varianten-Hinweis:** Nach Approval dem User mitteilen:
-> Diese Section-Struktur gilt für ALLE Design-Varianten.
-> Jede Variante nutzt andere Block-Styles und visuelle Behandlung für dieselben Sections.
-> Farben und Content bleiben gleich — nur das Layout und die Komposition unterscheiden sich.
-
-Do not proceed to Phase 7 until approved.
+Do not proceed to Phase 6 until approved.
 
 ## Create docs/pages/home.md
 
-After approval, create `docs/pages/home.md` using the per-page template from `./references/docs-structure.md`:
-- **Purpose**: Money Page — acquire client with a strong pitch
+Nach Approval `docs/pages/home.md` anlegen (Template aus `./references/docs-structure.md`):
+- **Purpose**: Money Page — Client mit starkem Pitch akquirieren
 - **Keywords**: primary, secondary, geo
-- **Sections**: all 8 with content notes
-- **Images**: assignments per section
+- **Sections**: alle 10 mit Content-Notizen
+- **Images**: Pro Section Source + Alt-Text-Entwurf (separate Dokumentation — NICHT in den Content-Text von Phase 6 mischen)
+- **Design-Context** (optional, aus Phase 8 Verstehens-Protokoll)

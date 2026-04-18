@@ -87,9 +87,10 @@ The central reference for everything about the client. Scraped from website + GB
 - **Source**: [A: getdesign command  |  B: existierende design.md]
 - **Command**: [z.B. `npx getdesign@latest add nike`]  _(nur wenn Option A)_
 - **design.md Path**: [absoluter Pfad]                _(nur wenn Option B)_
-- **Adjektive**: [3-5 Adjektive aus Phase 2, falls angegeben]
-- **Anti-Muster**: [Liste aus Phase 2, falls angegeben]
-- **Variants**: [N] (default: 3)
+- **Adjektive**: [3-5 Adjektive aus Phase 2, falls angegeben — fliesst ins Verstehens-Protokoll, NICHT in design.md]
+- **Anti-Muster**: [Liste aus Phase 2, falls angegeben — NICHT in design.md eingetragen]
+- **Farbwechsel**: [none | z.B. "primary: gelb → blau" — nur dann werden Farb-Tokens in design.md ersetzt]
+- **design.md ist READ-ONLY ab Phase 8.** Niemals ändern ausser Farbtoken-Ersetzung bei explizitem Farbwechsel.
 
 ## Certifications & Trust Signals
 - [certification/award/membership]

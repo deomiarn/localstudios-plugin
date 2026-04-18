@@ -2,65 +2,76 @@
 
 ## References
 - Load `./references/content-guidelines.md` for writing rules
-- Load `./references/page-sections.md` for section structure
+- Load `./references/page-sections.md` for section structure (10 Sections)
 - Load `./references/image-strategy.md` for image alt text rules
 
 ## Task
-Write **ausführlichen, hochwertigen** Content für die Homepage. Nicht knapp — **richtig gut und umfangreich**.
+Write **hochwertigen, kompakten** Content für die Homepage. Substanz über Fülle — keine Hülsen, aber auch nicht zu ausführlich.
 
 ## Content Length
-**1500-2500 Wörter** über alle Sections. Das ist deutlich mehr als eine typische Homepage — wir wollen Substanz, nicht Hülsen.
+**1500-2000 Wörter** über alle 10 Sections (+ optional FAQ 200-300 Wörter). Wenn du merkst eine Section wird zu lang → kürzen. Lieber ein scharfer Absatz als drei schwammige.
 
 ## Section-by-Section Content
 
-### 1. Hero (150-250 Wörter)
+### 1. Hero (100-180 Wörter)
 - H1 mit primary keyword + city
-- Subheadline mit secondary keyword (1-2 Sätze)
-- Kurzer Absatz (3-4 Sätze) der sofort Vertrauen aufbaut
+- Subheadline mit secondary keyword (1 Satz)
+- Kurzer Absatz (2-3 Sätze) der sofort Vertrauen aufbaut
 - Primary CTA Button Text
-- Zweit-CTA (z.B. "Mehr erfahren" oder Telefonnummer)
+- Zweit-CTA (z.B. Telefonnummer oder "Mehr erfahren")
 
 ### 2. Trust Bar (50-100 Wörter)
-- 3-4 Trust Signals mit konkreten Zahlen
-- Kurzer Begleittext warum diese Zahlen relevant sind
+- 3-4 Trust Signals mit konkreten Zahlen (Jahre, Kunden, Rating, Zertifikate)
+- Optional: 1 Satz Begleittext
 
-### 3. Services Overview (300-500 Wörter)
-- Jeder Service: Name + **3-4 Sätze** Beschreibung (nicht nur 1 Satz)
-- Was ist es, für wen, was macht es besonders
+### 3. Featured Service 1 (100-150 Wörter)
+- Service-Name + 3-4 Sätze Beschreibung
 - Konkreter Nutzen für den Kunden
+- Eigener CTA
 
-### 4. About Teaser (200-350 Wörter)
-- Gründungsgeschichte in 2-3 Absätzen
-- Persönliche Note — warum dieser Beruf, was treibt an
-- Qualifikationen und Erfahrung konkret erwähnen
+### 4. Featured Service 2 (100-150 Wörter)
+- Wie Featured Service 1 für den zweiten Haupt-Service
+- Eigener CTA
+
+### 5. Services Grid (150-250 Wörter gesamt)
+- 3-6 weitere Services als kompakte Cards
+- Pro Service: Name + 1-2 Sätze
+- Kein langer Einleitungs-Absatz
+
+### 6. About Teaser (120-200 Wörter)
+- Gründungsgeschichte in 1-2 Absätzen
+- Persönliche Note + Qualifikationen
 - Lokale Verbindung zum Ort
 
-### 5. Social Proof (150-250 Wörter)
+### 7. Social Proof (120-180 Wörter)
 - 3-4 Testimonials mit echten Details
-- Jedes Testimonial: 2-3 Sätze mit konkretem Ergebnis
-- Sterne-Rating wenn verfügbar
-- Einleitender Absatz über Kundenzufriedenheit
+- Jedes Testimonial: 2 Sätze mit konkretem Ergebnis + Sterne (wenn vorhanden)
+- Keine lange Einleitung
 
-### 6. Local Area (150-250 Wörter)
-- Warum genau dieser Standort
-- Welche Stadtteile/Gemeinden bedient werden
-- Erreichbarkeit (ÖV, Parkplätze)
-- Lokale Referenzen die Vertrauen aufbauen
+### 8. Local Area (100-150 Wörter)
+- Warum dieser Standort
+- Welche Stadtteile/Gemeinden
+- Erreichbarkeit (1 Satz)
 
-### 7. CTA Section (100-150 Wörter)
-- Zusammenfassung des Werteversprechens
-- Konkrete nächste Schritte
+### 9. CTA Section (60-100 Wörter)
+- Werteversprechen-Zusammenfassung (1-2 Sätze)
+- Konkreter nächster Schritt
 - Telefonnummer prominent
 - Öffnungszeiten-Hinweis
 
-### 8. Footer (100-150 Wörter)
+### 10. Footer (80-120 Wörter)
 - Vollständiger NAP
 - Öffnungszeiten
 - Kurzlinks
 - Copyright + Social Links
 
+### Optional: FAQ (200-300 Wörter, 6 Fragen)
+- 6 häufige Fragen mit je 1-3 Sätzen Antwort
+- Natürliche Formulierung (voice-search-freundlich)
+- Keyword/Geo-Term in mindestens 2 Antworten
+
 ## SEO Rules
-- H1: primary keyword + city, einmal
+- H1: primary keyword + city, **genau einmal**
 - Geo-term in erstem Absatz + mindestens einer H2
 - Keyword density 1-2%
 
@@ -74,7 +85,18 @@ Write **ausführlichen, hochwertigen** Content für die Homepage. Nicht knapp �
 - Aus Erfahrung schreiben, nicht generisch
 - Konkrete Zahlen und Details
 - Lokale Referenzen die echt wirken
-- KEIN "Willkommen auf unserer Website"
+- KEIN „Willkommen auf unserer Website"
+
+## Image-Metadaten — wichtige Regel
+
+**Der Content-Text von Phase 6 wird in Phase 9 1:1 ins JSX eingesetzt.** Deswegen dürfen **niemals** Image-Platzhalter, Alt-Text-Hinweise oder Source-Notizen im Content-Text stehen.
+
+VERBOTEN im Content-Text:
+- `[Image #1]`, `[Image #2]`, `[Photo]`, `[IMG]`
+- `<!-- bitte Foto hier -->`
+- `Bild: Praxisfoto`
+
+Bild-Beschreibungen, Alt-Texte, Source-Tracking (scraped/GBP/generate/placeholder) gehören **ausschliesslich** in `docs/pages/home.md` — dort dokumentiert Claude pro Section welches Bild aus welcher Quelle kommt.
 
 ## Output
-Kompletter Content aller 8 Sections mit Meta Tags und Image-Beschreibungen.
+Kompletter Content für alle 10 Sections (plus optional FAQ), Meta Tags, und separat in `docs/pages/home.md` die Image-Zuordnung pro Section.

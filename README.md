@@ -35,11 +35,11 @@ Add to `~/.claude/settings.json`:
 3. **Interviews** you for business data + **Design Source** (Pflicht: `getdesign` Command ODER Pfad zu einer `design.md`)
 4. **Researches keywords** via Semrush MCP
 5. **Plans** the homepage structure (10 fixed sections per `references/page-sections.md`)
-6. **Writes** extensive SEO-optimized content (1500-2500 words)
+6. **Writes** SEO-optimized content (1500-2000 words + optional FAQ mit 6 Fragen)
 7. **Generates** schema markup (LocalBusiness, industry-specific `@type`)
-8. **Builds `design.md`** (via `npx getdesign@latest add <brand>` oder aus vorhandener Datei) + `variant-blueprints.md`
+8. **Beschafft `design.md`** (via `npx getdesign@latest add <brand>` oder aus vorhandener Datei) — **READ-ONLY**; plus `layout-plan.md` (ein Layout-Plan für eine Homepage)
 9. **Builds** N homepage variants as **custom components** — `globals.css` wird 1:1 aus `design.md` abgeleitet
-10. **Validates** visually via Playwright MCP (Screenshots pro Variante, Abgleich vs. `design.md`, iteratives Fixen) + `/seo` Audit
+10. **Validates** visually via Playwright MCP (Screenshots der Homepage, Abgleich vs. `design.md`, iteratives Fixen **im Code — nie in `design.md`**) + `/seo` Audit
 11. **Reports** with next steps
 
 ### Design Philosophy

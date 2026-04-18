@@ -1,4 +1,4 @@
-# Phase 12 — Final Report
+# Phase 11 — Final Report
 
 ## Output Format
 
@@ -10,8 +10,8 @@ Primary: [KW] — Volume: [x]/mo — Difficulty: [x]
 Secondary: [list]
 Geo: [city, district, region]
 
-HOMEPAGE SECTIONS (all 10, pro Variante)
-1. Hero ✅
+HOMEPAGE SECTIONS (alle 10)
+1. Hero ✅ (Bild above-the-fold: [scraped | ImagePlaceholder])
 2. Trust Bar ✅
 3. Featured Service 1 ✅
 4. Featured Service 2 ✅
@@ -21,20 +21,23 @@ HOMEPAGE SECTIONS (all 10, pro Variante)
 8. Local Area + Map ✅
 9. CTA Section ✅
 10. Footer ✅
+(optional: FAQ mit 6 Fragen ✅)
 
-VARIANTS: [N] — [Persönlichkeits-Namen aus variant-blueprints.md]
+CONTENT
+Word Count: [x] Wörter (Ziel 1500-2000, + FAQ 200-300)
 
 DESIGN
 Source: [A: getdesign command "___"  |  B: existierende design.md "___"]
-design.md: ✅ (alle Pflicht-Sektionen)
-globals.css: ✅ (1:1 Ableitung aus design.md)
-Playwright Visual Validation: ✅ (keine ungefixten Abweichungen)
+design.md: ✅ READ-ONLY — unverändert ggü. Übernahme [| Farbwechsel: primary: gelb → blau]
+globals.css: ✅ (CSS-Vars aus design.md + Tailwind v4 @theme inline)
+layout-plan.md: ✅
+Playwright Visual Validation: ✅ (keine ungefixten Abweichungen — alle Fixes im Code, nicht in design.md)
 
 SEO
 Schema: LocalBusiness ✅
 Meta Tags: Complete ✅
 OG Tags: Complete ✅
-Images: [x] images, all WebP with alt text ✅
+Images: [x] images (min. 5), all WebP with alt text ✅
 
 QUALITY SCORE: [x]%
 

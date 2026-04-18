@@ -96,6 +96,20 @@ Every image also gets a `title` attribute:
 - Include a call-to-action or benefit when relevant
 - Example: `title="Visit our modern dental practice in Zurich Oerlikon — book your appointment today"`
 
+### NEVER put image metadata as text in JSX
+Image descriptions, alt-hints and source-tracking **belong in `docs/pages/home.md`** — never in the content text that lands in JSX.
+
+**Verboten im Content-Text / JSX:**
+- `[Image #1]`, `[Image #2]`, `[Photo]`, `[IMG]`, `[Foto folgt]`
+- Inline-Kommentare als Text: „(Bild: Praxisfoto)"
+- Pseudo-HTML: `<img-placeholder>`
+
+Im JSX gibt es nur zwei zulässige Formen:
+```tsx
+<Image src="/images/home-hero.webp" alt="…" title="…" width={960} height={1200} priority />
+<ImagePlaceholder label="Praxis-Aussenansicht" className="aspect-[4/5]" />
+```
+
 ### In Next.js Code
 ```tsx
 import Image from "next/image"
@@ -119,10 +133,17 @@ import Image from "next/image"
 
 | Page | Min Images | Max Images | Must-Have |
 |------|-----------|-----------|-----------|
-| Home | 8 | 14 | Hero, service cards, team teaser, testimonials, storefront |
+| Home | 5 | 14 | **Hero above-the-fold (Pflicht)**, service cards, team teaser, testimonials, storefront |
 | About | 6 | 12 | Team photo, owner portrait, certificates, local/community |
 | Service | 4 | 8 | Service hero, process steps, result/before-after |
 | Contact | 1 | 2 | Storefront/exterior + map embed |
+
+### Hero Image — Pflicht above-the-fold
+Der Hero MUSS ein Bild sichtbar direkt beim Aufruf haben.
+- Layout A: Split (Text links, Bild rechts) — Bild-Proportion `aspect-[4/5]` oder `aspect-[3/4]`
+- Layout B: Full-Bleed Background mit Overlay-Text — `<Image fill priority>`
+- **Niemals `aspect-video`** — zu flach für einen Hero
+- Wenn kein scraped Bild vorhanden → `<ImagePlaceholder label="…" className="aspect-[4/5]" />`
 
 ### Image Inventory Check
 Before Phase 10 (Build), verify:
@@ -143,12 +164,18 @@ If an image cannot be sourced (Cloudflare, auth, no old site, no GBP):
 - IMMER stilvolle Placeholder einsetzen die zum Design passen:
 
 ```tsx
-/* Gradient Placeholder — passt sich dem Farbschema an */
+/* Gradient Placeholder — passt sich dem Farbschema an. Aspect-Ratio je nach Kontext: */
+/* Standard-Section: aspect-video */
 <div className="aspect-video rounded-lg bg-gradient-to-br from-primary/20 to-accent/20 flex items-center justify-center">
   <span className="text-muted-foreground text-sm">Praxisfoto</span>
 </div>
 
-/* Icon Placeholder */
+/* Hero: aspect-[4/5] oder aspect-[3/4] — NICHT aspect-video (zu flach) */
+<div className="aspect-[4/5] rounded-lg bg-gradient-to-br from-primary/20 to-accent/20 flex items-center justify-center">
+  <span className="text-muted-foreground text-sm">Praxis-Aussenansicht</span>
+</div>
+
+/* Icon Placeholder für Cards */
 <div className="aspect-square rounded-lg bg-muted flex items-center justify-center">
   <ImageIcon className="h-8 w-8 text-muted-foreground/50" />
 </div>

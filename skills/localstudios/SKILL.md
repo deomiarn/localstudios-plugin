@@ -8,7 +8,7 @@ argument-hint: "[generate] [url]"
 license: MIT
 metadata:
   author: LocalStudios
-  version: "2.0.0"
+  version: "2.1.0"
   category: website-generation
 ---
 
@@ -32,27 +32,30 @@ metadata:
 
 ---
 
-## Core Philosophy (v2.0 — read BEFORE writing anything)
+## Core Philosophy (v2.1 — read BEFORE writing anything)
 
-The plugin builds websites **from scratch** — no block libraries, no generic design skills.
-Every design decision flows from ONE file: **`design.md`** (in the project root).
+The plugin builds websites **from scratch** — no block libraries, no generic design skills, no variants.
+Every design decision flows from ONE file: **`design.md`** (in the project root, **READ-ONLY**).
 
 ```
-design.md            → Single source of truth for colors, fonts, buttons, spacing, atmosphere
-globals.css          → 1:1 derivation from design.md (CSS vars, utility classes, typography)
-components/…         → Custom components in their own files, semantic HTML, clean code
-Playwright MCP       → Visual validation at the end — screenshot vs. design.md, iterate until match
+design.md            → Single source of truth for colors, fonts, buttons, spacing, atmosphere — READ-ONLY
+layout-plan.md       → One layout strategy for ONE homepage (Phase 8 output)
+globals.css          → CSS vars from design.md + Tailwind v4 @theme inline mapping
+components/…         → Flat custom components, semantic HTML, clean code
+Playwright MCP       → Visual validation at the end — screenshot vs. design.md, iterate until match (fix code, never design.md)
 ```
 
 **Pflicht-Input (Phase 2):** Der User muss ENTWEDER einen `getdesign` CLI-Command liefern
 (z.B. `npx getdesign@latest add nike`) ODER den Pfad zu einer existierenden `design.md`.
 Ohne eines von beiden wird nicht weitergemacht.
 
+**design.md ist READ-ONLY** — ab Phase 8 wird die Datei nicht mehr angefasst. Einzige Ausnahme: ein explizit vom User in Phase 2 gewünschter Farbwechsel (z.B. „primary von gelb auf blau") — dann NUR die Farb-Tokens ersetzen. Gefühl, Typografie, Atmosphäre, Anti-Muster, Wording bleiben 1:1.
+
 ---
 
 ## Generate Workflow
 
-Creates a **single homepage** (in N design variants) to pitch the client.
+Creates a **single homepage** to pitch the client (one design, no variants).
 
 | Phase | File | Pause? | Group |
 |-------|------|--------|-------|
@@ -65,7 +68,7 @@ Creates a **single homepage** (in N design variants) to pitch the client.
 | 6. Content | `./phases/06-content.md` | | ⬇ parallel |
 | 7. Schema | `./phases/07-schema.md` | | ⬇ parallel with 6 |
 | 8. Design System (from getdesign/design.md) | `./phases/08-design.md` | | ⬇ parallel with 6+7 |
-| 9. Build Variants (custom components) | `./phases/09-build.md` | | — (needs 6+7+8) |
+| 9. Build (custom components, single homepage) | `./phases/09-build.md` | | — (needs 6+7+8) |
 | 10. QA + Playwright Validation + SEO Audit | `./phases/10-quality.md` | | — |
 | 11. Report | `./phases/11-report.md` | | — |
 
@@ -77,8 +80,8 @@ Creates a **single homepage** (in N design variants) to pitch the client.
 
 | Tool | Phase | Role |
 |------|-------|------|
-| `npx getdesign@latest add <brand>` | 8 | Design source — erzeugt / ergänzt `design.md` |
-| Playwright MCP | 10 | Visual validation — Screenshots pro Variante, Abgleich mit `design.md`, iterative Fixes |
+| `npx getdesign@latest add <brand>` | 8 | Design source — erzeugt `design.md` (einmalig, danach READ-ONLY) |
+| Playwright MCP | 10 | Visual validation — Screenshots der Homepage, Abgleich mit `design.md`, Fixes IMMER im Code |
 | `/seo page` | 10 | Audit: validates NEW homepage — must FIX all issues |
 | `/seo schema` | 10 | Audit: validates schema |
 | `/seo content` | 10 | Audit: validates content quality |
@@ -86,28 +89,29 @@ Creates a **single homepage** (in N design variants) to pitch the client.
 
 **Design-Prozess:**
 ```
-Phase 2 Interview → getdesign Command ODER design.md Pfad
-  → Phase 8 → design.md im Projekt-Root (normalized: Farben, Fonts, Buttons, Spacing, Atmosphäre, Anti-Muster)
-             + variant-blueprints.md (N verschiedene Layout-Strategien pro Section, KEINE Block-Queries)
-    → Phase 9 → globals.css 1:1 aus design.md
-               + Custom Components pro Section pro Variante
+Phase 2 Interview → getdesign Command ODER design.md Pfad (+ optional: Farbwechsel-Wunsch)
+  → Phase 8 → design.md im Projekt-Root (READ-ONLY ab hier — nie wieder anfassen)
+             + layout-plan.md (EIN Layout-Plan für EINE Homepage, alle 10 Sections)
+    → Phase 9 → globals.css aus design.md (CSS-Vars + Tailwind v4 @theme inline)
+               + Custom Components flach in components/sections/
+               + Hero MUSS above-the-fold Bild haben
       → Phase 10 → Playwright Screenshots vs. design.md
                   + /seo audits
-                  → Fixes bis Match
+                  → Fixes im Code bis Match (NIE design.md anpassen)
 ```
 
 ### Rules
 - WAIT = do not proceed until user responds
-- ONE page only — the homepage (in N Varianten)
-- Default 3 Varianten (User kann Anzahl in Phase 2 ändern)
-- Gleiche Palette + Content + Schema + globals.css über alle Varianten
-- Verschiedene Layouts + visueller Rhythmus + Komposition pro Variante
-- Variant Switcher für Vergleich (wird vor Delivery entfernt)
-- **Jede Section bekommt mindestens ein Bild** (Wärme/Leben) — Placeholder-Gradient wenn keins verfügbar
-- Minimum 5 Bilder pro Variante (10 Sections → 5-10 Bilder)
-- No screenshots by Claude during build — user checks localhost
-- No `npm run dev` für Build-Abschluss — `npm run build` muss passen
+- ONE homepage only — keine Varianten, keine `/variant-2`, kein Switcher
+- **`design.md` ist READ-ONLY** ab Phase 8 (einzige Ausnahme: Farbtoken-Ersetzung bei explizitem Farbwechsel-Wunsch in Phase 2)
+- Content: **1500-2000 Wörter** total (+ optional FAQ mit 6 Fragen)
+- **Hero MUSS ein Bild above-the-fold haben** (Split oder Full-Bleed) — text-only Hero ist verboten
+- **Keine `[Image …]`-Platzhalter-Strings im JSX** — Image-Metadaten gehören in `docs/pages/home.md`
+- **Jede Section bekommt mindestens ein Bild** — Placeholder-Gradient wenn keins verfügbar
+- Minimum 5 Bilder auf der Homepage
 - Images: if scraping fails, use stylish placeholders (never empty spaces)
+- No screenshots by Claude during build — user checks localhost
+- `npm run build` muss passen
 
 ### Dependencies
 
@@ -120,11 +124,11 @@ Phase 2 Interview → getdesign Command ODER design.md Pfad
 
 ### Tech Stack
 - **Next.js** App Router (`npx create-next-app@latest . --typescript --tailwind --app`)
-- **Tailwind CSS** (via Next.js Preset)
-- **Custom Components** — eigene Files pro Section, semantisches HTML, keine fremden Block-Libraries
-- **globals.css** — single source of truth für alle Styles, direkt aus `design.md` abgeleitet
-- **design.md** — Tokens: Farben (HSL), Fonts, Typografie-Scale, Button-Klassen, Section-Spacing, Shadows, Radius, Atmosphäre, Anti-Muster
-- **Multi-Variant Routing**: `/` (Variant 1), `/variant-2`, `/variant-3`
+- **Tailwind CSS** v4 (via Next.js Preset)
+- **Custom Components** — eigene Files flach in `components/sections/`, semantisches HTML, keine fremden Block-Libraries, keine Varianten
+- **globals.css** — nur CSS-Vars aus `design.md` + `@theme inline` Mapping + minimale Base-Styles
+- **design.md** — READ-ONLY Single Source of Truth: Farben (HSL), Fonts, Typografie, Button-Stil, Section-Spacing, Shadows, Radius, Atmosphäre, Anti-Muster
+- **Einzelne Homepage-Route**: `/`
 
 ---
 
@@ -149,7 +153,7 @@ Reuses an existing project as template. Faster than generate — no design decis
 
 ### Key Differences vs Generate
 - **Kein Custom-Component-Neubau** — existierende Components aus Source werden wiederverwendet, Content wird neu geschrieben
-- **Style-Wechsel optional**: „Keep style" → design.md bleibt; „Adapt/New" → neuer getdesign Command ODER neue design.md erforderlich, dann design.md + globals.css regenerieren
+- **Style-Wechsel optional**: „Keep style" → design.md bleibt unverändert; „Adapt/New" → neuer getdesign Command ODER neue design.md — danach ebenfalls READ-ONLY. Bei „nur Farbwechsel" nur Farb-Tokens ersetzen.
 - **Much faster** — skip design decisions, just adapt
 
 ---

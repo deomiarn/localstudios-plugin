@@ -9,7 +9,7 @@ These sections are proven for SEO, GEO, conversion, and visual appeal.
 
 | # | Section | Purpose | Image | SEO/GEO |
 |---|---------|---------|-------|---------|
-| 1 | **Hero** | First impression + primary CTA | 1x hero image (full-width or split) | H1 with primary KW + city. Subheadline with secondary KW. CTA above fold (pill-shape, grosszügig). |
+| 1 | **Hero** | First impression + primary CTA | **PFLICHT: 1x hero image above-the-fold** (full-width Background ODER Split — `aspect-[4/5]` / `aspect-[3/4]`, niemals `aspect-video`). Text-only Hero ist verboten. | H1 with primary KW + city. Subheadline with secondary KW. CTA above fold. |
 | 2 | **Trust Bar** | Instant credibility | None (icons/numbers only) | 3-4 trust signals: years, clients, rating, certifications. |
 | 3 | **Featured Service 1** | Highlight #1 Dienstleistung | 1x grosses Service-Bild | Alternating Layout (Bild links, Text rechts). Ausführlicher Text (3-4 Sätze). Eigener CTA. |
 | 4 | **Featured Service 2** | Highlight #2 Dienstleistung | 1x grosses Service-Bild | Alternating Layout (Text links, Bild rechts). Eigener CTA. |

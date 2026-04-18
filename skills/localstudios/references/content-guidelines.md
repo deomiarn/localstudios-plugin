@@ -74,7 +74,7 @@
    - Last chance to convert before they leave
 
 ## Content Length Guidelines
-- Home: 600-1000 words
+- Home: **1500-2000 words** (10 Sections, + optional FAQ mit 6 Fragen: +200-300)
 - About: 400-700 words
 - Service pages: 800-1200 words (including FAQ)
 - Contact: 200-400 words (focused on NAP and form)

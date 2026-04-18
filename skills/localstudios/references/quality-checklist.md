@@ -45,7 +45,7 @@ Run through every item after website generation. Report pass/fail for each.
 - [ ] No duplicate content across pages
 - [ ] FAQ sections voice-search friendly (natural question phrasing)
 - [ ] Tone is consistent across all pages
-- [ ] Content length meets guidelines (Home 600-1000w, Service 800-1200w)
+- [ ] Content length meets guidelines (Home 1500-2000w + optional FAQ 200-300w, Service 800-1200w)
 
 ## Internal Linking
 

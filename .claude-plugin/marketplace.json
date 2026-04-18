@@ -6,14 +6,14 @@
   },
   "metadata": {
     "description": "LocalStudios plugin marketplace — homepage generation with custom components styled from design.md and validated via Playwright",
-    "version": "2.0.0"
+    "version": "2.1.0"
   },
   "plugins": [
     {
       "name": "localstudios",
       "source": "./",
       "description": "Homepage generation plugin. Scrapes, researches keywords, writes extensive SEO content, builds polished Next.js homepages with custom components styled from design.md (via getdesign CLI) and validated via Playwright MCP.",
-      "version": "2.0.0",
+      "version": "2.1.0",
       "author": {
         "name": "LocalStudios"
       },

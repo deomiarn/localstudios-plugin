@@ -2,11 +2,17 @@
 
 ## HARD RULES — read before writing ANY code
 
-### 1. DESIGN SOURCE — design.md ist Pflicht
+### 1. DESIGN SOURCE — design.md ist Pflicht UND READ-ONLY
 Alle Farben, Fonts, Buttons, Spacing, Atmosphäre kommen aus **`design.md`** (Projekt-Root).
-`design.md` wird in Phase 8 erzeugt (via `npx getdesign@latest add <brand>`) ODER vom User als existierende Datei übergeben.
+`design.md` wird in Phase 8 einmal beschafft (via `npx getdesign@latest add <brand>`) ODER vom User als existierende Datei übergeben.
 
-**Nichts hardcoden. Niemals.** `globals.css` bleibt **schlank**: nur CSS-Vars aus `design.md` + Tailwind v4 `@theme` Mapping + minimale Base-Styles. Alles andere als **Tailwind-Utilities** direkt in den Components.
+**design.md ist READ-ONLY.** Niemals editieren, niemals ergänzen, niemals umformulieren. Einzige Ausnahme: ein vom User explizit am Anfang gewünschter Farbwechsel (z.B. „primary von gelb auf blau") — dann NUR die Farb-Tokens ersetzen, alles andere bleibt 1:1.
+
+Claude liest `design.md`, versteht sie (Gefühl, Typografie, Button-Stil, Atmosphäre, Anti-Muster, Bild-Regeln) und baut sie in `globals.css` + Tailwind-Utilities um. Der Inhalt der `design.md` ist **Wahrheit und Orientierung für jede Design-Entscheidung**.
+
+Wenn das Ergebnis später nicht passt (Phase 10) → der **Code** wird angepasst, niemals `design.md`.
+
+**Nichts hardcoden. Niemals.** `globals.css` bleibt schlank: nur CSS-Vars aus `design.md` + Tailwind v4 `@theme` Mapping + minimale Base-Styles. Alles andere als Tailwind-Utilities direkt in den Components.
 
 ### 2. CENTERING — every section, always (Tailwind direkt, keine .section-Class)
 ```tsx
@@ -65,23 +71,28 @@ Die Varianten sind im Button-Component als Tailwind-Utility-Strings definiert (`
 ```
 Keine System-Defaults. Keine Inline-`font-family`.
 
-### 7. IMAGES — mindestens eins pro Section, minimum 5 pro Variante
+### 7. IMAGES — Hero PFLICHT above-the-fold, min 5 auf Homepage
 Jede Section bekommt ein Bild (Wärme/Leben). Wenn kein Bild verfügbar → `<ImagePlaceholder label="…" />` mit Gradient aus `--primary`/`--accent`.
+
+**Der Hero MUSS ein Bild above-the-fold sichtbar haben** — Split-Layout oder Full-Bleed-Background mit Overlay-Text. Text-only Hero ist verboten. Hero-Bild-Proportion: `aspect-[4/5]` oder `aspect-[3/4]`, niemals `aspect-video`.
+
+**Keine `[Image #N]`, `[IMG]`, `[Foto]` Text-Platzhalter im JSX-Content.** Image-Metadaten gehören in `docs/pages/home.md`.
+
 Niemals leere Spaces.
 
-### 8. CUSTOM COMPONENTS — keine fremden Block-Libraries
-Pro Section ein eigenes File in `components/sections/variant-N/<section>.tsx`.
+### 8. CUSTOM COMPONENTS — keine fremden Block-Libraries, flache Struktur
+Pro Section ein eigenes File in `components/sections/<section>.tsx` (flach, kein `variant-N/`).
 Semantisches HTML, Tailwind + Utility-Klassen, Content aus Phase 6 hart reingeschrieben.
-Keine shadcn-Blocks. Keine shadcnblocks. Keine Tailwind-UI-Kopien.
+Keine shadcn-Blocks. Keine shadcnblocks. Keine Tailwind-UI-Kopien. Keine Varianten.
 
 ---
 
 ## Project Documentation
 - `docs/BUSINESS.md` — business facts + Design Source
 - `docs/SEO-STRATEGY.md` — keywords
-- `docs/pages/home.md` — homepage SEO
-- `design.md` — colors, fonts, buttons, spacing, atmosphere (Single Source of Truth)
-- `variant-blueprints.md` — Layout-Pläne pro Variante
+- `docs/pages/home.md` — homepage SEO + Image-Source-Tracking pro Section
+- `design.md` — colors, fonts, buttons, spacing, atmosphere (**READ-ONLY Source of Truth**)
+- `layout-plan.md` — Layout-Plan für die Homepage (Phase 8)
 
 ## NAP Data
 `lib/site-config.ts` — single source of truth.
